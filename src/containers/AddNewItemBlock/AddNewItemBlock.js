@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 
 class AddNewItemBlock extends React.Component {
     state = {
-        text: 'Cat in the Item'
+        text: null
     };
 
     handleChange = text => event => {
@@ -20,11 +20,14 @@ class AddNewItemBlock extends React.Component {
                     +
                 </Button>
                 <TextField
-                    id="cssl-add-new-item-text"
+                    id="cssl-add-new-item-text-input"
                     label="Add New Item"
                     value={this.state.text}
+                    type='text'
+                    placeholder='Type New Item Text'
                     onChange={this.handleChange('text')}
                     margin="normal"
+                    fullWidth={true}
                 />
             </div>
         );

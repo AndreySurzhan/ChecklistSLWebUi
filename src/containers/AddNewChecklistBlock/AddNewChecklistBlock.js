@@ -5,7 +5,7 @@ import Button from '@material-ui/core/Button';
 class AddNewChecklistBlock extends React.Component {
 
     state = {
-        name: 'Cat in the Hat'
+        name: null
     };
 
     handleChange = name => event => {
@@ -16,18 +16,22 @@ class AddNewChecklistBlock extends React.Component {
 
     render() {
         return (
-            <div>
+            <form>
                 <Button variant="contained" color="primary">
                     +
                 </Button>
                 <TextField
-                    id="cssl-add-new-checklist-text"
+                    id="cssl-add-new-checklist-text-input"
                     label="Add New Checklist"
+                    name='newChecklistInput'
+                    type='text'
+                    placeholder='Type New Checklist Name'
                     value={this.state.name}
                     onChange={this.handleChange('name')}
                     margin="normal"
+                    fullWidth={true}
                 />
-            </div>
+            </form>
         );
     }
 }
