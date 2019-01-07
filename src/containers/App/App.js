@@ -6,6 +6,26 @@ import Grid from '@material-ui/core/Grid';
 import './App.css'
 
 class App extends React.Component {
+
+    items = [
+        {
+            checked: true,
+            text: 'test checklist name',
+            translations: [
+                {
+                    language: 'ru',
+                    translation: 'молоко'
+                }
+            ]
+        }
+    ];
+
+    checklists = [
+        {
+            name: 'test checklist name'
+        }
+    ];
+
     render() {
         return (
             <React.Fragment>
@@ -13,10 +33,10 @@ class App extends React.Component {
                 <div>
                     <Grid container spacing={24}>
                         <Grid item xs={4}>
-                            <NavBlock className='clsl-block'/>
+                            <NavBlock checklists={this.checklists} className='clsl-block'/>
                         </Grid>
                         <Grid item xs={8}>
-                            <ItemsBlock className='clsl-block'/>
+                            <ItemsBlock items={this.items} className='clsl-block'/>
                         </Grid>
                     </Grid>
                 </div>

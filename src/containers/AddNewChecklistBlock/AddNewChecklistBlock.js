@@ -3,7 +3,6 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
 class AddNewChecklistBlock extends React.Component {
-
     state = {
         name: null
     };

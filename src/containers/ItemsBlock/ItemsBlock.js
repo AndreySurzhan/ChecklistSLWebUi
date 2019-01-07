@@ -6,26 +6,13 @@ import List from '@material-ui/core/List';
 
 class ItemsBlock extends React.Component {
 
-    items = [
-        {
-            checked: true,
-            text: 'test checklist name',
-            translations: [
-                {
-                    language: 'ru',
-                    translation: 'молоко'
-                }
-            ]
-        }
-    ];
-
     render() {
         return (
             <div className={this.props.className}>
                 <AddNewItemBlock />
                 <Divider />
                 <List>
-                    {this.items.map((item, i) => (
+                    {this.props.items.map((item, i) => (
                         <Item key={i} item={item} />
                     ))}
                 </List>
