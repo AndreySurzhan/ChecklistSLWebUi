@@ -3,10 +3,9 @@ import NavBlock from '../NavBlock';
 import ItemsBlock from '../ItemsBlock';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
-import './App.css'
+import './App.css';
 
 class App extends React.Component {
-
     items = [
         {
             checked: true,
@@ -30,16 +29,14 @@ class App extends React.Component {
         return (
             <React.Fragment>
                 <CssBaseline />
-                <div>
-                    <Grid container spacing={24}>
-                        <Grid item xs={4}>
-                            <NavBlock checklists={this.checklists} className='clsl-block'/>
-                        </Grid>
-                        <Grid item xs={8}>
-                            <ItemsBlock items={this.items} className='clsl-block'/>
-                        </Grid>
+                <Grid container spacing={8} style={{'minHeight': '100vh'}}>
+                    <Grid item direction="column"  xs={4}>
+                        <NavBlock checklists={this.checklists} className="clsl-block" />
                     </Grid>
-                </div>
+                    <Grid item direction="column" xs={8}>
+                        <ItemsBlock items={this.items} className="clsl-block" />
+                    </Grid>
+                </Grid>
             </React.Fragment>
         );
     }

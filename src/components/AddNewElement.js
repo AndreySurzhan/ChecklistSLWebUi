@@ -2,7 +2,7 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-class AddNewChecklistBlock extends React.Component {
+class AddNewElement extends React.Component {
     state = {
         name: null
     };
@@ -20,11 +20,11 @@ class AddNewChecklistBlock extends React.Component {
                     +
                 </Button>
                 <TextField
-                    id="cssl-add-new-checklist-text-input"
-                    label="Add New Checklist"
-                    name='newChecklistInput'
+                    id={this.props.element.id}
+                    label={this.props.element.lable}
+                    name={this.props.element.name}
                     type='text'
-                    placeholder='Type New Checklist Name'
+                    placeholder={this.props.element.placeholder}
                     value={this.state.name}
                     onChange={this.handleChange('name')}
                     margin="normal"
@@ -35,4 +35,4 @@ class AddNewChecklistBlock extends React.Component {
     }
 }
 
-export default AddNewChecklistBlock;
+export default AddNewElement;
