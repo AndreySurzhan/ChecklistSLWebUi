@@ -1,6 +1,6 @@
 import React from 'react';
-import UserSummary from '../../components/UserSummary/UserSummary';
-import ChecklistsBlock from '../ChecklistsBlock/ChecklistBlock';
+import UserSummary from './UserSummary';
+import ChecklistsBlock from './ChecklistsBlock';
 
 class NavBlock extends React.Component {
     render() {

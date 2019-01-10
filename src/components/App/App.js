@@ -1,6 +1,6 @@
 import React from 'react';
-import NavBlock from '../NavBlock/NavBlock';
-import ItemsBlock from '../ItemsBlock/ItemsBlock';
+import NavBlock from '../NavBlock';
+import ItemsBlock from '../ItemsBlock';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import './App.css'

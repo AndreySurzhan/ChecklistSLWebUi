@@ -1,6 +1,6 @@
 import React from 'react';
-import AddNewItemBlock from '../AddNewItemBlock/AddNewItemBlock'
-import Item from '../../components/Item/Item';
+import AddNewItemBlock from './AddNewItemBlock'
+import Item from './Item';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 
