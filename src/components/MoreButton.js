@@ -4,11 +4,7 @@ import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
 import MoreVertIcon from '@material-ui/icons/MoreVert';
 
-const options = [
-    'Edit',
-    'Delete',
-    'Share'
-  ];
+const options = ['Edit', 'Delete', 'Share'];
 
 class MoreButton extends React.Component {
     state = {
@@ -28,11 +24,8 @@ class MoreButton extends React.Component {
         const open = Boolean(anchorEl);
 
         return (
-            <div style={{display: 'inline-block'}}>
-                <IconButton
-                    aria-label='More'
-                    onClick={this.handleClick}
-                >
+            <div style={{ display: 'inline-block' }}>
+                <IconButton aria-label='More' onClick={this.handleClick}>
                     <MoreVertIcon />
                 </IconButton>
                 <Menu anchorEl={anchorEl} open={open} onClose={this.handleClose}>

@@ -17,7 +17,7 @@ class Item extends React.Component {
                 <Checkbox checked={this.props.item.checked}/>
 
                 <Paper elevation={1}>
-                    <Typography variant="h5" component="h3">
+                    <Typography variant='h5' component='h3'>
                         {this.props.item.text}
                     </Typography>
 

@@ -8,7 +8,7 @@ class Checklist extends React.Component {
         return (
             <div>
                 <Paper elevation={1}>
-                    <Typography variant="h5" component="h3">
+                    <Typography variant='h5' component='h3'>
                         {this.props.checklist.name}
                     </Typography>
                 </Paper>

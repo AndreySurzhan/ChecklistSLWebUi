@@ -30,11 +30,11 @@ class App extends React.Component {
             <React.Fragment>
                 <CssBaseline />
                 <Grid container spacing={8} style={{'minHeight': '100vh'}}>
-                    <Grid item direction="column"  xs={4}>
-                        <NavBlock checklists={this.checklists} className="clsl-block" />
+                    <Grid item direction='column'  xs={4}>
+                        <NavBlock checklists={this.checklists} className='clsl-block' />
                     </Grid>
-                    <Grid item direction="column" xs={8}>
-                        <ItemsBlock items={this.items} className="clsl-block" />
+                    <Grid item direction='column' xs={8}>
+                        <ItemsBlock items={this.items} className='clsl-block' />
                     </Grid>
                 </Grid>
             </React.Fragment>

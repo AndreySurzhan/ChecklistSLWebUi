@@ -17,28 +17,28 @@ class Login extends Component {
     render() {
         return (
             <div>
-                <form className={classes.container} noValidate autoComplete="off">
+                <form className={classes.container} noValidate autoComplete='off'>
                     <TextField
-                        id="clsl-username"
-                        label="Username"
-                        name="username"
-                        type="email"
+                        id='clsl-username'
+                        label='Username'
+                        name='username'
+                        type='email'
                         value={this.state.username}
                         onChange={this.handleChange('username')}
-                        margin="normal"
+                        margin='normal'
                         autoFocus={true}
                     />
                     <TextField
-                        id="clsl-password"
-                        label="Password"
-                        name="username"
+                        id='clsl-password'
+                        label='Password'
+                        name='username'
                         value={this.state.password}
-                        type="password"
+                        type='password'
                         onChange={this.handleChange('password')}
-                        margin="normal"
+                        margin='normal'
                     />
                 </form>
-                <Button variant="contained" color="primary" className={classes.button}>
+                <Button variant='contained' color='primary' className={classes.button}>
                     Login
                 </Button>
             </div>
