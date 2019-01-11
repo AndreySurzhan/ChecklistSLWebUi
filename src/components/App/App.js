@@ -29,7 +29,7 @@ class App extends React.Component {
         return (
             <React.Fragment>
                 <CssBaseline />
-                <Grid container spacing={8} style={{'minHeight': '100vh'}}>
+                <Grid container direction='row' spacing={8} style={{'minHeight': '100vh'}}>
                     <Grid item direction='column'  xs={4}>
                         <NavBlock checklists={this.checklists} className='clsl-block' />
                     </Grid>

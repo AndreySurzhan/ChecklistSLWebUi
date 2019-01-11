@@ -1,5 +1,6 @@
 .clsl-block {
     border: 1px solid;
-    min-height: 90vh;
+    min-height: 100vh;
     margin: 10px;
+	overflow: auto;
 }
