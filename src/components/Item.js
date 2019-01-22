@@ -11,11 +11,9 @@ class Item extends React.Component {
     render() {
         return (
             <div>
-                <Grid container direction='row' spacing={8}>
-                    <Grid item direction='column' xs={1}>
-                        <Checkbox checked={this.props.item.checked} />
-                    </Grid>
-                    <Grid item direction='column' xs={10}>
+                <Grid container direction="row" alignItems="center" justify="center">
+                    <Checkbox checked={this.props.item.checked} />
+                    <Grid item xs={10}>
                         <TextElement element={this.props.item}>
                             <Divider light />
                             <List>
@@ -25,9 +23,7 @@ class Item extends React.Component {
                             </List>
                         </TextElement>
                     </Grid>
-                    <Grid item direction='column' xs={1}>
-                        <MoreButton />
-                    </Grid>
+                    <MoreButton />
                 </Grid>
             </div>
         );
