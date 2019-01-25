@@ -7,11 +7,13 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
     root: {
         display: 'inline-flex',
-        width: '100%'
+        width: '100%',
+        marginBottom: 10
     },
     button: {
         alignSelf: 'center',
-        margin: '0 5px 0 5px'
+        margin: '0 5px 0 5px',
+        backgroundColor: '#448AFF'
     },
     input: {
         margin: '0 10px 5px 5px',
@@ -21,7 +23,7 @@ const styles = theme => ({
 
 class AddNewElement extends React.Component {
     state = {
-        name: null
+        name: ''
     };
 
     handleChange = name => event => {

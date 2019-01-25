@@ -1,8 +1,16 @@
 import React from 'react';
 import AddNewElement from './AddNewElement';
 import Item from './Item';
+import { withStyles } from '@material-ui/core/styles';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
+
+const styles = theme => ({
+    root: {
+        backgroundColor: '#B2EBF2',
+        minHeight: '100vh'
+    }
+});
 
 class ItemsBlock extends React.Component {
     addNewItemElementProps = {
@@ -13,8 +21,10 @@ class ItemsBlock extends React.Component {
     }
 
     render() {
+        const { classes } = this.props;
+
         return (
-            <div id="cl-items-container" className={this.props.className}>
+            <div id="cl-items-container" className={classes.root}>
                 <AddNewElement element={this.addNewItemElementProps}/>
                 <Divider />
                 <List>
@@ -27,4 +37,4 @@ class ItemsBlock extends React.Component {
     }
 }
 
-export default ItemsBlock;
+export default withStyles(styles)(ItemsBlock);
