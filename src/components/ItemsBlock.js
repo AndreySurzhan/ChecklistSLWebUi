@@ -2,7 +2,6 @@ import React from 'react';
 import AddNewElement from './AddNewElement';
 import Item from './Item';
 import { withStyles } from '@material-ui/core/styles';
-import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
 
 const styles = theme => ({
@@ -26,7 +25,6 @@ class ItemsBlock extends React.Component {
         return (
             <div id="cl-items-container" className={classes.root}>
                 <AddNewElement element={this.addNewItemElementProps}/>
-                <Divider />
                 <List>
                     {this.props.items.map((item, i) => (
                         <Item key={i} item={item} />

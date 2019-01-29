@@ -1,21 +1,26 @@
 import React from 'react';
 import TextElement from './TextElement';
 import MoreButton from './MoreButton';
-import { Grid } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+    root: {
+        display: 'inline-flex',
+        width: '100%'
+    }
+});
 
 class Checklist extends React.Component {
     render() {
+        const { classes } = this.props;
+
         return (
-            <div>                
-                <Grid container direction='row' alignContent='center' alignItems='center' justify='center'>
-                    <Grid item xs={10}>
-                        <TextElement element={this.props.checklist} />
-                    </Grid>
-                    <MoreButton />
-                </Grid>
+            <div className={classes.root}>
+                <TextElement element={this.props.checklist} />
+                <MoreButton />
             </div>
         );
     }
 }
 
-export default Checklist;
+export default withStyles(styles)(Checklist);

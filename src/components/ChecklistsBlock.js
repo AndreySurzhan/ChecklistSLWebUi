@@ -1,8 +1,14 @@
 import React from 'react';
 import AddNewElement from './AddNewElement';
 import Checklist from './Checklist';
-import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+    checklist: {
+        paddingLeft: 10
+    }
+});
 
 class ChecklistsBlock extends React.Component {
     addNewChecklistElementProps = {
@@ -13,11 +19,12 @@ class ChecklistsBlock extends React.Component {
     }
 
     render() {
+        const { classes } = this.props;
+
         return (
             <div id='cl-checklists-container'>
                 <AddNewElement element={this.addNewChecklistElementProps}/>
-                <Divider />
-                <List>
+                <List className={classes.checklist} >
                     {this.props.checklists.map((checklist, i) => (
                         <Checklist key={i} checklist={checklist}></Checklist>
                     ))}
@@ -27,4 +34,4 @@ class ChecklistsBlock extends React.Component {
     }
 }
 
-export default ChecklistsBlock;
+export default withStyles(styles)(ChecklistsBlock);

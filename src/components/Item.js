@@ -5,29 +5,34 @@ import List from '@material-ui/core/List';
 import MoreButton from './MoreButton';
 import Translation from './Translation';
 import TextElement from './TextElement';
-import { Grid } from '@material-ui/core';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+    root: {
+        display: 'inline-flex',
+        width: '100%'
+    }
+});
 
 class Item extends React.Component {
     render() {
+        const { classes } = this.props;
+
         return (
-            <div>
-                <Grid container direction="row" alignItems="center" justify="center">
-                    <Checkbox checked={this.props.item.checked} />
-                    <Grid item xs={10}>
-                        <TextElement element={this.props.item}>
-                            <Divider light />
-                            <List>
-                                {this.props.item.translations.map((translation, i) => (
-                                    <Translation key={i} translation={translation} />
-                                ))}
-                            </List>
-                        </TextElement>
-                    </Grid>
-                    <MoreButton />
-                </Grid>
+            <div className={classes.root}>
+                <Checkbox checked={this.props.item.checked} />
+                <TextElement element={this.props.item}>
+                    <Divider light />
+                    <List>
+                        {this.props.item.translations.map((translation, i) => (
+                            <Translation key={i} translation={translation} />
+                        ))}
+                    </List>
+                </TextElement>
+                <MoreButton />
             </div>
         );
     }
 }
 
-export default Item;
+export default withStyles(styles)(Item);

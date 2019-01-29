@@ -1,20 +1,30 @@
 import React from 'react';
-import Paper from '@material-ui/core/Paper';
+import Card from '@material-ui/core/Card';
 import Typography from '@material-ui/core/Typography';
+import { withStyles } from '@material-ui/core/styles';
+
+const styles = theme => ({
+    root: {
+        width: '100%'
+    },
+    typography: {
+        margin: '0 5px 0 5px'
+    }
+});
 
 class TextElement extends React.Component {
     render() {
+        const { classes } = this.props;
+
         return (
-            <div style={{display: 'inline-block', width: '100%'}}>
-                <Paper elevation={1}>
-                    <Typography variant='h5' component='h3' style={{margin: '0 10px 0 10px'}}>
-                        {this.props.element.text || this.props.element.name}
-                    </Typography>
-                    {this.props.children}
-                </Paper>
-            </div>
+            <Card className={classes.root}>
+                <Typography variant="h6" className={classes.typography}>
+                    {this.props.element.text || this.props.element.name}
+                </Typography>
+                {this.props.children}
+            </Card>
         );
     }
 }
 
-export default TextElement;
+export default withStyles(styles)(TextElement);

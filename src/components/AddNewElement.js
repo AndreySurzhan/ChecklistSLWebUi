@@ -1,22 +1,26 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
+import IconButton from '@material-ui/core/IconButton';
+import PlaylistAdd from '@material-ui/icons/PlaylistAdd';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
         display: 'inline-flex',
         width: '100%',
-        marginBottom: 10
+        marginBottom: 10,
+        marginTop: 10
     },
     button: {
         alignSelf: 'center',
-        margin: '0 5px 0 5px',
-        backgroundColor: '#448AFF'
+        margin: '10px 5px 0 10px',
+        border: '1px solid',
+        borderRadius: '4px',
+        padding: 5
     },
     input: {
-        margin: '0 10px 5px 5px',
+        margin: '0 10px 0 5px',
         width: '100%'
     }
 });
@@ -34,17 +38,18 @@ class AddNewElement extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const lable = this.props.element.lable
 
         return (
             <form className={classes.root}>
-                <Button variant="contained" color="primary" className={classes.button}>
-                    +
-                </Button>
+                <IconButton aria-label={lable} variant="contained" color="primary" className={classes.button}>
+                    <PlaylistAdd />
+                </IconButton>
                 <TextField
                     className={classes.input}
                     multiline
                     id={this.props.element.id}
-                    label={this.props.element.lable}
+                    label={lable}
                     name={this.props.element.name}
                     type="text"
                     placeholder={this.props.element.placeholder}
