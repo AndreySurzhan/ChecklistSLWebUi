@@ -11,6 +11,11 @@ const styles = theme => ({
     root: {
         display: 'inline-flex',
         width: '100%'
+    },
+    list: {
+        paddingTop: theme.spacing.unit / 3,
+        paddingButtom: theme.spacing.unit / 3
+
     }
 });
 
@@ -23,7 +28,7 @@ class Item extends React.Component {
                 <Checkbox checked={this.props.item.checked} />
                 <TextElement element={this.props.item}>
                     <Divider light />
-                    <List>
+                    <List className={classes.list}>
                         {this.props.item.translations.map((translation, i) => (
                             <Translation key={i} translation={translation} />
                         ))}
