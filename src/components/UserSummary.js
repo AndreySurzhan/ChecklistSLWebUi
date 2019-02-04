@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
-        backgroundColor: '#0097A7',
+        backgroundColor: '#455A64',
         display: 'inline-flex',
         padding: theme.spacing.unit * 2,
         width: '100%'
@@ -16,6 +16,7 @@ const styles = theme => ({
         height: theme.spacing.unit * 10
     },
     typography: {
+        color: '#FFFFFF',
         alignSelf: 'center',
         marginLeft: theme.spacing.unit * 2
     }

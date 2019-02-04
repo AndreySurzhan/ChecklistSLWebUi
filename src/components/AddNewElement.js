@@ -9,7 +9,7 @@ const styles = theme => ({
     root: {
         display: 'inline-flex',
         width: '100%',
-        marginBottom: theme.spacing.unit * 2,
+        marginBottom: theme.spacing.unit / 2,
         marginTop: theme.spacing.unit,
         paddingRight: theme.spacing.unit / 2,
         paddingLeft: theme.spacing.unit / 2

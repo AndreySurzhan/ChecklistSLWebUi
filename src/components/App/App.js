@@ -25,12 +25,44 @@ class App extends React.Component {
                     translation: 'молоко'
                 }
             ]
+        },
+        {
+            checked: false,
+            text: `test checklist name 2 checklist name checklist 
+            name checklist name checklist name checklist name checklist
+             name checklist name checklist name checklist name checklist name 
+             checklist name checklist name checklist name checklist name 
+             checklist name checklist name checklist name `,
+            translations: [
+                {
+                    language: 'us',
+                    translation: `test checklist name 2 checklist name checklist 
+                    name checklist name checklist name checklist name checklist
+                     name checklist name checklist name checklist name checklist name 
+                     checklist name checklist name checklist name checklist name 
+                     checklist name checklist name checklist name `
+                },
+                {
+                    language: 'es',
+                    translation: 'le milk'
+                },
+                {
+                    language: 'ge',
+                    translation: 'milk'
+                }
+            ]
         }
     ];
 
     checklists = [
         {
             name: 'test checklist name'
+        },
+        {
+            name: 'test checklist name 2'
+        },
+        {
+            name: 'test checklist name 3hecklist namhecklist namhecklist namhecklist namhecklist nam'
         }
     ];
 
@@ -45,12 +77,12 @@ class App extends React.Component {
         return (
             <React.Fragment>
                 <CssBaseline />
-                <Grid container direction='row' spacing={0} className={classes.root}>
+                <Grid container direction="row" spacing={0} className={classes.root}>
                     <Grid item xs={3}>
-                        <NavBlock user={this.user} checklists={this.checklists}/>
+                        <NavBlock user={this.user} checklists={this.checklists} />
                     </Grid>
                     <Grid item xs={9}>
-                        <ItemsBlock items={this.items}/>
+                        <ItemsBlock items={this.items} />
                     </Grid>
                 </Grid>
             </React.Fragment>

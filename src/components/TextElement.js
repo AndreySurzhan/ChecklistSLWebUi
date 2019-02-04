@@ -5,10 +5,11 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
-        width: '100%'
-    },
-    typography: {
-        margin: '0 5px 0 5px'
+        width: '100%',
+        paddingLeft: theme.spacing.unit * 2,
+        paddingRight: theme.spacing.unit * 2,
+        paddingTop: theme.spacing.unit / 2,
+        paddingBottom: theme.spacing.unit / 2
     }
 });
 
@@ -18,7 +19,7 @@ class TextElement extends React.Component {
 
         return (
             <Card className={classes.root}>
-                <Typography variant="h6" className={classes.typography}>
+                <Typography variant="h6">
                     {this.props.element.text || this.props.element.name}
                 </Typography>
                 {this.props.children}

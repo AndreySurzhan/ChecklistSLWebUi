@@ -17,7 +17,7 @@ const styles = theme => ({
 
 const options = ['Edit', 'Delete', 'Share'];
 
-class MoreButton extends React.Component {
+class MoreButtonBlock extends React.Component {
     state = {
         anchorEl: null
     };
@@ -52,4 +52,4 @@ class MoreButton extends React.Component {
     }
 }
 
-export default withStyles(styles)(MoreButton);
+export default withStyles(styles)(MoreButtonBlock);

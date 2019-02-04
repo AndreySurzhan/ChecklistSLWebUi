@@ -8,7 +8,8 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
     root: {
         padding: 0,
-        paddingLeft: theme.spacing.unit
+        paddingButtom: theme.spacing.unit / 4,
+        paddingTop: theme.spacing.unit / 4
     },
     listItemText: {
         paddingLeft: 0

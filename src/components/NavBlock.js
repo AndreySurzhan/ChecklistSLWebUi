@@ -6,7 +6,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
-        backgroundColor: '#00BCD4',
+        backgroundColor: '#607D8B',
         minHeight: '100vh'
     }
 });
