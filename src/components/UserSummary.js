@@ -1,14 +1,17 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
+import LogoutButtonBlock from './LogoutButtonBlock';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
         backgroundColor: '#455A64',
-        display: 'inline-flex',
         padding: theme.spacing.unit * 2,
         width: '100%'
+    },
+    gridRow: {
+        display: 'inline-flex'
     },
     avatar: {
         alignSelf: 'center',
@@ -28,10 +31,19 @@ class UserSummary extends React.Component {
 
         return (
             <div className={classes.root}>
-                <Avatar src={this.props.user.avatar || null} className={classes.avatar} alt="User's Profile Summary">
-                    {this.props.user.avatar ? null : this.props.user.username.charAt(0)}
-                </Avatar>
-                <Typography className={classes.typography} variant="h6">{this.props.user.username}</Typography>
+                <div className={classes.gridRow}>
+                    <Avatar
+                        src={this.props.user.avatar || null}
+                        className={classes.avatar}
+                        alt="User's Profile Summary"
+                    >
+                        {this.props.user.avatar ? null : this.props.user.username.charAt(0)}
+                    </Avatar>
+                    <Typography className={classes.typography} variant="h6">
+                        {this.props.user.username}
+                    </Typography>
+                </div>
+                <LogoutButtonBlock />
             </div>
         );
     }

@@ -1,7 +1,6 @@
 import React from 'react';
 import NavBlock from '../NavBlock';
 import ItemsBlock from '../ItemsBlock';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import Grid from '@material-ui/core/Grid';
 import { withStyles } from '@material-ui/core/styles';
 import './App.css';
@@ -75,17 +74,14 @@ class App extends React.Component {
         const { classes } = this.props;
 
         return (
-            <React.Fragment>
-                <CssBaseline />
-                <Grid container direction="row" spacing={0} className={classes.root}>
-                    <Grid item xs={3}>
-                        <NavBlock user={this.user} checklists={this.checklists} />
-                    </Grid>
-                    <Grid item xs={9}>
-                        <ItemsBlock items={this.items} />
-                    </Grid>
+            <Grid container direction="row" spacing={0} className={classes.root}>
+                <Grid item xs={3}>
+                    <NavBlock user={this.user} checklists={this.checklists} />
                 </Grid>
-            </React.Fragment>
+                <Grid item xs={9}>
+                    <ItemsBlock items={this.items} />
+                </Grid>
+            </Grid>
         );
     }
 }
