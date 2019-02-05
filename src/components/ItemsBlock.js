@@ -6,7 +6,6 @@ import List from '@material-ui/core/List';
 
 const styles = theme => ({
     root: {
-        backgroundColor: '#CFD8DC',
         minHeight: '100vh'
     }
 });

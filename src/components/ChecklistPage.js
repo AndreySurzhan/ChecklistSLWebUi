@@ -7,7 +7,6 @@ import avatarImage from '../images/avatar.jpg';
 
 const styles = theme => ({
     root: {
-        backgroundColor: '#BDBDBD',
         minHeight: '100vh'
     }
 });
