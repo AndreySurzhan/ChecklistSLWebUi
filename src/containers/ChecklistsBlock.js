@@ -1,5 +1,5 @@
 import React from 'react';
-import AddNewElement from '../components/AddNewElement';
+import AddNewElement from '../common/components/AddNewElement';
 import Checklist from '../components/Checklist';
 import List from '@material-ui/core/List';
 import { withStyles } from '@material-ui/core/styles';

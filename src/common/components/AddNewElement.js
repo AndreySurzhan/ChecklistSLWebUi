@@ -29,7 +29,7 @@ const styles = theme => ({
 
 class AddNewElement extends React.Component {
     state = {
-        name: ''
+        text: ''
     };
 
     handleChange = name => event => {
@@ -56,7 +56,7 @@ class AddNewElement extends React.Component {
                     type="text"
                     placeholder={this.props.element.placeholder}
                     value={this.state.name}
-                    onChange={this.handleChange('name')}
+                    onChange={this.handleChange('text')}
                     margin="normal"
                     fullWidth={true}
                 />

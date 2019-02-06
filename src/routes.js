@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
-import App from '../src/components/App/App';
+import App from '../src/common/components/App/App';
 import ChecklistPage from './pages/ChecklistPage';
 import LoginPage from './pages/LoginPage';
 
