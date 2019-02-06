@@ -1,8 +1,8 @@
 import React from 'react';
 import { Route } from 'react-router-dom';
 import App from '../src/components/App/App';
-import ChecklistPage from '../src/components/ChecklistPage';
-import LoginPage from '../src/components/LoginPage';
+import ChecklistPage from './pages/ChecklistPage';
+import LoginPage from './pages/LoginPage';
 
 export default (
     <App>

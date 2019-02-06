@@ -1,6 +1,6 @@
 import React from 'react';
 import TextElement from './TextElement';
-import MoreButtonBlock from './MoreButtonBlock';
+import MoreButtonBlock from '../containers/MoreButtonBlock';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({

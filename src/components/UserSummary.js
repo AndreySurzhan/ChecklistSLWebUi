@@ -1,7 +1,7 @@
 import React from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
-import LogoutButtonBlock from './LogoutButtonBlock';
+import LogoutButtonBlock from '../containers/LogoutButtonBlock';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({

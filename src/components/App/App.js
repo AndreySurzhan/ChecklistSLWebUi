@@ -14,7 +14,7 @@ class App extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div id="clsl-container" className={classes.root}>
+            <div id="clsl-app-container" className={classes.root}>
                 <CssBaseline />
                 {this.props.children}
             </div>

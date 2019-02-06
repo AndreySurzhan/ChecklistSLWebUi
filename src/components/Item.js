@@ -1,8 +1,8 @@
 import React from 'react';
-import CheckboxBlock from './CheckboxBlock';
+import CheckboxBlock from '../containers/CheckboxBlock';
 import Divider from '@material-ui/core/Divider';
 import List from '@material-ui/core/List';
-import MoreButtonBlock from './MoreButtonBlock';
+import MoreButtonBlock from '../containers/MoreButtonBlock';
 import Translation from './Translation';
 import TextElement from './TextElement';
 import { withStyles } from '@material-ui/core/styles';

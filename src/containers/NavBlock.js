@@ -1,5 +1,5 @@
 import React from 'react';
-import UserSummary from './UserSummary';
+import UserSummary from '../components/UserSummary';
 import ChecklistsBlock from './ChecklistsBlock';
 import Divider from '@material-ui/core/Divider';
 import { withStyles } from '@material-ui/core/styles';
@@ -16,7 +16,7 @@ class NavBlock extends React.Component {
         const { classes } = this.props;
 
         return (
-            <div className={classes.root}>
+            <div id="clsl-nav-container" className={classes.root}>
                 <UserSummary user={this.props.user} />
                 <Divider />
                 <ChecklistsBlock checklists={this.props.checklists}/>
