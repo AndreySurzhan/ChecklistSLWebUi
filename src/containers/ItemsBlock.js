@@ -1,11 +1,10 @@
 import React from 'react';
 import AddNewElement from '../common/containers/AddNewElement';
-import Item from '../components/Item';
+import ItemsList from '../components/ItemsList';
 import * as itemActions from '../actions/itemActions';
 import { withStyles } from '@material-ui/core/styles';
-import List from '@material-ui/core/List';
 import { connect } from 'react-redux';
-import {bindActionCreators} from 'redux';
+import { bindActionCreators } from 'redux';
 import { PropTypes } from 'prop-types';
 
 const styles = theme => ({
@@ -42,7 +41,7 @@ class ItemsBlock extends React.Component {
                 translation: 'milk'
             }
         ];
-        
+
         item.translations = translations;
 
         //this.state.item.translations = translations;
@@ -81,11 +80,7 @@ class ItemsBlock extends React.Component {
         return (
             <div id="cl-items-container" className={classes.root}>
                 <AddNewElement element={addNewItemElementProps} />
-                <List>
-                    {this.props.items.map((item, i) => (
-                        <Item key={i} item={item} />
-                    ))}
-                </List>
+                <ItemsList items={this.props.items} />
             </div>
         );
     }
@@ -106,6 +101,9 @@ function mapDispatchToProps(dispatch) {
 ItemsBlock.propTypes = {
     items: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
-}
+};
 
-export default connect(mapStateToProps, mapDispatchToProps)(withStyles(styles)(ItemsBlock));
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(ItemsBlock));

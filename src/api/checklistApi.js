@@ -1,53 +1,60 @@
 class ChecklistApi {
     constructor() {
         this.basicUrl = 'https://checklist-sl-api.herokuapp.com/api/checklist/';
-        this.token =
-            '';
+        this.token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFuZHJlaSIsImlkIjoiNWM1YzU4MGE4Y2Y5N2UwMDE3OWY4ODFjIiwiaWF0IjoxNTQ5NTY5MTk1LCJleHAiOjE1NDk2MTIzOTV9.udKkSL4uxfa4WOuODv0AZ8oXaAUwuefR1rda0CW8tfA';
         this.headers = {
             mode: 'no-cors',
-            'Access-Control-Allow-Origin':'*',
+            'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,
-            'Accept': 'application/json',
+            Accept: 'application/json',
             'Content-Type': 'application/json',
-            'Authorization': 'Bearer ' + this.token
+            Authorization: 'Bearer ' + this.token
         };
-
-        console.log(this.headers);
     }
 
     async creatChecklist(checklist) {
         try {
-            let response = await fetch(this.basicUrl, {
+            const response = await fetch(this.basicUrl, {
                 headers: this.headers,
                 method: 'POST',
                 body: JSON.stringify(checklist)
             });
-
-            return await response.json();
+            if (!response.ok) {
+                throw new Error('API error');
+            }
+            return response.json();
         } catch (e) {
-            console.log(e);
+            throw e;
         }
     }
 
     async getAllChecklists() {
         try {
-            return await fetch(this.basicUrl, {
+            const response = await fetch(this.basicUrl, {
                 headers: this.headers,
                 method: 'GET'
             });
+            if (!response.ok) {
+                throw new Error('API error');
+            }
+            return response.json();
         } catch (e) {
-            console.log(e);
+            throw e;
         }
     }
 
     async deleteChecklistById(id) {
         try {
-            return await fetch(this.basicUrl + id, {
+            const response = await fetch(this.basicUrl, {
                 headers: this.headers,
                 method: 'DELETE'
             });
+            if (!response.ok) {
+                throw new Error('API error');
+            }
+            return response.json();
         } catch (e) {
-            console.log(e);
+            throw e;
         }
     }
 }

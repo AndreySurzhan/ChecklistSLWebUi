@@ -20,7 +20,7 @@ class TextElement extends React.Component {
         return (
             <Card className={classes.root}>
                 <Typography variant="h6">
-                    {this.props.element.text || this.props.element.name}
+                    {this.props.text}
                 </Typography>
                 {this.props.children}
             </Card>

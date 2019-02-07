@@ -4,10 +4,12 @@ import { BrowserRouter as Router } from 'react-router-dom';
 import configureStore from './store/configureStore';
 import { Provider } from 'react-redux';
 import routes from './routes';
+import {loadChecklists} from './actions/checklistActions';
 import * as serviceWorker from './serviceWorker';
 //possible to import css as is here. Webpack with handle it
 
 const store = configureStore();
+store.dispatch(loadChecklists());
 
 ReactDOM.render(
     <Provider store={store}>

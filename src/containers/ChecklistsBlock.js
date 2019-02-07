@@ -1,7 +1,6 @@
 import React from 'react';
 import AddNewElement from '../common/containers/AddNewElement';
-import Checklist from '../components/Checklist';
-import List from '@material-ui/core/List';
+import ChecklistsList from '../components/ChecklistsList';
 import * as checklistActions from '../actions/checklistActions';
 import ChecklistApi from '../api/checklistApi';
 import { bindActionCreators } from 'redux';
@@ -9,11 +8,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({
-    checklist: {
-        paddingLeft: theme.spacing.unit * 2
-    }
-});
+const styles = theme => ({});
 
 class ChecklistsBlock extends React.Component {
     constructor(props, context) {
@@ -31,18 +26,22 @@ class ChecklistsBlock extends React.Component {
     }
 
     onClickAddElement = event => {
-        this.checklsitApi.creatChecklist(this.state.checklist).then((checklist) => {
-            console.log("NEW CHECKLIST CREATED", checklist)
-            this.setState({
-                checklist
+        this.checklsitApi
+            .creatChecklist(this.state.checklist)
+            .then(checklist => {
+                this.setState({
+                    checklist
+                });
+                this.props.actions.addChecklist(this.state.checklist);
+                this.textInputValue = '';
+            })
+            .catch(e => {
+                console.log(e);
             });
-            this.props.actions.addChecklist(this.state.checklist);
-            this.textInputValue = ''
-        });;
     };
 
     onTextInputChange = event => {
-        this.textInputValue = event.target.value
+        this.textInputValue = event.target.value;
         this.setState({
             checklist: {
                 name: this.textInputValue
@@ -51,7 +50,6 @@ class ChecklistsBlock extends React.Component {
     };
 
     render() {
-        const { classes } = this.props;
         const addNewChecklistElementProps = {
             id: 'clsl-add-new-checklist-form',
             textInputId: 'clsl-add-new-checklist-text-input',
@@ -67,11 +65,7 @@ class ChecklistsBlock extends React.Component {
         return (
             <div id="cl-checklists-container">
                 <AddNewElement element={addNewChecklistElementProps} />
-                <List className={classes.checklist}>
-                    {this.props.checklists.map((checklist, i) => (
-                        <Checklist key={i} checklist={checklist} />
-                    ))}
-                </List>
+                <ChecklistsList checklists={this.props.checklists} />
             </div>
         );
     }
