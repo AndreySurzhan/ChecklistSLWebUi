@@ -28,35 +28,32 @@ const styles = theme => ({
 });
 
 class AddNewElement extends React.Component {
-    state = {
-        text: ''
-    };
-
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value
-        });
-    };
-
     render() {
         const { classes } = this.props;
-        const lable = this.props.element.lable
+        const lable = this.props.element.lable;
 
         return (
-            <form className={classes.root}>
-                <IconButton aria-label={lable} variant="contained" color="primary" className={classes.button}>
+            <form id={this.props.element.id} className={classes.root}>
+                <IconButton
+                    id={this.props.element.buttonId}
+                    aria-label={lable}
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                    onClick={this.props.element.onClickAddElement}
+                >
                     <PlaylistAdd />
                 </IconButton>
                 <TextField
                     className={classes.input}
                     multiline
-                    id={this.props.element.id}
+                    id={this.props.element.textInputId}
                     label={lable}
                     name={this.props.element.name}
                     type="text"
                     placeholder={this.props.element.placeholder}
-                    value={this.state.name}
-                    onChange={this.handleChange('text')}
+                    value={this.props.element.value}
+                    onChange={this.props.element.onTextInputChange}
                     margin="normal"
                     fullWidth={true}
                 />
@@ -66,7 +63,11 @@ class AddNewElement extends React.Component {
 }
 
 AddNewElement.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    element: PropTypes.shape({
+        onClickAddElement: PropTypes.func.isRequired,
+        onTextInputChange: PropTypes.func.isRequired
+    }).isRequired
 };
 
 export default withStyles(styles)(AddNewElement);

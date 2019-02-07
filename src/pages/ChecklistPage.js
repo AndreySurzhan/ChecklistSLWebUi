@@ -11,58 +11,7 @@ const styles = theme => ({
     }
 });
 
-class App extends React.Component {
-    items = [
-        {
-            checked: true,
-            text: 'test checklist name',
-            translations: [
-                {
-                    language: 'ru',
-                    translation: 'молоко'
-                }
-            ]
-        },
-        {
-            checked: false,
-            text: `test checklist name 2 checklist name checklist 
-            name checklist name checklist name checklist name checklist
-             name checklist name checklist name checklist name checklist name 
-             checklist name checklist name checklist name checklist name 
-             checklist name checklist name checklist name `,
-            translations: [
-                {
-                    language: 'us',
-                    translation: `test checklist name 2 checklist name checklist 
-                    name checklist name checklist name checklist name checklist
-                     name checklist name checklist name checklist name checklist name 
-                     checklist name checklist name checklist name checklist name 
-                     checklist name checklist name checklist name `
-                },
-                {
-                    language: 'es',
-                    translation: 'le milk'
-                },
-                {
-                    language: 'ge',
-                    translation: 'milk'
-                }
-            ]
-        }
-    ];
-
-    checklists = [
-        {
-            name: 'test checklist name'
-        },
-        {
-            name: 'test checklist name 2'
-        },
-        {
-            name: 'test checklist name 3hecklist namhecklist namhecklist namhecklist namhecklist nam'
-        }
-    ];
-
+class ChecklistPage extends React.Component {
     user = {
         username: 'Sponge Bob Round Panties',
         avatar: avatarImage
@@ -84,4 +33,4 @@ class App extends React.Component {
     }
 }
 
-export default withStyles(styles)(App);
+export default withStyles(styles)(ChecklistPage);

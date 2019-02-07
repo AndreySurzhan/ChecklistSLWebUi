@@ -42,7 +42,7 @@ const styles = theme => ({
     }
 });
 
-class Login extends Component {
+class LoginPage extends Component {
     state = {
         username: 'Cat in the Hat',
         password: '',
@@ -87,7 +87,11 @@ class Login extends Component {
                             onChange={this.handleChange('password')}
                             margin="normal"
                         />
-                        <FormControlLabel checked={this.state.rememberMe} control={<CheckboxBlock />} label="Remember Me" />
+                        <FormControlLabel
+                            checked={this.state.rememberMe}
+                            control={<CheckboxBlock />}
+                            label="Remember Me"
+                        />
                     </FormControl>
                     <Button
                         className={classes.button}
@@ -104,4 +108,4 @@ class Login extends Component {
     }
 }
 
-export default withStyles(styles)(Login);
+export default withStyles(styles)(LoginPage);
