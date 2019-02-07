@@ -3,6 +3,7 @@ import AddNewElement from '../common/containers/AddNewElement';
 import Checklist from '../components/Checklist';
 import List from '@material-ui/core/List';
 import * as checklistActions from '../actions/checklistActions';
+import ChecklistApi from '../api/checklistApi';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
@@ -26,12 +27,18 @@ class ChecklistsBlock extends React.Component {
                 users: []
             }
         };
+        this.checklsitApi = new ChecklistApi();
     }
 
     onClickAddElement = event => {
-        this.props.actions.addChecklist(this.state.checklist);
-
-        this.textInputValue = '';
+        this.checklsitApi.creatChecklist(this.state.checklist).then((checklist) => {
+            console.log("NEW CHECKLIST CREATED", checklist)
+            this.setState({
+                checklist
+            });
+            this.props.actions.addChecklist(this.state.checklist);
+            this.textInputValue = ''
+        });;
     };
 
     onTextInputChange = event => {
