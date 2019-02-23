@@ -1,7 +1,6 @@
 import React from 'react';
-import TextElement from '../common/components/TextElement';
-import MoreButtonBlock from '../common/containers/MoreButtonBlock';
 import List from '@material-ui/core/List';
+import ChecklistItem from './ChecklistItem';
 import { withStyles } from '@material-ui/core/styles';
 import { ListItem } from '@material-ui/core';
 
@@ -25,8 +24,7 @@ class ChecklistsList extends React.Component {
             <List className={classes.root}>
                 {this.props.checklists.map((checklist, i) => (
                     <ListItem key={i} className={classes.checklistItem}>
-                        <TextElement text={checklist.name} />
-                        <MoreButtonBlock />
+                        <ChecklistItem checklist={checklist}/>
                     </ListItem>
                 ))}
             </List>
