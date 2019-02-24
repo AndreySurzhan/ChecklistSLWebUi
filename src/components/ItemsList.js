@@ -1,6 +1,6 @@
 import React from "react";
 import List from "@material-ui/core/List";
-import Item from "./Item";
+import Item from "../containers/Item";
 import { withStyles } from "@material-ui/core/styles";
 import { ListItem } from "@material-ui/core";
 
@@ -13,20 +13,16 @@ const styles = theme => ({
     }
 });
 
-class ItemsList extends React.Component {
-    render() {
-        const { classes } = this.props;
-
-        return (
-            <List>
-                {this.props.items.map((item, i) => (
-                    <ListItem key={i} className={classes.listItem}>
-                        <Item item={item} />
-                    </ListItem>
-                ))}
-            </List>
-        );
-    }
-}
+const ItemsList = ({ classes, items }) => {
+    return (
+        <List>
+            {items.map((item, i) => (
+                <ListItem key={i} className={classes.listItem}>
+                    <Item item={item} />
+                </ListItem>
+            ))}
+        </List>
+    );
+};
 
 export default withStyles(styles)(ItemsList);

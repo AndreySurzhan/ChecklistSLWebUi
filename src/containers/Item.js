@@ -3,7 +3,7 @@ import CheckboxBlock from "../common/containers/CheckboxBlock";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import MoreButtonBlock from "../common/containers/MoreButtonBlock";
-import Translation from "./Translation";
+import Translation from "../components/Translation";
 import TextElement from "../common/components/TextElement";
 import { withStyles } from "@material-ui/core/styles";
 

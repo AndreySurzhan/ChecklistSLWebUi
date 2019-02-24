@@ -28,7 +28,8 @@ class ChecklistsBlock extends React.Component {
     onClickAddElement = event => {
         this.checklsitApi
             .creatChecklist(this.state.checklist)
-            .then(checklist => {
+            .then(checklist => {                
+                // set previous checklist to inactive 
                 this.setState({
                     checklist
                 });
