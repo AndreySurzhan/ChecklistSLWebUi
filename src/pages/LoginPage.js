@@ -3,7 +3,7 @@ import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import CheckboxBlock from '../common/containers/CheckboxBlock';
+import Checkbox from '../common/components/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { withStyles } from '@material-ui/core/styles';
@@ -51,13 +51,13 @@ class LoginPage extends Component {
 
     handleChange = name => event => {
         this.setState({
-            [name]: event.target.value
+            [name]: event.target.value || event.target.checked
         });
     };
+    
 
     render() {
         const { classes } = this.props;
-
         return (
             <div id="clsl-login-container" className={[classes.root, classes.flexContainerColumns].join(' ')}>
                 <Paper className={[classes.paper, classes.flexContainerColumns].join(' ')}>
@@ -89,7 +89,7 @@ class LoginPage extends Component {
                         />
                         <FormControlLabel
                             checked={this.state.rememberMe}
-                            control={<CheckboxBlock />}
+                            control={<Checkbox checked={this.state.rememberMe} handleChange={this.handleChange('rememberMe')}/>}
                             label="Remember Me"
                         />
                     </FormControl>

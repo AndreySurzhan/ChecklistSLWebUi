@@ -1,5 +1,5 @@
 import React from "react";
-import CheckboxBlock from "../common/containers/CheckboxBlock";
+import Checkbox from "../common/components/Checkbox";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import MoreButtonBlock from "../common/containers/MoreButtonBlock";
@@ -23,6 +23,10 @@ const handleEdit = item => event => {
     console.log("Edit Item", item);
 };
 
+const handleCheckboxChange = item => event => {
+    item.checked = event.target.checked;
+}
+
 class Item extends React.Component {
     render() {
         const { classes } = this.props;
@@ -40,7 +44,7 @@ class Item extends React.Component {
 
         return (
             <React.Fragment>
-                <CheckboxBlock checked={item.checked} />
+                <Checkbox checked={item.checked} handleChange={handleCheckboxChange(item)} />
                 <TextElement text={item.text}>
                     <Divider light />
                     <List className={classes.translations}>

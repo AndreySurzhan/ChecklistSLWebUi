@@ -2,7 +2,7 @@ class ChecklistApi {
     constructor() {
         this.basicUrl = 'https://checklist-sl-api.herokuapp.com/api/checklist/';
         this.token =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFuZHJlaSIsImlkIjoiNWM1YzU4MGE4Y2Y5N2UwMDE3OWY4ODFjIiwiaWF0IjoxNTUxMDMyOTMyLCJleHAiOjE1NTEwNzYxMzJ9.eqGvhYkPD5Fj8mb7IMpNYxNaxYYSfxC5ZTSt5HwRwOg";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFuZHJlaSIsImlkIjoiNWM1YzU4MGE4Y2Y5N2UwMDE3OWY4ODFjIiwiaWF0IjoxNTUxMzAyNDMyLCJleHAiOjE1NTEzNDU2MzJ9.bpP-IgldkOEes5twn1okOEEVHAyM2fqK9sZ42Of2WuY";
         this.headers = {
             mode: 'no-cors',
             'Access-Control-Allow-Origin': '*',
