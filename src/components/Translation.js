@@ -22,11 +22,11 @@ const Translation = ({ classes, translation }) => {
     return (
         <ListItem className={classes.root}>
             <ListItemIcon>
-                <FlagIcon code={this.props.translation.language} />
+                <FlagIcon code={translation.language} />
             </ListItemIcon>
             <ListItemText
                 className={classes.listItemText}
-                secondary={this.props.translation.translation}
+                secondary={translation.translation}
             />
         </ListItem>
     );
