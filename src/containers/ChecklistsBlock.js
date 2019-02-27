@@ -1,5 +1,5 @@
 import React from 'react';
-import AddNewElement from '../common/containers/AddNewElement';
+import AddNewElement from '../common/components/AddNewElement';
 import ChecklistsList from '../components/ChecklistsList';
 import * as checklistActions from '../actions/checklistActions';
 import ChecklistApi from '../api/checklistApi';

@@ -12,11 +12,15 @@ export function loadChecklistsSuccess(checklists) {
 }
 
 export function loadChecklists() {
-    return (dispatch) => {
-        return checklistApi.getAllChecklists().then(checklists => {
+    return async (dispatch) => {
+        try
+        {
+            const checklists = await checklistApi.getAllChecklists();
             dispatch(loadChecklistsSuccess(checklists));
-        }).catch(e => {
+        }
+        catch (e)
+        {
             throw e;
-        })
+        }
     };
 }

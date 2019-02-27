@@ -1,5 +1,5 @@
 import React from 'react';
-import AddNewElement from '../common/containers/AddNewElement';
+import AddNewElement from '../common/components/AddNewElement';
 import ItemsList from '../components/ItemsList';
 import * as itemActions from '../actions/itemActions';
 import { withStyles } from '@material-ui/core/styles';
