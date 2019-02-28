@@ -1,7 +1,7 @@
 import React from 'react';
 import AddNewElement from '../common/components/AddNewElement';
 import ItemsList from '../components/ItemsList';
-import * as itemActions from '../actions/itemActions';
+import * as checklistActions from '../actions/checklistActions';
 import { withStyles } from '@material-ui/core/styles';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -86,21 +86,23 @@ class ItemsBlock extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    let item = {
+    const item = {
         _id: '',
         text: '',
         translations: []
     };
+    const activeChecklist = state.checklists.filter(c => c.isActive)[0]
+    const items = activeChecklist ? activeChecklist.items : [];
 
     return {
-        item: item,
-        items: state.items
+        item,
+        items
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(itemActions, dispatch)
+        actions: bindActionCreators(checklistActions, dispatch)
     };
 }
 
