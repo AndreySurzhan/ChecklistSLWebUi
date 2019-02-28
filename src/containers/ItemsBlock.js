@@ -17,16 +17,10 @@ class ItemsBlock extends React.Component {
     constructor(props, context) {
         super(props, context);
         this.textInputValue = '';
-        this.state = {
-            item: {
-                text: '',
-                translations: []
-            }
-        };
     }
 
     onClickAddElement = event => {
-        const item = this.state.item;
+        let item = Object.assign({}, this.state.item)
         let translations = [
             {
                 language: 'us',
@@ -43,15 +37,20 @@ class ItemsBlock extends React.Component {
         ];
 
         item.translations = translations;
+        item._id = Date.now();
 
-        //this.state.item.translations = translations;
         this.setState({
             item: item
         });
 
-        this.props.actions.addItem(this.state.item);
+        this.props.actions.addItem(item);
 
         this.textInputValue = '';
+        this.setState({
+            item: {
+                text: this.textInputValue
+            }
+        });
     };
 
     onTextInputChange = event => {
@@ -87,7 +86,14 @@ class ItemsBlock extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
+    let item = {
+        _id: '',
+        text: '',
+        translations: []
+    };
+
     return {
+        item: item,
         items: state.items
     };
 }

@@ -5,6 +5,10 @@ import List from "@material-ui/core/List";
 import MoreButtonBlock from "../common/containers/MoreButtonBlock";
 import Translation from "../components/Translation";
 import TextElement from "../common/components/TextElement";
+import * as itemActions from '../actions/itemActions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { PropTypes } from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -23,14 +27,24 @@ const handleEdit = item => event => {
     console.log("Edit Item", item);
 };
 
-const handleCheckboxChange = item => event => {
-    item.checked = event.target.checked;
-}
+class Item extends React.Component {    
+    constructor(props, context) {
+        super(props, context);
 
-class Item extends React.Component {
+        this.state = {
+            item: Object.assign({}, this.props.item)
+        };
+    }
+
+    handleCheckboxChange = event => {
+        const item = Object.assign({}, this.state.item)
+        item.checked = event.target.checked;
+        this.props.actions.updateItem(item);
+    }
+
     render() {
         const { classes } = this.props;
-        const item = this.props.item;
+        const item = this.state.item;
         const options = [
             {
                 text: "Delete",
@@ -44,7 +58,7 @@ class Item extends React.Component {
 
         return (
             <React.Fragment>
-                <Checkbox checked={item.checked} handleChange={handleCheckboxChange(item)} />
+                <Checkbox checked={item.checked} handleChange={this.handleCheckboxChange.bind(this)} />
                 <TextElement text={item.text}>
                     <Divider light />
                     <List className={classes.translations}>
@@ -59,4 +73,24 @@ class Item extends React.Component {
     }
 }
 
-export default withStyles(styles)(Item);
+function mapStateToProps(state, ownProps) {
+    return {
+        items: state.items
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(itemActions, dispatch)
+    };
+}
+
+Item.propTypes = {
+    item: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(Item));
