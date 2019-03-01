@@ -16,7 +16,14 @@ const styles = theme => ({
 class ItemsBlock extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.textInputValue = '';
+
+        this.state = {
+            item: Object.assign({}, this.props.item),
+            items: [...this.props.items]
+        };
+        
+        this.onClickAddElement = this.onClickAddElement.bind(this);
+        this.onTextInputChange = this.onTextInputChange.bind(this);
     }
 
     onClickAddElement = event => {
@@ -45,19 +52,17 @@ class ItemsBlock extends React.Component {
 
         this.props.actions.addItem(item);
 
-        this.textInputValue = '';
         this.setState({
             item: {
-                text: this.textInputValue
+                text: ''
             }
         });
     };
 
     onTextInputChange = event => {
-        this.textInputValue = event.target.value;
         this.setState({
             item: {
-                text: this.textInputValue
+                text: event.target.value
             }
         });
     };
@@ -73,7 +78,7 @@ class ItemsBlock extends React.Component {
             lable: 'Add New Item',
             onClickAddElement: this.onClickAddElement,
             onTextInputChange: this.onTextInputChange,
-            value: this.textInputValue
+            value: this.state.item.text
         };
 
         return (
@@ -91,7 +96,7 @@ function mapStateToProps(state, ownProps) {
         text: '',
         translations: []
     };
-    const activeChecklist = state.checklists.filter(c => c.isActive)[0]
+    const activeChecklist = state.checklists.filter(c => c.isActive)[0];
     const items = activeChecklist ? activeChecklist.items : [];
 
     return {

@@ -13,9 +13,9 @@ const styles = theme => ({
     }
 });
 
-const TextElement = ({ classes, text, children }) => {
+const TextElement = ({ className, classes, text, children }) => {
     return (
-        <Card className={classes.root}>
+        <Card className={[classes.root, className].join(' ')}>
             <Typography variant="h6">{text}</Typography>
             {children}
         </Card>

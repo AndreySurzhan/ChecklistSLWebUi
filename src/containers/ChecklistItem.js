@@ -1,6 +1,14 @@
 import React from "react";
 import TextElement from "../common/components/TextElement";
 import MoreButtonBlock from "../common/containers/MoreButtonBlock";
+import { withStyles } from "@material-ui/core/styles";
+
+const styles = theme => ({
+    isActive: {
+        color: "#FFFFFF",
+        backgroundColor: "#455A64"
+    }   
+});
 
 const handleDelete = checklist => event => {
     console.log("Delete Checklist", checklist);
@@ -14,8 +22,9 @@ const handleShare = checklist => event => {
     console.log("Share Checklist", checklist);
 };
 
-class ChecklistsList extends React.Component {
+class ChecklistItem extends React.Component {
     render() {
+        const { classes } = this.props;
         const checklist = this.props.checklist;
         const options = [
             {
@@ -34,11 +43,11 @@ class ChecklistsList extends React.Component {
 
         return (
             <React.Fragment>
-                <TextElement text={checklist.name} />
+                <TextElement className={checklist.isActive ? classes.isActive : ''} text={checklist.name} />
                 <MoreButtonBlock options={options} />
             </React.Fragment>
         );
     }
 }
 
-export default ChecklistsList;
+export default withStyles(styles)(ChecklistItem);

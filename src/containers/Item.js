@@ -5,7 +5,7 @@ import List from "@material-ui/core/List";
 import MoreButtonBlock from "../common/containers/MoreButtonBlock";
 import Translation from "../components/Translation";
 import TextElement from "../common/components/TextElement";
-import * as itemActions from '../actions/itemActions';
+import * as checklistActions from '../actions/checklistActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PropTypes } from 'prop-types';
@@ -34,6 +34,8 @@ class Item extends React.Component {
         this.state = {
             item: Object.assign({}, this.props.item)
         };
+
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
     }
 
     handleCheckboxChange = event => {
@@ -74,14 +76,14 @@ class Item extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    return {
-        items: state.items
-    };
+    // return {
+    //     item: state.item
+    // };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(itemActions, dispatch)
+        actions: bindActionCreators(checklistActions, dispatch)
     };
 }
 

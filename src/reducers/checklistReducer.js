@@ -6,39 +6,42 @@ export default function checklistReducer(state = initialState.checklists, action
         case types.ADD_CHECKLIST: 
             return [...state, Object.assign({}, action.checklist)];
         case types.ADD_ITEM: {
-            const item = Object.assign({}, action.item);
-            const newState = [...state];
+            return state.map(c => {
+                if(c.isActive) {
+                    const item = Object.assign({}, action.item);
+                    const checklist = Object.assign({}, c);
+                    
+                    checklist.items = [...checklist.items, item];
 
-            newState.forEach(checklist => {
-                if(checklist.isActive) {
-                    checklist.items.push(item);
+                    return checklist;
                 }
-            })
 
-            return newState;
+                return c;
+            });
         }
-            
         case types.UPDATE_ITEM: {
-            const newState = [...state];
+            return state.map(c => {
+                if(c.isActive) {
+                    const checklist = Object.assign({}, c);
 
-            newState.forEach(checklist => {
-                if(checklist.isActive) {
-                    checklist.items.forEach(item => {
-                        if(item._id === action.item) {
-                            item = action.item
+                    checklist.items = checklist.items.map(item => {
+                        if(item._id === action.item._id) {
+                            const updatedItem = Object.assign({}, action.item);
+
+                            return updatedItem
                         }
-                    })
-                }
-            })
 
-            return newState;
+                        return item;
+                    })
+
+                    return checklist;
+                }
+
+                return c;
+            });
         }
         case types.LOAD_CHECKLISTS_SUCCESS:
-            return action.checklists;       
-        case types.STORE_ACTIVE_CHECKLIST:
-            return action.activeChecklist;       
-        case types.STORE_ACTIVE_CHECKLIST_ITEMS:
-            return action.activeChecklist.items;
+            return action.checklists;
         default:
             return state;
     }
