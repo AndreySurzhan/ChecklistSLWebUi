@@ -112,6 +112,7 @@ function mapDispatchToProps(dispatch) {
 }
 
 ItemsBlock.propTypes = {
+    item: PropTypes.object.isRequired,
     items: PropTypes.array.isRequired,
     actions: PropTypes.object.isRequired
 };

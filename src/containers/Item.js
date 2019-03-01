@@ -76,9 +76,7 @@ class Item extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    // return {
-    //     item: state.item
-    // };
+    return {};
 }
 
 function mapDispatchToProps(dispatch) {
