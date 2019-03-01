@@ -3,15 +3,17 @@ import initialState from './initialState';
 
 export default function checklistReducer(state = initialState.checklists, action) {
     switch (action.type) {
-        case types.ADD_CHECKLIST: 
+        case types.ADD_CHECKLIST_SUCCESS: 
             return [...state, Object.assign({}, action.checklist)];
-        case types.ADD_ITEM: {
+        case types.UPDATE_CHECKLIST_SUCCESS: {
+            return [...state.filter(c => c._id !== action.checklist._id), Object.assign({}, action.checklist)];
+        }
+        case types.ADD_ITEM_SUCCESS: {
             return state.map(c => {
                 if(c.isActive) {
-                    const item = Object.assign({}, action.item);
                     const checklist = Object.assign({}, c);
                     
-                    checklist.items = [...checklist.items, item];
+                    checklist.items = [...checklist.items, Object.assign({}, action.item)];
 
                     return checklist;
                 }
@@ -19,20 +21,12 @@ export default function checklistReducer(state = initialState.checklists, action
                 return c;
             });
         }
-        case types.UPDATE_ITEM: {
+        case types.UPDATE_ITEM_SUCCESS: {
             return state.map(c => {
                 if(c.isActive) {
                     const checklist = Object.assign({}, c);
 
-                    checklist.items = checklist.items.map(item => {
-                        if(item._id === action.item._id) {
-                            const updatedItem = Object.assign({}, action.item);
-
-                            return updatedItem
-                        }
-
-                        return item;
-                    })
+                    checklist.items = [...checklist.items.filter(item => item._id !== action.item._id), Object.assign({}, action.item)];
 
                     return checklist;
                 }

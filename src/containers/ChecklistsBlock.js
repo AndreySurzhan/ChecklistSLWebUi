@@ -26,19 +26,8 @@ class ChecklistsBlock extends React.Component {
     }
 
     onClickAddElement = event => {
-        this.checklsitApi
-            .creatChecklist(this.state.checklist)
-            .then(checklist => {                
-                // set previous checklist to inactive 
-                this.setState({
-                    checklist
-                });
-                this.props.actions.addChecklist(this.state.checklist);
-                this.textInputValue = '';
-            })
-            .catch(e => {
-                console.log(e);
-            });
+        this.props.actions.addChecklist(this.state.checklist);
+        this.textInputValue = '';
     };
 
     onTextInputChange = event => {

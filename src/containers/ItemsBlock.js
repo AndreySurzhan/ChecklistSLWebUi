@@ -27,24 +27,10 @@ class ItemsBlock extends React.Component {
     }
 
     onClickAddElement = event => {
-        let item = Object.assign({}, this.state.item)
-        let translations = [
-            {
-                language: 'us',
-                translation: `test`
-            },
-            {
-                language: 'es',
-                translation: 'le milk'
-            },
-            {
-                language: 'ge',
-                translation: 'milk'
-            }
-        ];
+        const item = Object.assign({}, this.state.item);
 
-        item.translations = translations;
-        item._id = Date.now();
+        item.translations = [];
+        item.checked = false;
 
         this.setState({
             item: item
@@ -94,7 +80,8 @@ function mapStateToProps(state, ownProps) {
     const item = {
         _id: '',
         text: '',
-        translations: []
+        translations: [],
+        checked: false
     };
     const activeChecklist = state.checklists.filter(c => c.isActive)[0];
     const items = activeChecklist ? activeChecklist.items : [];
