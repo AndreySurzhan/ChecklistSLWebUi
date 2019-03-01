@@ -30,7 +30,7 @@ class ItemsBlock extends React.Component {
         const item = Object.assign({}, this.state.item);
 
         item.translations = [];
-        item.checked = false;
+        item.isChecked = false;
 
         this.setState({
             item: item
@@ -80,7 +80,7 @@ function mapStateToProps(state, ownProps) {
     const item = {
         text: '',
         translations: [],
-        checked: false
+        isChecked: false
     };
     const activeChecklist = state.checklists.filter(c => c.isActive)[0];
     const items = activeChecklist ? activeChecklist.items : [];

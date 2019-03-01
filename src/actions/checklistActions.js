@@ -61,12 +61,26 @@ export function addItem(item) {
     return async (dispatch, getState) => {
         try {
             const state = getState();
-            const checklistToAdd = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+            const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
 
-            if (checklistToAdd) {
-                const addedItem = await checklistApi.addItem(checklistToAdd._id, item);
+            if (checklist) {
+                const addedItem = await checklistApi.addItem(checklist._id, item);
                 dispatch(addItemSuccess(addedItem));
             }
+        }
+        catch (e){
+            throw e;
+        }
+    };
+}
+
+export function updateItem(item) {
+    return async (dispatch, getState) => {
+        try {
+            const state = getState();
+            const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+            const updatedItem = await checklistApi.updateItem(checklist._id, item);
+            dispatch(updateItemSuccess(updatedItem));
         }
         catch (e){
             throw e;
