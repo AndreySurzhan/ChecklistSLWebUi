@@ -6,7 +6,13 @@ export default function checklistReducer(state = initialState.checklists, action
         case types.ADD_CHECKLIST_SUCCESS: 
             return [...state, Object.assign({}, action.checklist)];
         case types.UPDATE_CHECKLIST_SUCCESS: {
-            return [...state.filter(c => c._id !== action.checklist._id), Object.assign({}, action.checklist)];
+            return state.map(c => {
+                if(c._id === action.checklist._id){
+                    return Object.assign({}, action.checklist);
+                }
+
+                return c;
+            });
         }
         case types.ADD_ITEM_SUCCESS: {
             return state.map(c => {
@@ -27,6 +33,14 @@ export default function checklistReducer(state = initialState.checklists, action
                     const checklist = Object.assign({}, c);
 
                     checklist.items = [...checklist.items.filter(item => item._id !== action.item._id), Object.assign({}, action.item)];
+
+                    checklist.items = checklist.items.map(item => {
+                        if(item._id === action.item._id) {
+                            return Object.assign({}, action.item);
+                        }
+
+                        return item;
+                    })
 
                     return checklist;
                 }

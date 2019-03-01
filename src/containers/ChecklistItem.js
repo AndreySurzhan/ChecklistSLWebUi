@@ -2,6 +2,10 @@ import React from "react";
 import TextElement from "../common/components/TextElement";
 import MoreButtonBlock from "../common/containers/MoreButtonBlock";
 import { withStyles } from "@material-ui/core/styles";
+import * as checklistActions from '../actions/checklistActions';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { PropTypes } from 'prop-types';
 
 const styles = theme => ({
     isActive: {
@@ -10,34 +14,46 @@ const styles = theme => ({
     }   
 });
 
-const handleDelete = checklist => event => {
-    console.log("Delete Checklist", checklist);
-};
+class ChecklistItem extends React.Component {    
+    constructor(props, context) {
+        super(props, context);
 
-const handleEdit = checklist => event => {
-    console.log("Edit Checklist", checklist);
-};
+        this.state = {
+            checklist: Object.assign({}, this.props.checklist)
+        }
 
-const handleShare = checklist => event => {
-    console.log("Share Checklist", checklist);
-};
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleShare = this.handleShare.bind(this);
+        this.handleDelete = this.handleDelete.bind(this);
+    }
 
-class ChecklistItem extends React.Component {
+    handleDelete = checklist => event => {
+        console.log("Delete Checklist", checklist);
+    };
+
+    handleEdit = checklist => event => {
+        console.log("Edit Checklist", checklist);
+    };
+
+    handleShare = checklist => event => {
+        console.log("Share Checklist", checklist);
+    };
+
     render() {
         const { classes } = this.props;
         const checklist = this.props.checklist;
         const options = [
             {
                 text: "Delete",
-                handleClick: handleDelete(checklist)
+                handleClick: this.handleDelete(checklist)
             },
             {
                 text: "Edit",
-                handleClick: handleEdit(checklist)
+                handleClick: this.handleEdit(checklist)
             },
             {
                 text: "Share",
-                handleClick: handleShare(checklist)
+                handleClick: this.handleShare(checklist)
             }
         ];
 
@@ -50,4 +66,22 @@ class ChecklistItem extends React.Component {
     }
 }
 
-export default withStyles(styles)(ChecklistItem);
+function mapStateToProps(state, ownProps) {
+    return {};
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(checklistActions, dispatch)
+    };
+}
+
+ChecklistItem.propTypes = {
+    checklist: PropTypes.object.isRequired,
+    classes: PropTypes.object.isRequired
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(ChecklistItem));

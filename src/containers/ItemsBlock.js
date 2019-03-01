@@ -78,7 +78,6 @@ class ItemsBlock extends React.Component {
 
 function mapStateToProps(state, ownProps) {
     const item = {
-        _id: '',
         text: '',
         translations: [],
         checked: false

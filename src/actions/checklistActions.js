@@ -73,3 +73,28 @@ export function addItem(item) {
         }
     };
 }
+
+export function selectChecklist(checklist) {
+    return async (dispatch, getState) => {
+        try {
+            const state = getState();
+            let activeChecklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+            let checklistToSelect = Object.assign({}, checklist);
+
+            if (activeChecklist && checklistToSelect) {
+                activeChecklist.isActive = false;
+                activeChecklist = await checklistApi.updateChecklist(activeChecklist);
+
+                checklistToSelect.isActive = true;
+                checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
+                
+                
+                dispatch(updateChecklistSuccess(activeChecklist));
+                dispatch(updateChecklistSuccess(checklistToSelect));
+            }
+        }
+        catch (e){
+            throw e;
+        }
+    };
+}
