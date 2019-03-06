@@ -26,7 +26,6 @@ class ChecklistsBlock extends React.Component {
 
         this.onClickAddElement = this.onClickAddElement.bind(this);
         this.onTextInputChange = this.onTextInputChange.bind(this);
-        this.handleChecklistClick = this.handleChecklistClick.bind(this);
     }
 
     onClickAddElement = event => {
@@ -42,11 +41,7 @@ class ChecklistsBlock extends React.Component {
             }
         });
     };
-
-    handleChecklistClick = checklist => event => {
-        this.props.actions.selectChecklist(checklist);
-    }
-
+    
     render() {
         const addNewChecklistElementProps = {
             id: 'clsl-add-new-checklist-form',
@@ -63,7 +58,7 @@ class ChecklistsBlock extends React.Component {
         return (
             <div id="cl-checklists-container">
                 <AddNewElement element={addNewChecklistElementProps} />
-                <ChecklistsList handleClick={this.handleChecklistClick} checklists={this.props.checklists} />
+                <ChecklistsList checklists={this.props.checklists} />
             </div>
         );
     }

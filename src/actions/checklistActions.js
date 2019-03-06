@@ -6,8 +6,13 @@ const checklistApi = new ChecklistApi();
 export function addChecklistSuccess(checklist) {
     return { type: types.ADD_CHECKLIST_SUCCESS, checklist };
 }
+
 export function updateChecklistSuccess(checklist) {
     return { type: types.UPDATE_CHECKLIST_SUCCESS, checklist };
+}
+
+export function deleteChecklistSuccess(checklist) {
+    return { type: types.DELETE_CHECKLIST_SUCCESS, checklist };
 }
 
 export function loadChecklistsSuccess(checklists) {
@@ -20,6 +25,10 @@ export function addItemSuccess(item) {
 
 export function updateItemSuccess(item) {
     return { type: types.UPDATE_ITEM_SUCCESS, item };
+}
+
+export function deleteItemSuccess(item) {
+    return { type: types.DELETE_ITEM_SUCCESS, item };
 }
 
 export function loadChecklists() {
@@ -46,6 +55,7 @@ export function addChecklist(checklist) {
             if (checklistToUpdate) {
                 checklistToUpdate.isActive = false;
                 const updatedChecklist = await checklistApi.updateChecklist(checklistToUpdate);
+
                 dispatch(updateChecklistSuccess(updatedChecklist));
             }
 
@@ -65,6 +75,7 @@ export function addItem(item) {
 
             if (checklist) {
                 const addedItem = await checklistApi.addItem(checklist._id, item);
+
                 dispatch(addItemSuccess(addedItem));
             }
         }
@@ -80,6 +91,7 @@ export function updateItem(item) {
             const state = getState();
             const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
             const updatedItem = await checklistApi.updateItem(checklist._id, item);
+
             dispatch(updateItemSuccess(updatedItem));
         }
         catch (e){
@@ -94,17 +106,59 @@ export function selectChecklist(checklist) {
             const state = getState();
             let activeChecklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
             let checklistToSelect = Object.assign({}, checklist);
-
-            if (activeChecklist && checklistToSelect) {
+            
+            if (activeChecklist && Object.entries(activeChecklist).length !== 0) {
                 activeChecklist.isActive = false;
                 activeChecklist = await checklistApi.updateChecklist(activeChecklist);
-
-                checklistToSelect.isActive = true;
-                checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
-                
                 
                 dispatch(updateChecklistSuccess(activeChecklist));
-                dispatch(updateChecklistSuccess(checklistToSelect));
+            }
+            
+            checklistToSelect.isActive = true;
+            checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
+            dispatch(updateChecklistSuccess(checklistToSelect));
+        }
+        catch (e){
+            throw e;
+        }
+    };
+}
+
+export function deleteItem(item) {
+    return async (dispatch, getState) => {
+        try {
+            const state = getState();
+            const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+            const deletedItem = await checklistApi.deleteItem(checklist._id, item);
+
+            dispatch(deleteItemSuccess(deletedItem));
+        }
+        catch (e){
+            throw e;
+        }
+    };
+}
+
+export function deleteChecklist(checklist) {
+    return async (dispatch, getState) => {
+        try {
+            const isActiveChecklist = checklist.isActive;
+            const deletedChecklist = await checklistApi.deleteChecklist(checklist);
+
+            if(deletedChecklist) {
+                if(isActiveChecklist) {
+                    const state = getState();
+                    let checklistToSelect = Object.assign({}, state.checklists[0]);
+
+                    if(checklistToSelect && Object.entries(checklistToSelect).length !== 0) {
+                        checklistToSelect.isActive = true;
+                        checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
+    
+                        dispatch(updateChecklistSuccess(checklistToSelect));
+                    }
+                }
+                
+                dispatch(deleteChecklistSuccess(deletedChecklist));
             }
         }
         catch (e){

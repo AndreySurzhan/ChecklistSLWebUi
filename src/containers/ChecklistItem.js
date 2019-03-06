@@ -25,10 +25,11 @@ class ChecklistItem extends React.Component {
         this.handleEdit = this.handleEdit.bind(this);
         this.handleShare = this.handleShare.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
+        this.handleClick = this.handleClick.bind(this);
     }
 
     handleDelete = checklist => event => {
-        console.log("Delete Checklist", checklist);
+        this.props.actions.deleteChecklist(checklist);
     };
 
     handleEdit = checklist => event => {
@@ -37,6 +38,10 @@ class ChecklistItem extends React.Component {
 
     handleShare = checklist => event => {
         console.log("Share Checklist", checklist);
+    };
+
+    handleClick = checklist => event => {
+        this.props.actions.selectChecklist(checklist);
     };
 
     render() {
@@ -59,7 +64,9 @@ class ChecklistItem extends React.Component {
 
         return (
             <React.Fragment>
-                <TextElement className={checklist.isActive ? classes.isActive : ''} text={checklist.name} />
+                <div style={{width: '100%'}} onClick={this.handleClick(checklist)}>
+                    <TextElement className={checklist.isActive ? classes.isActive : ''} text={checklist.name} />
+                </div>
                 <MoreButtonBlock options={options} />
             </React.Fragment>
         );

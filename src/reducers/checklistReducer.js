@@ -14,6 +14,9 @@ export default function checklistReducer(state = initialState.checklists, action
                 return c;
             });
         }
+        case types.DELETE_CHECKLIST_SUCCESS: {
+            return [...state.filter(checklist => checklist._id !== action.checklist._id)];
+        }
         case types.ADD_ITEM_SUCCESS: {
             return state.map(c => {
                 if(c.isActive) {
@@ -32,8 +35,6 @@ export default function checklistReducer(state = initialState.checklists, action
                 if(c.isActive) {
                     const checklist = Object.assign({}, c);
 
-                    checklist.items = [...checklist.items.filter(item => item._id !== action.item._id), Object.assign({}, action.item)];
-
                     checklist.items = checklist.items.map(item => {
                         if(item._id === action.item._id) {
                             return Object.assign({}, action.item);
@@ -41,6 +42,22 @@ export default function checklistReducer(state = initialState.checklists, action
 
                         return item;
                     })
+
+                    return checklist;
+                }
+
+                return c;
+            });
+        }
+
+        case types.DELETE_ITEM_SUCCESS: {
+            return state.map(c => {
+                const hasItem = c.items.findIndex(item => item._id === action.item._id) !== -1;
+
+                if(hasItem) {
+                    const checklist = Object.assign({}, c);
+                    
+                    checklist.items = [...checklist.items.filter(item => item._id !== action.item._id)];
 
                     return checklist;
                 }

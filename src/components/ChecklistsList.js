@@ -16,11 +16,11 @@ const styles = theme => ({
     }
 });
 
-const ChecklistsList = ({ classes, checklists, handleClick }) => {
+const ChecklistsList = ({ classes, checklists }) => {
     return (
         <List className={classes.root}>
             {checklists.map((checklist, i) => (
-                <ListItem onClick={handleClick(checklist)} key={i} className={classes.checklistItem}>
+                <ListItem  key={i} className={classes.checklistItem}>
                     <ChecklistItem checklist={checklist} />
                 </ListItem>
             ))}

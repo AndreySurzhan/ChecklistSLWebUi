@@ -2,7 +2,7 @@ class ChecklistApi {
     constructor() {
         this.basicUrl = 'https://checklist-sl-api.herokuapp.com/api/checklist';
         this.token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFuZHJlaSIsImlkIjoiNWM1YzU4MGE4Y2Y5N2UwMDE3OWY4ODFjIiwiaWF0IjoxNTUxNDQ3OTcxLCJleHAiOjE1NTE0OTExNzF9.mAuRC2tFPeYsREl6sSyhhgwuJbp1MXkZZ52KoUcRkU8";
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFuZHJlaSIsImlkIjoiNWM1YzU4MGE4Y2Y5N2UwMDE3OWY4ODFjIiwiaWF0IjoxNTUxODk5Njg1LCJleHAiOjE1NTE5NDI4ODV9.gaL1zCO70TE3kAvgzPbkyqFkHk4i5tbJTZi1pVXHJK8";
         this.headers = {
             mode: 'no-cors',
             'Access-Control-Allow-Origin': '*',
@@ -60,9 +60,9 @@ class ChecklistApi {
         }
     }
 
-    async deleteChecklistById(id) {
+    async deleteChecklist(checklist) {
         try {
-            const response = await fetch(`${this.basicUrl}/${id}`, {
+            const response = await fetch(`${this.basicUrl}/${checklist._id}`, {
                 headers: this.headers,
                 method: 'DELETE'
             });
@@ -96,6 +96,22 @@ class ChecklistApi {
             const response = await fetch(`${this.basicUrl}/${checklistId}/item/${item._id}`, {
                 headers: this.headers,
                 method: 'PATCH',
+                body: JSON.stringify(item)
+            });
+            if (!response.ok) {
+                throw new Error('API error');
+            }
+            return response.json();
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async deleteItem(checklistId, item) {
+        try {
+            const response = await fetch(`${this.basicUrl}/${checklistId}/item/${item._id}`, {
+                headers: this.headers,
+                method: 'DELETE',
                 body: JSON.stringify(item)
             });
             if (!response.ok) {

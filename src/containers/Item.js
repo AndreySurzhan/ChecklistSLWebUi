@@ -19,14 +19,6 @@ const styles = theme => ({
     }
 });
 
-const handleDelete = item => event => {
-    console.log("Delete Item", item);
-};
-
-const handleEdit = item => event => {
-    console.log("Edit Item", item);
-};
-
 class Item extends React.Component {    
     constructor(props, context) {
         super(props, context);
@@ -36,7 +28,18 @@ class Item extends React.Component {
         };
 
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+        this.handleDelete = this.handleDelete.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
     }
+    
+
+    handleDelete = item => event => {
+        this.props.actions.deleteItem(item);
+    };
+
+    handleEdit = item => event => {
+        console.log("Edit Item", item);
+    };
 
     handleCheckboxChange = event => {
         const item = Object.assign({}, this.state.item);
@@ -55,11 +58,11 @@ class Item extends React.Component {
         const options = [
             {
                 text: "Delete",
-                handleClick: handleDelete(item)
+                handleClick: this.handleDelete(item)
             },
             {
                 text: "Edit",
-                handleClick: handleEdit(item)
+                handleClick: this.handleEdit(item)
             }
         ];
 

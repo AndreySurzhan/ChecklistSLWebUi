@@ -28,8 +28,8 @@ class MoreButtonBlock extends React.Component {
         this.setState({ anchorEl: null });
     };
 
-    handleOptionClick = fun => event => {
-        fun(event);
+    handleOptionClick = action => event => {
+        action(event);
         this.handleClose();
     };
 
@@ -55,9 +55,7 @@ class MoreButtonBlock extends React.Component {
                     {this.props.options.map((option, i) => (
                         <MenuItem
                             key={i}
-                            onClick={this.handleOptionClick(
-                                option.handleClick
-                            )}
+                            onClick={this.handleOptionClick(option.handleClick)}
                         >
                             {option.text}
                         </MenuItem>
