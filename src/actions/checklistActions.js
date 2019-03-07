@@ -52,7 +52,7 @@ export function addChecklist(checklist) {
             const checklistToUpdate = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
             const createdChecklist = await checklistApi.creatChecklist(checklist);
 
-            if (checklistToUpdate) {
+            if (checklistToUpdate && Object.entries(checklistToUpdate).length !== 0) {
                 checklistToUpdate.isActive = false;
                 const updatedChecklist = await checklistApi.updateChecklist(checklistToUpdate);
 
@@ -93,6 +93,19 @@ export function updateItem(item) {
             const updatedItem = await checklistApi.updateItem(checklist._id, item);
 
             dispatch(updateItemSuccess(updatedItem));
+        }
+        catch (e){
+            throw e;
+        }
+    };
+}
+
+export function updateChecklist(checklist) {
+    return async (dispatch, getState) => {
+        try {
+            const updatedChecklist = await checklistApi.updateChecklist(checklist);
+
+            dispatch(updateChecklistSuccess(updatedChecklist));
         }
         catch (e){
             throw e;

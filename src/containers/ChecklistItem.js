@@ -1,6 +1,7 @@
 import React from "react";
 import TextElement from "../common/components/TextElement";
 import MoreButtonBlock from "../common/containers/MoreButtonBlock";
+import OkButton from '../common/components/OkButton';
 import { withStyles } from "@material-ui/core/styles";
 import * as checklistActions from '../actions/checklistActions';
 import { connect } from 'react-redux';
@@ -19,13 +20,16 @@ class ChecklistItem extends React.Component {
         super(props, context);
 
         this.state = {
-            checklist: Object.assign({}, this.props.checklist)
+            checklist: Object.assign({}, this.props.checklist),
+            editMode: false
         }
 
         this.handleEdit = this.handleEdit.bind(this);
         this.handleShare = this.handleShare.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleClick = this.handleClick.bind(this);
+        this.handleOkClick = this.handleOkClick.bind(this);
+        this.onTextInputChange = this.onTextInputChange.bind(this);
     }
 
     handleDelete = checklist => event => {
@@ -34,6 +38,10 @@ class ChecklistItem extends React.Component {
 
     handleEdit = checklist => event => {
         console.log("Edit Checklist", checklist);
+        this.setState({
+            editMode: true
+        });
+        console.log("State", this.state);
     };
 
     handleShare = checklist => event => {
@@ -43,6 +51,21 @@ class ChecklistItem extends React.Component {
     handleClick = checklist => event => {
         this.props.actions.selectChecklist(checklist);
     };
+
+    handleOkClick = checklist => event => {
+        this.props.actions.updateChecklist(checklist);
+        this.setState({editMode: false});
+    }
+
+    onTextInputChange = event => {
+        const checklist = Object.assign({}, this.state.checklist)
+
+        checklist.name = event.target.value;
+
+        this.setState({
+            checklist: checklist
+        });
+    }
 
     render() {
         const { classes } = this.props;
@@ -65,9 +88,13 @@ class ChecklistItem extends React.Component {
         return (
             <React.Fragment>
                 <div style={{width: '100%'}} onClick={this.handleClick(checklist)}>
-                    <TextElement className={checklist.isActive ? classes.isActive : ''} text={checklist.name} />
+                    <TextElement 
+                        handleChange={this.onTextInputChange}
+                        editMode={this.state.editMode} 
+                        className={checklist.isActive ? classes.isActive : ''} 
+                        text={this.state.checklist.name} />
                 </div>
-                <MoreButtonBlock options={options} />
+                {this.state.editMode ? <OkButton handleClick={this.handleOkClick(checklist)}/> : <MoreButtonBlock options={options} />}
             </React.Fragment>
         );
     }
