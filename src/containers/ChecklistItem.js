@@ -36,12 +36,10 @@ class ChecklistItem extends React.Component {
         this.props.actions.deleteChecklist(checklist);
     };
 
-    handleEdit = checklist => event => {
-        console.log("Edit Checklist", checklist);
+    handleEdit =  event => {
         this.setState({
             editMode: true
         });
-        console.log("State", this.state);
     };
 
     handleShare = checklist => event => {
@@ -54,7 +52,9 @@ class ChecklistItem extends React.Component {
 
     handleOkClick = checklist => event => {
         this.props.actions.updateChecklist(checklist);
-        this.setState({editMode: false});
+        this.setState({
+            editMode: false
+        });
     }
 
     onTextInputChange = event => {
@@ -77,7 +77,7 @@ class ChecklistItem extends React.Component {
             },
             {
                 text: "Edit",
-                handleClick: this.handleEdit(checklist)
+                handleClick: this.handleEdit
             },
             {
                 text: "Share",
@@ -92,9 +92,10 @@ class ChecklistItem extends React.Component {
                         handleChange={this.onTextInputChange}
                         editMode={this.state.editMode} 
                         className={checklist.isActive ? classes.isActive : ''} 
-                        text={this.state.checklist.name} />
+                        text={checklist.name} 
+                        textOnChange={this.state.checklist.name}/>
                 </div>
-                {this.state.editMode ? <OkButton handleClick={this.handleOkClick(checklist)}/> : <MoreButtonBlock options={options} />}
+                {this.state.editMode ? <OkButton handleClick={this.handleOkClick(this.state.checklist)}/> : <MoreButtonBlock options={options} />}
             </React.Fragment>
         );
     }

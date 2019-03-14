@@ -19,23 +19,23 @@ const styles = theme => ({
     }
 });
 
-const renderTestField = (handleChange, text, className) => {
+const renderTestField = (handleChange, textOnChange, className) => {
     return (<InputBase
         onClick={(event) => {event.stopPropagation()}}
         className={className}
         multiline
         type="text"
-        value={text}
+        value={textOnChange}
         onChange={handleChange}
         autoFocus
         fullWidth={true}
     />)
 }
 
-const TextElement = ({ className, classes, text, children, handleChange, editMode}) => {
+const TextElement = ({ className, classes, textOnChange, text, children, handleChange, editMode}) => {
     return (
         <Card className={[classes.root, className].join(' ')}>
-            {editMode ? renderTestField(handleChange, text, classes.input): <Typography variant="h6">{text}</Typography>}
+            {editMode ? renderTestField(handleChange, textOnChange, classes.input): <Typography variant="h6">{text}</Typography>}
             {children}
         </Card>
     );

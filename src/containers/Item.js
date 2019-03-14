@@ -3,6 +3,7 @@ import Checkbox from "../common/components/Checkbox";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
 import MoreButtonBlock from "../common/containers/MoreButtonBlock";
+import OkButton from '../common/components/OkButton';
 import Translation from "../components/Translation";
 import TextElement from "../common/components/TextElement";
 import * as checklistActions from '../actions/checklistActions';
@@ -24,7 +25,8 @@ class Item extends React.Component {
         super(props, context);
 
         this.state = {
-            item: Object.assign({}, this.props.item)
+            item: Object.assign({}, this.props.item),
+            editMode: false
         };
 
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
@@ -37,8 +39,10 @@ class Item extends React.Component {
         this.props.actions.deleteItem(item);
     };
 
-    handleEdit = item => event => {
-        console.log("Edit Item", item);
+    handleEdit = event => {        
+        this.setState({
+            editMode: true
+        });
     };
 
     handleCheckboxChange = event => {
@@ -52,9 +56,27 @@ class Item extends React.Component {
         });
     }
 
+    handleOkClick = item => event => {
+        this.props.actions.updateItem(item);
+        this.setState({
+            editMode: false
+        });
+
+    }
+
+    onTextInputChange = event => {
+        const item = Object.assign({}, this.state.item)
+
+        item.text = event.target.value;
+
+        this.setState({
+            item: item
+        });
+    }
+
     render() {
         const { classes } = this.props;
-        const item = this.state.item;
+        const item = this.props.item;
         const options = [
             {
                 text: "Delete",
@@ -62,14 +84,18 @@ class Item extends React.Component {
             },
             {
                 text: "Edit",
-                handleClick: this.handleEdit(item)
+                handleClick: this.handleEdit
             }
         ];
 
         return (
             <React.Fragment>
-                <Checkbox checked={item.isChecked} handleChange={this.handleCheckboxChange} />
-                <TextElement text={item.text}>
+                <Checkbox checked={this.state.item.isChecked} handleChange={this.handleCheckboxChange} />
+                <TextElement 
+                        handleChange={this.onTextInputChange}
+                        editMode={this.state.editMode}
+                        text={item.text}
+                        textOnChange={this.state.item.text}>
                     <Divider light />
                     <List className={classes.translations}>
                         {item.translations.map((translation, i) => (
@@ -77,7 +103,7 @@ class Item extends React.Component {
                         ))}
                     </List>
                 </TextElement>
-                <MoreButtonBlock options={options} />
+                {this.state.editMode ? <OkButton handleClick={this.handleOkClick(this.state.item)}/> : <MoreButtonBlock options={options} />}
             </React.Fragment>
         );
     }
