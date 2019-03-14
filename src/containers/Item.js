@@ -46,7 +46,7 @@ class Item extends React.Component {
     };
 
     handleCheckboxChange = event => {
-        const item = Object.assign({}, this.state.item);
+        const item = Object.assign({}, this.props.item);
         item.isChecked = event.target.checked;
         
         this.props.actions.updateItem(item);
@@ -90,7 +90,7 @@ class Item extends React.Component {
 
         return (
             <React.Fragment>
-                <Checkbox checked={this.state.item.isChecked} handleChange={this.handleCheckboxChange} />
+                <Checkbox checked={item.isChecked} handleChange={this.handleCheckboxChange} />
                 <TextElement 
                         handleChange={this.onTextInputChange}
                         editMode={this.state.editMode}
