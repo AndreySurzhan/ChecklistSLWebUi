@@ -1,8 +1,10 @@
 import { combineReducers } from 'redux';
 import checklists from './checklistReducer';
+import user from './userReducer';
 
 const rootReducer = combineReducers({
-    checklists
+    checklists,
+    user
 });
 
 export default rootReducer;

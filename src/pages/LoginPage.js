@@ -6,6 +6,10 @@ import Button from '@material-ui/core/Button';
 import Checkbox from '../common/components/Checkbox';
 import FormControl from '@material-ui/core/FormControl';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { PropTypes } from 'prop-types';
+import * as userActions from '../actions/userActions';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -44,8 +48,8 @@ const styles = theme => ({
 
 class LoginPage extends Component {
     state = {
-        username: 'Cat in the Hat',
-        password: '',
+        username: 'andrei',
+        password: '123',
         rememberMe: false
     };
 
@@ -54,6 +58,16 @@ class LoginPage extends Component {
             [name]: event.target.value || event.target.checked
         });
     };
+
+    handleLoginClick = event => {
+        const user = Object.assign({}, {
+            username: this.state.username,
+            password: this.state.password
+        })
+        
+        this.props.actions.login(user);
+        this.props.history.push("/");
+    }
     
 
     render() {
@@ -95,7 +109,8 @@ class LoginPage extends Component {
                     </FormControl>
                     <Button
                         className={classes.button}
-                        href="/"
+                        //href="/"
+                        onClick={this.handleLoginClick}
                         label="Submit Login form"
                         variant="contained"
                         color="primary"
@@ -108,4 +123,23 @@ class LoginPage extends Component {
     }
 }
 
-export default withStyles(styles)(LoginPage);
+function mapStateToProps(state, ownProps) {
+    return {
+        isAuthenticated: state.user.isAuthenticated
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(userActions, dispatch)
+    };
+}
+
+LoginPage.propTypes = {
+    classes: PropTypes.object.isRequired
+};
+
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(LoginPage));

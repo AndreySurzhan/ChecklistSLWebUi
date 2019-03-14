@@ -14,7 +14,7 @@ class LogoutButtonBlock extends React.Component {
 
         return (
             <div className={classes.root}>
-                <Button size="small" variant="outlined" href="/logout" className={classes.button}>
+                <Button size="small" variant="outlined" onClick={this.props.handleClick} className={classes.button}>
                     <ExitToApp fontSize="small" />
                     Logout
                 </Button>

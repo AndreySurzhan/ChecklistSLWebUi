@@ -1,7 +1,7 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import LogoutButtonBlock from "../containers/LogoutButtonBlock";
+import LogoutButtonBlock from "./LogoutButtonBlock";
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -25,7 +25,7 @@ const styles = theme => ({
     }
 });
 
-const UserSummary = ({ classes, user }) => {
+const UserSummary = ({ classes, user, handleLogoutClick }) => {
     return (
         <div className={classes.root}>
             <div className={classes.gridRow}>
@@ -42,7 +42,7 @@ const UserSummary = ({ classes, user }) => {
                     {user.username}
                 </Typography>
             </div>
-            <LogoutButtonBlock />
+            <LogoutButtonBlock handleClick={handleLogoutClick}/>
         </div>
     );
 };

@@ -1,3 +1,7 @@
 export default {
-    checklists: []
+    checklists: [],
+    auth: {
+        isFetching: false,
+        isAuthenticated: localStorage.getItem('token') ? true : false
+    }
 }
