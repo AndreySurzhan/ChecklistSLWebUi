@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import * as userActions from '../actions/userActions';
 import { withStyles } from '@material-ui/core/styles';
+import { withRouter } from "react-router";
 
 const styles = theme => ({
     root: {
@@ -59,17 +60,15 @@ class LoginPage extends Component {
         });
     };
 
-    handleLoginClick = event => {
+     handleLoginClick = event => {
         const user = Object.assign({}, {
             username: this.state.username,
             password: this.state.password
         })
         
         this.props.actions.login(user);
-        this.props.history.push("/");
     }
     
-
     render() {
         const { classes } = this.props;
         return (
@@ -139,7 +138,7 @@ LoginPage.propTypes = {
     classes: PropTypes.object.isRequired
 };
 
-export default connect(
+export default withRouter(connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(LoginPage));
+)(withStyles(styles)(LoginPage)));

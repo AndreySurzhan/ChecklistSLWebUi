@@ -1,17 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { BrowserRouter as Router } from 'react-router-dom';
+import { Router } from 'react-router-dom';
 import configureStore from './store/configureStore';
 import { Provider } from 'react-redux';
-import Routers from './routes';
+import routes from './routes';
 import * as serviceWorker from './serviceWorker';
+import { history } from '../src/history';
 //possible to import css as is here. Webpack with handle it
 
 const store = configureStore();
 
 ReactDOM.render(
     <Provider store={store}>
-        <Router><Routers/></Router>
+        <Router history={history}>{routes(store)}</Router>
     </Provider>,
     document.getElementById('app')
 );

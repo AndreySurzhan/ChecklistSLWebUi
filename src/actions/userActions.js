@@ -1,6 +1,8 @@
 import * as types from './actionTypes';
 import UserApi from '../api/userApi';
 
+import { history } from '../history';
+
 const userApi = new UserApi();
 
 export function requestLogin(creds) {
@@ -12,10 +14,10 @@ export function requestLogin(creds) {
     };
 }
 
-export function loginSuccess(token) {
+export function loginSuccess(user) {
     return { 
         type: types.LOGIN_SUCCESS,
-        token,
+        user,
         isFetching: false,
         isAuthenticated: true 
     };
@@ -60,8 +62,7 @@ export function registerSuccess(user) {
         type: types.REGISTERY_SUCCESS, 
         user,  
         isFetching: false,
-        isAuthenticated: true,
-        token: user.token 
+        isAuthenticated: true
     };
 }
 
@@ -79,11 +80,13 @@ export function login(creds) {
         try {
             dispatch(requestLogin(creds));
 
-            const token = await userApi.login(creds);
+            const user = await userApi.login(creds);
 
-            localStorage.setItem('token', token);
+            localStorage.setItem('token', user.token);
 
-            dispatch(loginSuccess(token));
+            dispatch(loginSuccess(user));
+
+            history.push('/');
         }
         catch (e){
             dispatch(loginError(e));

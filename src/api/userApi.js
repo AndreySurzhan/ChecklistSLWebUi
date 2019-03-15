@@ -20,11 +20,8 @@ class UserApi {
             if (!response.ok) {
                 throw new Error('API error');
             }
-            //TODO: remove line when login is implemented
-            const token = response.text();
-            this.headers.Authorization = 'Bearer ' + token;
             
-            return token;
+            return response.json();
         } catch (e) {
             throw e;
         }
@@ -40,8 +37,7 @@ class UserApi {
             if (!response.ok) {
                 throw new Error('API error');
             }
-            //TODO: remove line when login is implemented
-            this.headers.Authorization = 'Bearer ' + response.json().token;
+
             return response.json();
         } catch (e) {
             throw e;

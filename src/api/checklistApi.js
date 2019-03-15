@@ -1,8 +1,7 @@
 class ChecklistApi {
     constructor() {
         this.basicUrl = 'https://checklist-sl-api.herokuapp.com/api/checklist';
-        this.token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6ImFuZHJlaSIsImlkIjoiNWM1YzU4MGE4Y2Y5N2UwMDE3OWY4ODFjIiwiaWF0IjoxNTUyNTcxMjE0LCJleHAiOjE1NTI2MTQ0MTR9.VzFfWUyYc7Jc6ibji9W4-BOvrH7ckDgbvmruK6_kjnY";
+        this.token = localStorage.getItem('token');
         this.headers = {
             mode: 'no-cors',
             'Access-Control-Allow-Origin': '*',
