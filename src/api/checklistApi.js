@@ -1,19 +1,23 @@
 class ChecklistApi {
     constructor() {
         this.basicUrl = 'https://checklist-sl-api.herokuapp.com/api/checklist';
-        this.token = localStorage.getItem('token');
         this.headers = {
             mode: 'no-cors',
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Credentials': true,
             Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: 'Bearer ' + this.token
+            'Content-Type': 'application/json'
         };
+    }
+
+    setAuthHeader() {
+        this.headers.Authorization = 'Bearer ' + localStorage.getItem('token');
     }
 
     async creatChecklist(checklist) {
         try {
+            this.setAuthHeader();
+
             const response = await fetch(this.basicUrl, {
                 headers: this.headers,
                 method: 'POST',
@@ -30,6 +34,8 @@ class ChecklistApi {
 
     async updateChecklist(checklist) {
         try {
+            this.setAuthHeader();
+
             const response = await fetch(`${this.basicUrl}/${checklist._id}`, {
                 headers: this.headers,
                 method: 'PATCH',
@@ -46,6 +52,8 @@ class ChecklistApi {
 
     async getAllChecklists() {
         try {
+            this.setAuthHeader();
+
             const response = await fetch(this.basicUrl, {
                 headers: this.headers,
                 method: 'GET'
@@ -61,6 +69,8 @@ class ChecklistApi {
 
     async deleteChecklist(checklist) {
         try {
+            this.setAuthHeader();
+            
             const response = await fetch(`${this.basicUrl}/${checklist._id}`, {
                 headers: this.headers,
                 method: 'DELETE'
@@ -76,6 +86,8 @@ class ChecklistApi {
 
     async addItem(checklistId, item) {
         try {
+            this.setAuthHeader();
+
             const response = await fetch(`${this.basicUrl}/${checklistId}/item`, {
                 headers: this.headers,
                 method: 'PUT',
@@ -92,6 +104,8 @@ class ChecklistApi {
 
     async updateItem(checklistId, item) {
         try {
+            this.setAuthHeader();
+            
             const response = await fetch(`${this.basicUrl}/${checklistId}/item/${item._id}`, {
                 headers: this.headers,
                 method: 'PATCH',
@@ -108,6 +122,8 @@ class ChecklistApi {
 
     async deleteItem(checklistId, item) {
         try {
+            this.setAuthHeader();
+            
             const response = await fetch(`${this.basicUrl}/${checklistId}/item/${item._id}`, {
                 headers: this.headers,
                 method: 'DELETE',

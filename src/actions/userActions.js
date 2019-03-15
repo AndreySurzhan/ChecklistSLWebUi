@@ -6,20 +6,20 @@ import { history } from '../history';
 const userApi = new UserApi();
 
 export function requestLogin(creds) {
-    return { 
+    return {
         type: types.REQUEST_LOGIN,
-        creds,  
+        creds,
         isFetching: true,
         isAuthenticated: false
     };
 }
 
 export function loginSuccess(user) {
-    return { 
+    return {
         type: types.LOGIN_SUCCESS,
         user,
         isFetching: false,
-        isAuthenticated: true 
+        isAuthenticated: true
     };
 }
 
@@ -33,34 +33,34 @@ export function loginError(message) {
 }
 
 export function requestLogout() {
-    return { 
+    return {
         type: types.REQUEST_LOGIN,
         isFetching: true,
         isAuthenticated: false
-     };
+    };
 }
 
 export function logoutSuccess() {
-    return { 
+    return {
         type: types.LOGIN_SUCCESS,
         isFetching: false,
-        isAuthenticated: false 
+        isAuthenticated: false
     };
 }
 
 export function requestRegistery(creds) {
-    return { 
-        type: types.REQUEST_REGISTERY, 
-        creds,  
+    return {
+        type: types.REQUEST_REGISTERY,
+        creds,
         isFetching: true,
         isAuthenticated: false
     };
 }
 
 export function registerSuccess(user) {
-    return { 
-        type: types.REGISTERY_SUCCESS, 
-        user,  
+    return {
+        type: types.REGISTERY_SUCCESS,
+        user,
         isFetching: false,
         isAuthenticated: true
     };
@@ -87,11 +87,8 @@ export function login(creds) {
             dispatch(loginSuccess(user));
 
             history.push('/');
-        }
-        catch (e){
-            dispatch(loginError(e));
-
-            throw e;
+        } catch (e) {
+            dispatch(loginError(e.message));
         }
     };
 }
@@ -106,17 +103,16 @@ export function register(creds) {
             localStorage.setItem('token', user.token);
 
             dispatch(registerSuccess(user));
-        }
-        catch (e){
-            dispatch(registeryError(e));
-            
-            throw e;
+
+            history.push('/');
+        } catch (e) {
+            dispatch(registeryError(e.message));
         }
     };
 }
 
 export function logout() {
-    return async (dispatch, getState) => {        
+    return async (dispatch, getState) => {
         dispatch(logoutSuccess());
 
         localStorage.removeItem('token');
