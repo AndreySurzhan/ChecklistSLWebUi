@@ -1,7 +1,7 @@
 import * as types from './actionTypes';
 import UserApi from '../api/userApi';
 
-import { history } from '../history';
+import { history } from '../utils/history';
 
 const userApi = new UserApi();
 

@@ -11,7 +11,13 @@ class ChecklistApi {
     }
 
     setAuthHeader() {
-        this.headers.Authorization = 'Bearer ' + localStorage.getItem('token');
+        const token = localStorage.getItem('token');
+
+        if(token) {
+            this.headers.Authorization = 'Bearer ' + token;
+        } else {
+            throw new Error('Token doesn\'t exist');
+        }
     }
 
     async creatChecklist(checklist) {
