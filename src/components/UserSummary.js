@@ -1,8 +1,9 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import LogoutButtonBlock from "./LogoutButtonBlock";
+import LogoutButton from "./LogoutButton";
 import { withStyles } from "@material-ui/core/styles";
+import { PropTypes } from 'prop-types';
 
 const styles = theme => ({
     root: {
@@ -42,9 +43,15 @@ const UserSummary = ({ classes, user, handleLogoutClick }) => {
                     {user.username}
                 </Typography>
             </div>
-            <LogoutButtonBlock handleClick={handleLogoutClick}/>
+            <LogoutButton handleClick={handleLogoutClick}/>
         </div>
     );
+};
+
+UserSummary.propTypes = {
+    classes: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
+    handleLogoutClick: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(UserSummary);

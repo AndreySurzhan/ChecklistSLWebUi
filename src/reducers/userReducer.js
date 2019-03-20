@@ -21,19 +21,19 @@ export default function userReducer(state = initialState.auth, action) {
                 isAuthenticated: action.isAuthenticated,
                 errorMessage: action.message
             });        
-        case types.REQUEST_REGISTERY:
+        case types.REQUEST_REGISTRATION:
             return Object.assign({}, state, {
                 isFetching: action.isFetching,
                 isAuthenticated: action.isAuthenticated,
                 user: action.creds
             });        
-        case types.REGISTERY_SUCCESS:
+        case types.REGISTRATION_SUCCESS:
             return Object.assign({}, state, {
                 isFetching: action.isFetching,
                 isAuthenticated: action.isAuthenticated,
                 user: action.user
             });
-        case types.REGISTERY_FAILURE:
+        case types.REGISTRATION_FAILURE:
             return Object.assign({}, state, {
                 isFetching: action.isFetching,
                 isAuthenticated: action.isAuthenticated,

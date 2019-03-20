@@ -3,6 +3,7 @@ import List from "@material-ui/core/List";
 import Item from "../containers/Item";
 import { withStyles } from "@material-ui/core/styles";
 import { ListItem } from "@material-ui/core";
+import { PropTypes } from 'prop-types';
 
 const styles = theme => ({
     listItem: {
@@ -23,6 +24,11 @@ const ItemsList = ({ classes, items }) => {
             ))}
         </List>
     );
+};
+
+ItemsList.propTypes = {
+    classes: PropTypes.object.isRequired,
+    items: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(ItemsList);

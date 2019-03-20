@@ -48,9 +48,9 @@ export function logoutSuccess() {
     };
 }
 
-export function requestRegistery(creds) {
+export function requestRegistration(creds) {
     return {
-        type: types.REQUEST_REGISTERY,
+        type: types.REQUEST_REGISTRATION,
         creds,
         isFetching: true,
         isAuthenticated: false
@@ -59,7 +59,7 @@ export function requestRegistery(creds) {
 
 export function registerSuccess(user) {
     return {
-        type: types.REGISTERY_SUCCESS,
+        type: types.REGISTRATION_SUCCESS,
         user,
         isFetching: false,
         isAuthenticated: true
@@ -68,7 +68,7 @@ export function registerSuccess(user) {
 
 export function registeryError(message) {
     return {
-        type: types.REGISTERY_FAILURE,
+        type: types.REGISTRATION_FAILURE,
         isFetching: false,
         isAuthenticated: false,
         message
@@ -96,7 +96,7 @@ export function login(creds) {
 export function register(creds) {
     return async (dispatch, getState) => {
         try {
-            dispatch(requestRegistery(creds));
+            dispatch(requestRegistration(creds));
 
             const user = await userApi.register(creds);
 

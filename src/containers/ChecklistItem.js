@@ -113,7 +113,8 @@ function mapDispatchToProps(dispatch) {
 
 ChecklistItem.propTypes = {
     checklist: PropTypes.object.isRequired,
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    actions: PropTypes.object.isRequired
 };
 
 export default connect(

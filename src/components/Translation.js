@@ -4,6 +4,7 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import FlagIconFactory from "react-flag-icon-css";
 import { withStyles } from "@material-ui/core/styles";
+import { PropTypes } from 'prop-types';
 
 const styles = theme => ({
     root: {
@@ -30,6 +31,11 @@ const Translation = ({ classes, translation }) => {
             />
         </ListItem>
     );
+};
+
+Translation.propTypes = {
+    classes: PropTypes.object.isRequired,
+    translation: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(Translation);

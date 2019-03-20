@@ -3,6 +3,7 @@ import List from "@material-ui/core/List";
 import ChecklistItem from "../containers/ChecklistItem";
 import { withStyles } from "@material-ui/core/styles";
 import { ListItem } from "@material-ui/core";
+import { PropTypes } from 'prop-types';
 
 const styles = theme => ({
     root: {
@@ -26,6 +27,11 @@ const ChecklistsList = ({ classes, checklists }) => {
             ))}
         </List>
     );
+};
+
+ChecklistsList.propTypes = {
+    classes: PropTypes.object.isRequired,
+    checklists: PropTypes.array.isRequired
 };
 
 export default withStyles(styles)(ChecklistsList);
