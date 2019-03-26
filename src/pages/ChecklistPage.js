@@ -33,6 +33,10 @@ class ChecklistPage extends React.Component {
         avatar: avatarImage
     };
 
+    componentWillMount() {
+        this.props.checklistActions.loadChecklists();
+    }
+
     handleLogoutClick = event => {
         this.props.userActions.logout();
         this.props.history.push("/login");

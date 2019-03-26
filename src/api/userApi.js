@@ -29,7 +29,7 @@ class UserApi {
 
     async register(user) {
         try {
-            const response = await fetch(`${this.basicUrl}/register`, {
+            const response = await fetch(`${this.basicUrl}/registration`, {
                 headers: this.headers,
                 method: 'POST',
                 body: JSON.stringify(user)

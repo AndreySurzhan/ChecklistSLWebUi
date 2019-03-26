@@ -48,7 +48,12 @@ export default function userReducer(state = initialState.auth, action) {
             return Object.assign({}, state, {
                 isFetching: action.isFetching,
                 isAuthenticated: action.isAuthenticated
-            });    
+            });           
+        case types.SET_AUTH_TO_FALSE:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                isAuthenticated: action.isAuthenticated
+            }); 
         default:
             return state;
     }

@@ -28,10 +28,6 @@ class ChecklistsBlock extends React.Component {
         this.onTextInputChange = this.onTextInputChange.bind(this);
     }
 
-    componentWillMount() {
-        this.props.actions.loadChecklists();
-    }
-
     onClickAddElement = event => {
         this.props.actions.addChecklist(this.state.checklist);
         this.textInputValue = '';

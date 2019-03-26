@@ -1,9 +1,16 @@
 import * as types from './actionTypes';
 import UserApi from '../api/userApi';
-
 import { history } from '../utils/history';
 
 const userApi = new UserApi();
+
+export function setAuthToFalse() {
+    return {
+        type: types.SET_AUTH_TO_FALSE,
+        isFetching: false,
+        isAuthenticated: false
+    };
+}
 
 export function requestLogin(creds) {
     return {
@@ -34,7 +41,7 @@ export function loginError(message) {
 
 export function requestLogout() {
     return {
-        type: types.REQUEST_LOGIN,
+        type: types.REQUEST_LOGOUT,
         isFetching: true,
         isAuthenticated: false
     };
@@ -42,7 +49,7 @@ export function requestLogout() {
 
 export function logoutSuccess() {
     return {
-        type: types.LOGIN_SUCCESS,
+        type: types.LOGOUT_SUCCESS,
         isFetching: false,
         isAuthenticated: false
     };
@@ -113,9 +120,11 @@ export function register(creds) {
 
 export function logout() {
     return async (dispatch, getState) => {
-        dispatch(logoutSuccess());
-
+        history.push('/login');
+        
         localStorage.removeItem('token');
+
+        dispatch({type: types.SET_AUTH_TO_FALSE});
 
         dispatch(logoutSuccess());
     };

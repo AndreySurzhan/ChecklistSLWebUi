@@ -1,5 +1,6 @@
 import * as types from './actionTypes';
 import ChecklistApi from '../api/checklistApi';
+import { logout } from '../actions/userActions';
 
 const checklistApi = new ChecklistApi();
 
@@ -32,14 +33,16 @@ export function deleteItemSuccess(item) {
 }
 
 export function loadChecklists() {
-    return async (dispatch) => {
-        try
-        {
-            const checklists = await checklistApi.getAllChecklists();
-            dispatch(loadChecklistsSuccess(checklists));
-        }
-        catch (e)
-        {
+    return async (dispatch, getState) => {
+        try {
+            const state = getState();
+            if (state.user.isAuthenticated) {
+                const checklists = await checklistApi.getAllChecklists();
+                dispatch(loadChecklistsSuccess(checklists));
+            } else {
+                dispatch(logout());
+            }
+        } catch (e) {
             throw e;
         }
     };
@@ -49,19 +52,23 @@ export function addChecklist(checklist) {
     return async (dispatch, getState) => {
         try {
             const state = getState();
-            const checklistToUpdate = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
-            const createdChecklist = await checklistApi.creatChecklist(checklist);
 
-            if (checklistToUpdate && Object.entries(checklistToUpdate).length !== 0) {
-                checklistToUpdate.isActive = false;
-                const updatedChecklist = await checklistApi.updateChecklist(checklistToUpdate);
+            if (state.user.isAuthenticated) {
+                const checklistToUpdate = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+                const createdChecklist = await checklistApi.creatChecklist(checklist);
 
-                dispatch(updateChecklistSuccess(updatedChecklist));
+                if (checklistToUpdate && Object.entries(checklistToUpdate).length !== 0) {
+                    checklistToUpdate.isActive = false;
+                    const updatedChecklist = await checklistApi.updateChecklist(checklistToUpdate);
+
+                    dispatch(updateChecklistSuccess(updatedChecklist));
+                }
+
+                dispatch(addChecklistSuccess(createdChecklist));
+            } else {
+                dispatch(logout());
             }
-
-            dispatch(addChecklistSuccess(createdChecklist));
-        }
-        catch (e){
+        } catch (e) {
             throw e;
         }
     };
@@ -71,15 +78,19 @@ export function addItem(item) {
     return async (dispatch, getState) => {
         try {
             const state = getState();
-            const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
 
-            if (checklist) {
-                const addedItem = await checklistApi.addItem(checklist._id, item);
+            if (state.user.isAuthenticated) {
+                const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
 
-                dispatch(addItemSuccess(addedItem));
+                if (checklist) {
+                    const addedItem = await checklistApi.addItem(checklist._id, item);
+
+                    dispatch(addItemSuccess(addedItem));
+                }
+            } else {
+                dispatch(logout());
             }
-        }
-        catch (e){
+        } catch (e) {
             throw e;
         }
     };
@@ -89,12 +100,16 @@ export function updateItem(item) {
     return async (dispatch, getState) => {
         try {
             const state = getState();
-            const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
-            const updatedItem = await checklistApi.updateItem(checklist._id, item);
 
-            dispatch(updateItemSuccess(updatedItem));
-        }
-        catch (e){
+            if (state.user.isAuthenticated) {            
+                const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+                const updatedItem = await checklistApi.updateItem(checklist._id, item);
+
+                dispatch(updateItemSuccess(updatedItem));
+            } else {
+                dispatch(logout());
+            }
+        } catch (e) {
             throw e;
         }
     };
@@ -103,11 +118,16 @@ export function updateItem(item) {
 export function updateChecklist(checklist) {
     return async (dispatch, getState) => {
         try {
-            const updatedChecklist = await checklistApi.updateChecklist(checklist);
+            const state = getState();
 
-            dispatch(updateChecklistSuccess(updatedChecklist));
-        }
-        catch (e){
+            if (state.user.isAuthenticated) {            
+                const updatedChecklist = await checklistApi.updateChecklist(checklist);
+
+                dispatch(updateChecklistSuccess(updatedChecklist));
+            } else {
+                dispatch(logout());
+            }
+        } catch (e) {
             throw e;
         }
     };
@@ -117,21 +137,25 @@ export function selectChecklist(checklist) {
     return async (dispatch, getState) => {
         try {
             const state = getState();
-            let activeChecklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
-            let checklistToSelect = Object.assign({}, checklist);
-            
-            if (activeChecklist && Object.entries(activeChecklist).length !== 0) {
-                activeChecklist.isActive = false;
-                activeChecklist = await checklistApi.updateChecklist(activeChecklist);
-                
-                dispatch(updateChecklistSuccess(activeChecklist));
+
+            if (state.user.isAuthenticated) {            
+                let activeChecklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+                let checklistToSelect = Object.assign({}, checklist);
+
+                if (activeChecklist && Object.entries(activeChecklist).length !== 0) {
+                    activeChecklist.isActive = false;
+                    activeChecklist = await checklistApi.updateChecklist(activeChecklist);
+
+                    dispatch(updateChecklistSuccess(activeChecklist));
+                }
+
+                checklistToSelect.isActive = true;
+                checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
+                dispatch(updateChecklistSuccess(checklistToSelect));
+            } else {
+                dispatch(logout());
             }
-            
-            checklistToSelect.isActive = true;
-            checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
-            dispatch(updateChecklistSuccess(checklistToSelect));
-        }
-        catch (e){
+        } catch (e) {
             throw e;
         }
     };
@@ -141,12 +165,16 @@ export function deleteItem(item) {
     return async (dispatch, getState) => {
         try {
             const state = getState();
-            const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
-            const deletedItem = await checklistApi.deleteItem(checklist._id, item);
 
-            dispatch(deleteItemSuccess(deletedItem));
-        }
-        catch (e){
+            if (state.user.isAuthenticated) {
+                const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+                const deletedItem = await checklistApi.deleteItem(checklist._id, item);
+    
+                dispatch(deleteItemSuccess(deletedItem));
+            } else {
+                dispatch(logout());
+            }
+        } catch (e) {
             throw e;
         }
     };
@@ -155,26 +183,32 @@ export function deleteItem(item) {
 export function deleteChecklist(checklist) {
     return async (dispatch, getState) => {
         try {
-            const isActiveChecklist = checklist.isActive;
-            const deletedChecklist = await checklistApi.deleteChecklist(checklist);
+            const state = getState();
 
-            if(deletedChecklist) {
-                if(isActiveChecklist) {
-                    const state = getState();
-                    let checklistToSelect = Object.assign({}, state.checklists[0]);
-
-                    if(checklistToSelect && Object.entries(checklistToSelect).length !== 0) {
-                        checklistToSelect.isActive = true;
-                        checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
+            if (state.user.isAuthenticated) {
+                const isActiveChecklist = checklist.isActive;
+                const deletedChecklist = await checklistApi.deleteChecklist(checklist);
     
-                        dispatch(updateChecklistSuccess(checklistToSelect));
+                if (deletedChecklist) {
+                    if (isActiveChecklist) {
+                        const state = getState();
+                        let checklistToSelect = Object.assign({}, state.checklists[0]);
+    
+                        if (checklistToSelect && Object.entries(checklistToSelect).length !== 0) {
+                            checklistToSelect.isActive = true;
+                            checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
+    
+                            dispatch(updateChecklistSuccess(checklistToSelect));
+                        }
                     }
+    
+                    dispatch(deleteChecklistSuccess(deletedChecklist));
                 }
-                
-                dispatch(deleteChecklistSuccess(deletedChecklist));
+    
+            } else {
+                dispatch(logout());
             }
-        }
-        catch (e){
+        } catch (e) {
             throw e;
         }
     };

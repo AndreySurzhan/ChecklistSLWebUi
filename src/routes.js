@@ -2,12 +2,14 @@ import React from 'react';
 import { Route } from 'react-router-dom';
 import App from '../src/common/components/App/App';
 import ChecklistPage from './pages/ChecklistPage';
-import LoginPage from './pages/LoginPage';
+import LoginRegPage from './pages/LoginRegPage';
 import { PrivateRoute } from './components/PrivateRoute';
 
 export default (
     <App>
-        <Route path="/login" component={LoginPage} />
+        {["/login", "/register"].map((path, index) => 
+            <Route path={path} component={LoginRegPage} key={index} />
+        )}
         <PrivateRoute exact path="/" component={ChecklistPage}/>
     </App>
 );
