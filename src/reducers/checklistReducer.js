@@ -3,22 +3,67 @@ import initialState from './initialState';
 
 export default function checklistReducer(state = initialState.checklists, action) {
     switch (action.type) {
+        case types.REQUEST_ADD_CHECKLIST:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching
+            });
         case types.ADD_CHECKLIST_SUCCESS: 
-            return [...state, Object.assign({}, action.checklist)];
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                checklists: [...state.checklists, Object.assign({}, action.checklist)],
+            });
+        case types.ADD_CHECKLIST_FAILURE: 
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                errorMessage: action.message
+            });        
+
+        case types.REQUEST_UPDATE_CHECKLIST:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching
+            });
         case types.UPDATE_CHECKLIST_SUCCESS: {
-            return state.map(c => {
+            const checklists = state.checklists.map(c => {
                 if(c._id === action.checklist._id){
                     return Object.assign({}, action.checklist);
                 }
 
                 return c;
+            }); 
+
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                checklists,
             });
         }
-        case types.DELETE_CHECKLIST_SUCCESS: {
-            return [...state.filter(checklist => checklist._id !== action.checklist._id)];
+        case types.UPDATE_CHECKLIST_FAILURE: 
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                errorMessage: action.message
+            });      
+              
+        case types.REQUEST_DELETE_CHECKLIST:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching
+            });
+        case types.DELETE_CHECKLIST_SUCCESS: { 
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                checklists: [...state.checklists.filter(checklist => checklist._id !== action.checklist._id)]
+            });
         }
+        case types.DELETE_CHECKLIST_FAILURE: 
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                errorMessage: action.message
+            });        
+        
+        case types.REQUEST_ADD_ITEM:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching
+            });
         case types.ADD_ITEM_SUCCESS: {
-            return state.map(c => {
+            const checklists = state.checklists.map(c => {
                 if(c.isActive) {
                     const checklist = Object.assign({}, c);
                     
@@ -28,10 +73,25 @@ export default function checklistReducer(state = initialState.checklists, action
                 }
 
                 return c;
+            }); 
+
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                checklists,
             });
         }
+        case types.ADD_ITEM_FAILURE: 
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                errorMessage: action.message
+            });   
+
+        case types.REQUEST_UPDATE_ITEM:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching
+            });
         case types.UPDATE_ITEM_SUCCESS: {
-            return state.map(c => {
+            const checklists = state.checklists.map(c => {
                 if(c.isActive) {
                     const checklist = Object.assign({}, c);
 
@@ -47,11 +107,25 @@ export default function checklistReducer(state = initialState.checklists, action
                 }
 
                 return c;
+            }); 
+
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                checklists,
             });
         }
+        case types.UPDATE_ITEM_FAILURE: 
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                errorMessage: action.message
+            });     
 
+        case types.REQUEST_DELETE_ITEM:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching
+            });
         case types.DELETE_ITEM_SUCCESS: {
-            return state.map(c => {
+            const checklists = state.checklists.map(c => {
                 const hasItem = c.items.findIndex(item => item._id === action.item._id) !== -1;
 
                 if(hasItem) {
@@ -63,10 +137,33 @@ export default function checklistReducer(state = initialState.checklists, action
                 }
 
                 return c;
+            }); 
+
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                checklists,
             });
         }
-        case types.LOAD_CHECKLISTS_SUCCESS:
-            return action.checklists;
+        case types.DELETE_ITEM_FAILURE: 
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                errorMessage: action.message
+            });   
+
+        case types.REQUEST_LOAD_CHECKLISTS:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching
+            });
+        case types.LOAD_CHECKLISTS_SUCCESS:            
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                checklists: action.checklists
+            });
+        case types.LOAD_CHECKLISTS_FAILURE: 
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                errorMessage: action.message
+            });   
         default:
             return state;
     }

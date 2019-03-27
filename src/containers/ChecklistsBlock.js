@@ -66,7 +66,7 @@ class ChecklistsBlock extends React.Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        checklists: state.checklists
+        checklists: state.checklists.checklists
     };
 }
 

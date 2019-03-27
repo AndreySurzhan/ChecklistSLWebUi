@@ -4,32 +4,185 @@ import { logout } from '../actions/userActions';
 
 const checklistApi = new ChecklistApi();
 
+export function requestAddChecklist(checklist) {
+    return {
+        type: types.REQUEST_ADD_CHECKLIST,
+        checklist,
+        requiresAuth: true,
+        endpoint: '',
+        isFetching: true
+    };
+}
+
 export function addChecklistSuccess(checklist) {
-    return { type: types.ADD_CHECKLIST_SUCCESS, checklist };
+    return {
+        type: types.ADD_CHECKLIST_SUCCESS,
+        checklist,
+        isFetching: false
+    };
+}
+
+export function addChecklistError(message) {
+    return {
+        type: types.ADD_CHECKLIST_FAILURE,
+        isFetching: false,
+        message
+    };
+}
+
+export function requestUpdateChecklist(checklist) {
+    return {
+        type: types.REQUEST_UPDATE_CHECKLIST,
+        checklist,
+        requiresAuth: true,
+        endpoint: '',
+        isFetching: true
+    };
 }
 
 export function updateChecklistSuccess(checklist) {
-    return { type: types.UPDATE_CHECKLIST_SUCCESS, checklist };
+    return {
+        type: types.UPDATE_CHECKLIST_SUCCESS,
+        checklist,
+        isFetching: false
+    };
+}
+
+export function updateChecklistError(message) {
+    return {
+        type: types.UPDATE_CHECKLIST_FAILURE,
+        isFetching: false,
+        message
+    };
+}
+
+export function requestDeleteChecklist(checklist) {
+    return {
+        type: types.REQUEST_DELETE_CHECKLIST,
+        checklist,
+        requiresAuth: true,
+        endpoint: '',
+        isFetching: true
+    };
 }
 
 export function deleteChecklistSuccess(checklist) {
-    return { type: types.DELETE_CHECKLIST_SUCCESS, checklist };
+    return {
+        type: types.DELETE_CHECKLIST_SUCCESS,
+        checklist,
+        isFetching: false
+    };
+}
+
+export function deleteChecklistError(message) {
+    return {
+        type: types.DELETE_CHECKLIST_FAILURE,
+        isFetching: false,
+        message
+    };
+}
+
+export function requestLoadChecklists() {
+    return {
+        type: types.REQUEST_LOAD_CHECKLISTS,
+        requiresAuth: true,
+        endpoint: '',
+        isFetching: true
+    };
 }
 
 export function loadChecklistsSuccess(checklists) {
-    return { type: types.LOAD_CHECKLISTS_SUCCESS, checklists };
+    return {
+        type: types.LOAD_CHECKLISTS_SUCCESS,
+        checklists,
+        isFetching: false
+    };
+}
+
+export function loadChecklistsError(message) {
+    return {
+        type: types.LOAD_CHECKLISTS_FAILURE,
+        isFetching: false,
+        message
+    };
+}
+
+export function requestAddItem(item) {
+    return {
+        type: types.REQUEST_ADD_ITEM,
+        item,
+        requiresAuth: true,
+        endpoint: '',
+        isFetching: true
+    };
 }
 
 export function addItemSuccess(item) {
-    return { type: types.ADD_ITEM_SUCCESS, item };
+    return {
+        type: types.ADD_ITEM_SUCCESS,
+        item,
+        isFetching: false
+    };
+}
+
+export function addItemError(message) {
+    return {
+        type: types.ADD_ITEM_FAILURE,
+        isFetching: false,
+        message
+    };
+}
+
+export function requestUpdateItem(item) {
+    return {
+        type: types.REQUEST_UPDATE_ITEM,
+        item,
+        requiresAuth: true,
+        endpoint: '',
+        isFetching: true
+    };
 }
 
 export function updateItemSuccess(item) {
-    return { type: types.UPDATE_ITEM_SUCCESS, item };
+    return {
+        type: types.UPDATE_ITEM_SUCCESS,
+        item,
+        isFetching: false
+    };
+}
+
+export function updateItemError(message) {
+    return {
+        type: types.UPDATE_ITEM_FAILURE,
+        isFetching: false,
+        message
+    };
+}
+
+export function requestDeleteItem(item) {
+    return {
+        type: types.REQUEST_DELETE_ITEM,
+        item,
+        requiresAuth: true,
+        endpoint: '',
+        isFetching: true
+    };
 }
 
 export function deleteItemSuccess(item) {
-    return { type: types.DELETE_ITEM_SUCCESS, item };
+    return {
+        type: types.DELETE_ITEM_SUCCESS,
+        item,
+        isFetching: false
+    };
+}
+
+export function deleteItemError(message) {
+    return {
+        type: types.DELETE_ITEM_FAILURE,
+        isFetching: false,
+        message
+    };
 }
 
 export function loadChecklists() {
@@ -37,13 +190,14 @@ export function loadChecklists() {
         try {
             const state = getState();
             if (state.user.isAuthenticated) {
+                dispatch(requestLoadChecklists());
                 const checklists = await checklistApi.getAllChecklists();
                 dispatch(loadChecklistsSuccess(checklists));
             } else {
                 dispatch(logout());
             }
         } catch (e) {
-            throw e;
+            dispatch(loadChecklistsError(e.message));
         }
     };
 }
@@ -54,7 +208,9 @@ export function addChecklist(checklist) {
             const state = getState();
 
             if (state.user.isAuthenticated) {
-                const checklistToUpdate = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+                dispatch(requestAddChecklist(checklist));
+
+                const checklistToUpdate = Object.assign({}, state.checklists.checklists.filter(c => c.isActive)[0]);
                 const createdChecklist = await checklistApi.creatChecklist(checklist);
 
                 if (checklistToUpdate && Object.entries(checklistToUpdate).length !== 0) {
@@ -69,7 +225,7 @@ export function addChecklist(checklist) {
                 dispatch(logout());
             }
         } catch (e) {
-            throw e;
+            dispatch(addChecklistError(e.message));
         }
     };
 }
@@ -80,7 +236,9 @@ export function addItem(item) {
             const state = getState();
 
             if (state.user.isAuthenticated) {
-                const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+                dispatch(requestAddItem(item));
+
+                const checklist = Object.assign({}, state.checklists.checklists.filter(c => c.isActive)[0]);
 
                 if (checklist) {
                     const addedItem = await checklistApi.addItem(checklist._id, item);
@@ -91,7 +249,7 @@ export function addItem(item) {
                 dispatch(logout());
             }
         } catch (e) {
-            throw e;
+            dispatch(addItemError(e.message));
         }
     };
 }
@@ -101,8 +259,10 @@ export function updateItem(item) {
         try {
             const state = getState();
 
-            if (state.user.isAuthenticated) {            
-                const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+            if (state.user.isAuthenticated) {
+                dispatch(requestUpdateItem(item));
+
+                const checklist = Object.assign({}, state.checklists.checklists.filter(c => c.isActive)[0]);
                 const updatedItem = await checklistApi.updateItem(checklist._id, item);
 
                 dispatch(updateItemSuccess(updatedItem));
@@ -110,7 +270,7 @@ export function updateItem(item) {
                 dispatch(logout());
             }
         } catch (e) {
-            throw e;
+            dispatch(updateItemError(e.message));
         }
     };
 }
@@ -120,7 +280,9 @@ export function updateChecklist(checklist) {
         try {
             const state = getState();
 
-            if (state.user.isAuthenticated) {            
+            if (state.user.isAuthenticated) {
+                dispatch(requestUpdateChecklist(checklist));
+
                 const updatedChecklist = await checklistApi.updateChecklist(checklist);
 
                 dispatch(updateChecklistSuccess(updatedChecklist));
@@ -128,7 +290,7 @@ export function updateChecklist(checklist) {
                 dispatch(logout());
             }
         } catch (e) {
-            throw e;
+            dispatch(updateChecklistError(e.message));
         }
     };
 }
@@ -138,8 +300,10 @@ export function selectChecklist(checklist) {
         try {
             const state = getState();
 
-            if (state.user.isAuthenticated) {            
-                let activeChecklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+            if (state.user.isAuthenticated) {
+                dispatch(requestUpdateChecklist(checklist));
+
+                let activeChecklist = Object.assign({}, state.checklists.checklists.filter(c => c.isActive)[0]);
                 let checklistToSelect = Object.assign({}, checklist);
 
                 if (activeChecklist && Object.entries(activeChecklist).length !== 0) {
@@ -149,6 +313,8 @@ export function selectChecklist(checklist) {
                     dispatch(updateChecklistSuccess(activeChecklist));
                 }
 
+                dispatch(requestUpdateChecklist(checklistToSelect));
+
                 checklistToSelect.isActive = true;
                 checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
                 dispatch(updateChecklistSuccess(checklistToSelect));
@@ -156,7 +322,7 @@ export function selectChecklist(checklist) {
                 dispatch(logout());
             }
         } catch (e) {
-            throw e;
+            dispatch(updateChecklistError(e.message));
         }
     };
 }
@@ -167,15 +333,17 @@ export function deleteItem(item) {
             const state = getState();
 
             if (state.user.isAuthenticated) {
-                const checklist = Object.assign({}, state.checklists.filter(c => c.isActive)[0]);
+                dispatch(requestDeleteItem(item));
+
+                const checklist = Object.assign({}, state.checklists.checklists.filter(c => c.isActive)[0]);
                 const deletedItem = await checklistApi.deleteItem(checklist._id, item);
-    
+
                 dispatch(deleteItemSuccess(deletedItem));
             } else {
                 dispatch(logout());
             }
         } catch (e) {
-            throw e;
+            dispatch(deleteItemError(e.message));
         }
     };
 }
@@ -186,30 +354,33 @@ export function deleteChecklist(checklist) {
             const state = getState();
 
             if (state.user.isAuthenticated) {
+                dispatch(requestDeleteChecklist(checklist));
+
                 const isActiveChecklist = checklist.isActive;
                 const deletedChecklist = await checklistApi.deleteChecklist(checklist);
-    
+
                 if (deletedChecklist) {
                     if (isActiveChecklist) {
                         const state = getState();
-                        let checklistToSelect = Object.assign({}, state.checklists[0]);
-    
+                        let checklistToSelect = Object.assign({}, state.checklists.checklists[0]);
+
                         if (checklistToSelect && Object.entries(checklistToSelect).length !== 0) {
+                            dispatch(requestUpdateChecklist(checklistToSelect));
+
                             checklistToSelect.isActive = true;
                             checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
-    
+
                             dispatch(updateChecklistSuccess(checklistToSelect));
                         }
                     }
-    
+
                     dispatch(deleteChecklistSuccess(deletedChecklist));
                 }
-    
             } else {
                 dispatch(logout());
             }
         } catch (e) {
-            throw e;
+            dispatch(deleteChecklistError(e.message));
         }
     };
 }
