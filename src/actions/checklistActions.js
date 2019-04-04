@@ -9,7 +9,6 @@ export function requestAddChecklist(checklist) {
         type: types.REQUEST_ADD_CHECKLIST,
         checklist,
         requiresAuth: true,
-        endpoint: '',
         isFetching: true
     };
 }
@@ -35,7 +34,6 @@ export function requestUpdateChecklist(checklist) {
         type: types.REQUEST_UPDATE_CHECKLIST,
         checklist,
         requiresAuth: true,
-        endpoint: '',
         isFetching: true
     };
 }
@@ -61,7 +59,6 @@ export function requestDeleteChecklist(checklist) {
         type: types.REQUEST_DELETE_CHECKLIST,
         checklist,
         requiresAuth: true,
-        endpoint: '',
         isFetching: true
     };
 }
@@ -86,7 +83,6 @@ export function requestLoadChecklists() {
     return {
         type: types.REQUEST_LOAD_CHECKLISTS,
         requiresAuth: true,
-        endpoint: '',
         isFetching: true
     };
 }
@@ -112,7 +108,6 @@ export function requestAddItem(item) {
         type: types.REQUEST_ADD_ITEM,
         item,
         requiresAuth: true,
-        endpoint: '',
         isFetching: true
     };
 }
@@ -138,7 +133,6 @@ export function requestUpdateItem(item) {
         type: types.REQUEST_UPDATE_ITEM,
         item,
         requiresAuth: true,
-        endpoint: '',
         isFetching: true
     };
 }
@@ -164,7 +158,6 @@ export function requestDeleteItem(item) {
         type: types.REQUEST_DELETE_ITEM,
         item,
         requiresAuth: true,
-        endpoint: '',
         isFetching: true
     };
 }
