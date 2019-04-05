@@ -1,3 +1,6 @@
+
+import { isTokenValid } from '../utils/checkTokenExpirationMiddleware';
+
 export default {
     checklists: {
         checklists: [],
@@ -5,6 +8,7 @@ export default {
     },
     auth: {
         isFetching: false,
-        isAuthenticated: localStorage.getItem('token') ? true : false
+        user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
+        isAuthenticated: isTokenValid()
     }
 }

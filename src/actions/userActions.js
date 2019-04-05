@@ -88,8 +88,8 @@ export function login(creds) {
             dispatch(requestLogin(creds));
 
             const user = await userApi.login(creds);
-
-            localStorage.setItem('token', user.token);
+            
+            localStorage.setItem('user', JSON.stringify(user));
 
             dispatch(loginSuccess(user));
 
@@ -107,7 +107,7 @@ export function register(creds) {
 
             const user = await userApi.register(creds);
 
-            localStorage.setItem('token', user.token);
+            localStorage.setItem('user', JSON.stringify(user));
 
             dispatch(registerSuccess(user));
 
@@ -122,7 +122,7 @@ export function logout() {
     return async (dispatch, getState) => {
         history.push('/login');
         
-        localStorage.removeItem('token');
+        localStorage.removeItem('user');
 
         dispatch({type: types.SET_AUTH_TO_FALSE});
 

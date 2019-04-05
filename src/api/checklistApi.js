@@ -11,7 +11,7 @@ class ChecklistApi {
     }
 
     setAuthHeader() {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
 
         if(token) {
             this.headers.Authorization = 'Bearer ' + token;
