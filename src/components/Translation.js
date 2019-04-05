@@ -1,8 +1,8 @@
 import React from "react";
 import ListItem from "@material-ui/core/ListItem";
-import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import FlagIconFactory from "react-flag-icon-css";
+import Typography from '@material-ui/core/Typography';
+import { SupportedLanguages } from '../utils/enums'
 import { withStyles } from "@material-ui/core/styles";
 import { PropTypes } from 'prop-types';
 
@@ -17,14 +17,12 @@ const styles = theme => ({
     }
 });
 
-const FlagIcon = FlagIconFactory(React, { useCssModules: false });
-
 const Translation = ({ classes, translation }) => {
     return (
         <ListItem className={classes.root}>
-            <ListItemIcon>
-                <FlagIcon code={translation.language} />
-            </ListItemIcon>
+            <Typography>
+                {SupportedLanguages.getNameByCode(translation.language)}:&nbsp;
+            </Typography>
             <ListItemText
                 className={classes.listItemText}
                 secondary={translation.translation}
