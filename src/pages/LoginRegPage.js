@@ -49,9 +49,9 @@ class LoginRegPage extends Component {
         super(props, context);
 
         this.state = {
-            username: 'andrei',
-            password: '123',
-            languages: ['ru', 'en'],
+            username: '',
+            password: '',
+            languages: [],
             isLoginForm: this.isLoginForm()
         };
 

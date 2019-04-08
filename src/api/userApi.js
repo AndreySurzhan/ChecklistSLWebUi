@@ -10,6 +10,16 @@ class UserApi {
         };
     }
 
+    setAuthHeader() {
+        const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
+
+        if(token) {
+            this.headers.Authorization = 'Bearer ' + token;
+        } else {
+            throw new Error('Token doesn\'t exist');
+        }
+    }
+
     async login(user) {
         try {
             const response = await fetch(`${this.basicUrl}/login`, {
@@ -32,6 +42,25 @@ class UserApi {
             const response = await fetch(`${this.basicUrl}/registration`, {
                 headers: this.headers,
                 method: 'POST',
+                body: JSON.stringify(user)
+            });
+            if (!response.ok) {
+                throw new Error('API error');
+            }
+
+            return response.json();
+        } catch (e) {
+            throw e;
+        }
+    }
+
+    async updateUser(user) {
+        try {
+            this.setAuthHeader();
+            
+            const response = await fetch(`${this.basicUrl}/user`, {
+                headers: this.headers,
+                method: 'PATCH',
                 body: JSON.stringify(user)
             });
             if (!response.ok) {

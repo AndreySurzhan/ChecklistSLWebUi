@@ -82,6 +82,32 @@ export function registeryError(message) {
     };
 }
 
+export function requestUpdateUser(creds) {
+    return {
+        type: types.REQUEST_UPDATE_USER,
+        creds,
+        isFetching: true,
+        requiresAuth: true
+    };
+}
+
+export function updateUserSuccess(user) {
+    return {
+        type: types.UPDATE_USER_SUCCESS,
+        user,
+        isFetching: false,
+        requiresAuth: true
+    };
+}
+
+export function updateUserError(message) {
+    return {
+        type: types.UPDATE_USER_FAILURE,
+        isFetching: false,
+        message
+    };
+}
+
 export function login(creds) {
     return async (dispatch, getState) => {
         try {
@@ -127,5 +153,27 @@ export function logout() {
         dispatch({type: types.SET_AUTH_TO_FALSE});
 
         dispatch(logoutSuccess());
+    };
+}
+
+export function updateUser(user) {
+    return async (dispatch, getState) => {
+        try {
+            const state = getState();
+
+            if (state.user.isAuthenticated) {
+                dispatch(requestUpdateUser());
+
+                const updatedUser = await userApi.updateUser(user);
+
+                localStorage.setItem('user', JSON.stringify(updatedUser));
+
+                dispatch(updateUserSuccess(updatedUser));
+            } else {
+                dispatch(logout());
+            }
+        } catch (e) {
+            dispatch(updateUserError(e.message));
+        }
     };
 }

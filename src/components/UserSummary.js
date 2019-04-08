@@ -2,6 +2,8 @@ import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import LogoutButton from "./LogoutButton";
+import IconButton from '@material-ui/core/IconButton';
+import Language from '@material-ui/icons/Language';
 import { withStyles } from "@material-ui/core/styles";
 import { PropTypes } from 'prop-types';
 
@@ -23,12 +25,23 @@ const styles = theme => ({
         color: "#FFFFFF",
         alignSelf: "center",
         marginLeft: theme.spacing.unit * 2
-    }
+    },
+    languageIcon: {
+        float: "right",
+        padding: 0
+    },
 });
 
-const UserSummary = ({ classes, user, handleLogoutClick }) => {
+const UserSummary = ({ classes, user, handleLogoutClick, handleLanguagesButtonClick }) => {
     return (
         <div className={classes.root}>
+            <IconButton 
+                className={classes.languageIcon} 
+                aria-label="Change Languages"
+                id="clsl-change-language-button"
+                onClick={handleLanguagesButtonClick}>
+                <Language fontSize="large"/>
+            </IconButton>
             <div className={classes.gridRow}>
                 <Avatar
                     src={user.avatar || null}
@@ -37,7 +50,7 @@ const UserSummary = ({ classes, user, handleLogoutClick }) => {
                 >
                     {user.avatar
                         ? null
-                        : user.username.charAt(0)}
+                        : user.username.charAt(0).toUpperCase()}
                 </Avatar>
                 <Typography className={classes.typography} variant="h6">
                     {user.username}
@@ -51,7 +64,8 @@ const UserSummary = ({ classes, user, handleLogoutClick }) => {
 UserSummary.propTypes = {
     classes: PropTypes.object.isRequired,
     user: PropTypes.object.isRequired,
-    handleLogoutClick: PropTypes.func.isRequired
+    handleLogoutClick: PropTypes.func.isRequired,
+    handleLanguagesButtonClick: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(UserSummary);

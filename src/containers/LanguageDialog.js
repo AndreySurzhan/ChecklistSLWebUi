@@ -12,6 +12,10 @@ import Checkbox from '../common/components/Checkbox';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
+    dialogContent: {
+        width: '400px',
+        height: '400px'
+    }
 });
 
 class LanguageDialog extends React.Component {
@@ -31,8 +35,9 @@ class LanguageDialog extends React.Component {
         this.props.onClose(this.state.languages);
     };
 
-    handleCheckboxChange = languageName => event => {
-        const languages = Object.assign({}, this.state.languages);
+    handleCheckboxChange = languageName => event =>
+    {
+        const languages = [...this.state.languages];
 
         for (let i = 0; i < languages.length; i++) {
             const language = languages[i];
@@ -49,11 +54,18 @@ class LanguageDialog extends React.Component {
         });
     };
 
-    render() {
+    render()
+    {
+        const { classes } = this.props;
+
         return (
-            <Dialog disableBackdropClick disableEscapeKeyDown maxWidth="xs" aria-labelledby="language-dialog-title" open={this.props.open}>
+            <Dialog 
+            disableBackdropClick={this.props.isInitLoad} 
+            disableEscapeKeyDown={this.props.isInitLoad} 
+            aria-labelledby="language-dialog-title"
+             open={this.props.open}>
                 <DialogTitle id="clsl-language-dialog-title">Supported Languages</DialogTitle>
-                <DialogContent>
+                <DialogContent className={classes.dialogContent}>
                     <FormLabel>Select language</FormLabel>
                     <FormGroup id="clsl-language-dialog-checkboxes">
                         {this.props.languages.map(language => (
@@ -85,6 +97,10 @@ class LanguageDialog extends React.Component {
 }
 
 LanguageDialog.propTypes = {
+    open: PropTypes.bool.isRequired,
+    languages: PropTypes.array.isRequired,
+    classes: PropTypes.object.isRequired,
+    isInitLoad: PropTypes.bool.isRequired
 };
 
 export default withStyles(styles)(LanguageDialog);

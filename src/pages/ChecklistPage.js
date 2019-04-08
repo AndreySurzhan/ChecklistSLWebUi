@@ -28,17 +28,47 @@ class ChecklistPage extends React.Component {
 
         this.state = {
             user: Object.assign({}, this.props.user.user),
-            openLanguageDialog: false,            
-            languages: new SupportedLanguages().languages.map(l => {
-                return {
-                    name: l.name,
-                    code: l.code,
-                    checked: this.props.user.user.languages.includes(l.code)
-                };
-            })
+            openLanguageDialog: this.props.user.user.languages.length === 0,            
+            languages: this.getSupportedLanguage()
         };
 
         this.handleLogoutClick = this.handleLogoutClick.bind(this);
+        this.handleLanguagesButtonClick = this.handleLanguagesButtonClick.bind(this);
+    }
+
+    getSupportedLanguage = () => {
+        return new SupportedLanguages().languages.map(l => {
+            return {
+                name: l.name,
+                code: l.code,
+                checked: this.props.user.user.languages.includes(l.code)
+            };
+        })
+        // Sort Alphabetically 
+        .sort((a, b) => {
+            var nameA = a.name.toUpperCase();
+            var nameB = b.name.toUpperCase();
+            if (nameA < nameB) {
+              return -1;
+            }
+
+            if (nameA > nameB) {
+              return 1;
+            }
+          
+            return 0;
+        })
+        // Checked at the top of the list
+        .sort((a, b) => {
+            if (a.checked && !b.checked) {
+                return -1;
+            }
+            if (!a.checked && b.checked){
+                return 1
+            }
+
+            return 0;
+        });
     }
 
     user = {
@@ -56,17 +86,30 @@ class ChecklistPage extends React.Component {
     };
 
     handleLanguageDialogClose = languages => {
-        const user = Object.assign({}, this.props.user);
+        const user = Object.assign({}, this.state.user);
+        const langCodes = languages.filter(l => l.checked).map(l => l.code);
 
-        user.languages = languages.filter(l => l.checked).map(l => l.code);
+        if (langCodes.length !== user.languages.length || !langCodes.every((l) => user.languages.includes(l))) {
+            user.languages = langCodes;
 
-        console.log('Call update User API', user);
+            this.props.userActions.updateUser(user);
 
+            this.setState({
+                openLanguageDialog: false,
+                languages,
+                user
+            });
+        } else {
+            this.setState({
+                openLanguageDialog: false
+            }); 
+        }
+    }
+
+    handleLanguagesButtonClick = event => {
         this.setState({
-            openLanguageDialog: false,
-            languages,
-            user
-        });
+            openLanguageDialog: true
+        }); 
     }
 
     render() {
@@ -80,6 +123,7 @@ class ChecklistPage extends React.Component {
                             id="clsl-user-summary-container"
                             user={this.props.user.user}
                             handleLogoutClick={this.handleLogoutClick}
+                            handleLanguagesButtonClick={this.handleLanguagesButtonClick}
                         />
                         <ChecklistsBlock id="clsl-checklists-block-container" />
                     </Grid>
@@ -87,7 +131,11 @@ class ChecklistPage extends React.Component {
                         <ItemsBlock id="clsl-items-block-container" items={this.items} />
                     </Grid>
                 </Grid>
-                <LanguageDialog languages={this.state.languages} open={this.state.openLanguageDialog} onClose={this.handleLanguageDialogClose} />
+                <LanguageDialog 
+                    languages={this.state.languages} 
+                    open={this.state.openLanguageDialog} 
+                    onClose={this.handleLanguageDialogClose}
+                    isInitLoad={this.state.user.languages.length === 0} />
             </React.Fragment>
         );
     }
