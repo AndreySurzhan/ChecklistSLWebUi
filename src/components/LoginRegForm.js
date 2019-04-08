@@ -34,7 +34,7 @@ const LoginRegForm = ({ classes, formProps, children }) => {
                 <TextField
                     className={classes.textField}
                     id={usernameInput.id}
-                    label={usernameInput.lable}
+                    label={usernameInput.label}
                     name={usernameInput.name}
                     type={usernameInput.type}
                     value={usernameInput.value}
@@ -45,7 +45,7 @@ const LoginRegForm = ({ classes, formProps, children }) => {
                 <TextField
                     className={classes.textField}
                     id={passwordInput.id}
-                    label={passwordInput.lable}
+                    label={passwordInput.label}
                     name={passwordInput.name}
                     type={passwordInput.type}
                     value={passwordInput.value}

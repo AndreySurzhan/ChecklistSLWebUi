@@ -66,7 +66,7 @@ class LoginRegPage extends Component {
 
     handleChange = name => event => {
         this.setState({
-            [name]: event.target.value || event.target.checked
+            [name]: event.target.value
         });
     };
 
