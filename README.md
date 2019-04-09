@@ -5,17 +5,19 @@ Single page web application that aims to help people learning foreign languages 
 My wife inspired me to creating that simple app.
 
 Sometimes when she wanted to know translation for an item for her shopping checklist she had to open translation service -> type in item name -> find out translation -> type in translated item in checklist application. It might be a little bit cumbersome to do.
+
 So we thought that would be good idea to combine translation functionality with checklist app.
+
 As for me it was a good opportunity to start learning [React](https://github.com/facebook/create-react-app), [Redux](https://redux.js.org/) and apply [progressive web app philosophy](https://developers.google.com/web/progressive-web-apps/).
 
 
 ## Stack of technologies
 
-Whole project is full javascript stack as I love javascript.
+Whole project is full javascript stack.
 
 ### Database
 
-I've been using non-sql database [MongoDB](https://www.mongodb.com/). 
+I am using non-sql database [MongoDB](https://www.mongodb.com/). 
 [Mongoose](https://mongoosejs.com/) as nodejs object modeling tool.
 
 ### Web API
@@ -23,9 +25,9 @@ I've been using non-sql database [MongoDB](https://www.mongodb.com/).
 [ChecklistSLApi Git Repository](https://github.com/AndreySurzhan/ChecklistSLApi)
 [ChecklistSLApi Swagger page](https://checklist-sl-api.herokuapp.com/api)
 
-To handle routes, utilize middlewares I used [Exressjs](https://expressjs.com/).
+To handle routes, utilize middlewares I use [Exressjs](https://expressjs.com/).
 
-To authenticate and authorize users I implemented Breare strategy using [Passportjs](http://www.passportjs.org/).
+To authenticate and authorize users I implemented Bearer strategy using [Passportjs](http://www.passportjs.org/).
 Routes are authenticated with passing [jwt](https://jwt.io/) in header.
 
 Translation logic is implemented on api side.
