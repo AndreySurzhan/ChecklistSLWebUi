@@ -1,6 +1,7 @@
 import React from 'react';
 import ItemsBlock from '../containers/ItemsBlock';
 import Grid from '@material-ui/core/Grid';
+import {Link} from 'react-router-dom';
 import UserSummary from '../components/UserSummary';
 import ChecklistsBlock from '../containers/ChecklistsBlock';
 import LanguageDialog from '../containers/LanguageDialog';
@@ -11,7 +12,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
-import avatarImage from '../images/avatar.jpg';
 
 const styles = theme => ({
     root: {
@@ -70,11 +70,6 @@ class ChecklistPage extends React.Component {
             return 0;
         });
     }
-
-    user = {
-        username: 'Sponge Bob Round Panties',
-        avatar: avatarImage
-    };
 
     componentWillMount() {
         this.props.checklistActions.loadChecklists();

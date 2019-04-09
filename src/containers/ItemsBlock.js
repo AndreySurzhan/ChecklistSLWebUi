@@ -1,4 +1,5 @@
 import React from 'react';
+import Button from '@material-ui/core/Button';
 import AddNewElement from '../common/components/AddNewElement';
 import ItemsList from '../components/ItemsList';
 import * as checklistActions from '../actions/checklistActions';
@@ -10,6 +11,13 @@ import { PropTypes } from 'prop-types';
 const styles = theme => ({
     root: {
         minHeight: '100vh'
+    },
+    buttonLink: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        marginBottom: theme.spacing.unit,
+        marginRight: theme.spacing.unit
     }
 });
 
@@ -71,6 +79,9 @@ class ItemsBlock extends React.Component {
             <div id="cl-items-container" className={classes.root}>
                 <AddNewElement element={addNewItemElementProps} />
                 <ItemsList items={this.props.items} />
+                <Button href="http://translate.yandex.com/" className={classes.buttonLink}>
+                    Powered by Yandex.Translate
+                </Button>
             </div>
         );
     }
