@@ -1,6 +1,11 @@
 import Api from './api';
 
 class ChecklistApi extends Api {
+    constructor() {
+        super();
+        
+        this.basicUrl = `${this.basicUrl}/checklist`
+    }
 
     async creatChecklist(checklist) {
         try {
