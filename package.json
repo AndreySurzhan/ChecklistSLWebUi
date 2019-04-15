@@ -16,16 +16,13 @@
     "react-scripts": "2.1.1",
     "redux": "^4.0.1",
     "redux-immutable-state-invariant": "^2.1.0",
-    "redux-thunk": "^2.3.0",
-    "serve": "^11.0.0"
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
-    "start": "npm run build && npm run server",
-    "dev": "react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject",
-    "server": "serve -s build -l 80"
+    "eject": "react-scripts eject"
   },
   "eslintConfig": {
     "extends": "react-app"
