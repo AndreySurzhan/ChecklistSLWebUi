@@ -1,24 +1,6 @@
-class ChecklistApi {
-    constructor() {
-        this.basicUrl = 'https://checklist-sl-api.herokuapp.com/api/checklist';
-        this.headers = {
-            mode: 'no-cors',
-            'Access-Control-Allow-Origin': '*',
-            'Access-Control-Allow-Credentials': true,
-            Accept: 'application/json',
-            'Content-Type': 'application/json'
-        };
-    }
+import Api from './api';
 
-    setAuthHeader() {
-        const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
-
-        if(token) {
-            this.headers.Authorization = 'Bearer ' + token;
-        } else {
-            throw new Error('Token doesn\'t exist');
-        }
-    }
+class ChecklistApi extends Api {
 
     async creatChecklist(checklist) {
         try {

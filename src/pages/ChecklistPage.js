@@ -1,7 +1,6 @@
 import React from 'react';
 import ItemsBlock from '../containers/ItemsBlock';
 import Grid from '@material-ui/core/Grid';
-import {Link} from 'react-router-dom';
 import UserSummary from '../components/UserSummary';
 import ChecklistsBlock from '../containers/ChecklistsBlock';
 import LanguageDialog from '../containers/LanguageDialog';

@@ -78,7 +78,7 @@ class LoginRegPage extends Component {
                 password: this.state.password
             }
         );
-
+        console.log(process.env.REACT_APP_API_URL)
         this.props.actions.login(user);
     };
 
@@ -115,7 +115,7 @@ class LoginRegPage extends Component {
             title: 'Login to ChecklistSL',
             input: {
                 username: {
-                    id: 'clsl-username-,login-input',
+                    id: 'clsl-username-login-input',
                     label: 'Username',
                     name: 'username',
                     type: 'email',
@@ -132,12 +132,12 @@ class LoginRegPage extends Component {
                 }
             },
             submitButton: {
-                lable: 'Submit Login form',
+                label: 'Submit Login form',
                 handleClick: this.handleLoginClick,
                 title: 'Login'
             }
         };
-        const regFormPorps = {
+        const regFormProps = {
             title: 'Register to ChecklistSL',
             input: {
                 username: {
@@ -158,7 +158,7 @@ class LoginRegPage extends Component {
                 }
             },
             submitButton: {
-                lable: 'Submit Registration form',
+                label: 'Submit Registration form',
                 handleClick: this.handleRegistrationClick,
                 title: 'Register'
             }
@@ -168,9 +168,9 @@ class LoginRegPage extends Component {
             <div id="clsl-login-container" className={[classes.root, classes.flexContainerColumns].join(' ')}>
                 <Paper className={[classes.paper, classes.flexContainerColumns].join(' ')}>
                     <React.Fragment>
-                        <LoginRegForm formProps={this.state.isLoginForm ? loginFormProps : regFormPorps} />
+                        <LoginRegForm formProps={this.state.isLoginForm ? loginFormProps : regFormProps} />
                         <Typography>
-                            {this.state.isLoginForm ? "Don't have an account yet?" : 'Alredy have account?'}
+                            {this.state.isLoginForm ? "Don't have an account yet?" : 'Already have account?'}
                             <Button onClick={this.handleChangeForm}>
                                 {this.state.isLoginForm ? 'Register' : 'Login'}
                             </Button>

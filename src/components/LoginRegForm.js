@@ -58,7 +58,7 @@ const LoginRegForm = ({ classes, formProps, children }) => {
             <Button
                 className={classes.button}
                 onClick={submitButton.handleClick}
-                label={submitButton.lable}
+                label={submitButton.label}
                 variant="contained"
                 color="primary"
             >

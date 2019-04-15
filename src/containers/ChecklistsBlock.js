@@ -2,7 +2,6 @@ import React from 'react';
 import AddNewElement from '../common/components/AddNewElement';
 import ChecklistsList from '../components/ChecklistsList';
 import * as checklistActions from '../actions/checklistActions';
-import ChecklistApi from '../api/checklistApi';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
@@ -22,7 +21,6 @@ class ChecklistsBlock extends React.Component {
                 users: []
             }
         };
-        this.checklsitApi = new ChecklistApi();
 
         this.onClickAddElement = this.onClickAddElement.bind(this);
         this.onTextInputChange = this.onTextInputChange.bind(this);
@@ -49,7 +47,7 @@ class ChecklistsBlock extends React.Component {
             buttonId: 'clsl-add-new-checklist-button',
             name: 'newChecklistInput',
             placeholder: 'Type in New Checklist Name',
-            lable: 'Add New Checklist',
+            label: 'Add New Checklist',
             onClickAddElement: this.onClickAddElement,
             onTextInputChange: this.onTextInputChange,
             value: this.textInputValue

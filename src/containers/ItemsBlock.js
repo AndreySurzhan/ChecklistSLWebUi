@@ -67,9 +67,9 @@ class ItemsBlock extends React.Component {
             id: 'clsl-add-new-item-form',
             textInputId: 'clsl-add-new-item-text-input',
             buttonId: 'clsl-add-new-item-button',
-            name: 'newItemlistInput',
+            name: 'newItemListInput',
             placeholder: 'Type in New Item text',
-            lable: 'Add New Item',
+            label: 'Add New Item',
             onClickAddElement: this.onClickAddElement,
             onTextInputChange: this.onTextInputChange,
             value: this.state.item.text
