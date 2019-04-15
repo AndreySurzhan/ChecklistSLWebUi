@@ -23,11 +23,12 @@ I am using non-sql database [MongoDB](https://www.mongodb.com/).
 ### Web API
 
 [ChecklistSLApi Git Repository](https://github.com/AndreySurzhan/ChecklistSLApi)
+
 [ChecklistSLApi Swagger page](https://checklist-sl-api.herokuapp.com/api)
 
-To handle routes, utilize middlewares I use [Exressjs](https://expressjs.com/).
+I use [Exressjs](https://expressjs.com/) to handle routes, utilize middlewares.
 
-To authenticate and authorize users I implemented Bearer strategy using [Passportjs](http://www.passportjs.org/).
+I implemented Bearer strategy using [Passportjs](http://www.passportjs.org/) to authenticate and authorize users.
 Routes are authenticated with passing [jwt](https://jwt.io/) in header.
 
 Translation logic is implemented on api side.
