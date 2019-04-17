@@ -206,7 +206,7 @@ export function addChecklist(checklist) {
             if (state.user.isAuthenticated) {
                 dispatch(requestAddChecklist(checklist));
 
-                const checklistToUpdate = Object.assign({}, state.checklists.checklists.filter(c => c.isActive)[0]);
+                const checklistToUpdate = Object.assign({}, state.checklists.checklists.find(c => c.isActive));
                 const createdChecklist = await checklistApi.creatChecklist(checklist);
 
                 if (checklistToUpdate && Object.entries(checklistToUpdate).length !== 0) {
@@ -234,7 +234,7 @@ export function addItem(item) {
             if (state.user.isAuthenticated) {
                 dispatch(requestAddItem(item));
 
-                const checklist = Object.assign({}, state.checklists.checklists.filter(c => c.isActive)[0]);
+                const checklist = Object.assign({}, state.checklists.checklists.find(c => c.isActive));
 
                 if (checklist) {
                     const addedItem = await checklistApi.addItem(checklist._id, item);
@@ -258,7 +258,7 @@ export function updateItem(item) {
             if (state.user.isAuthenticated) {
                 dispatch(requestUpdateItem(item));
 
-                const checklist = Object.assign({}, state.checklists.checklists.filter(c => c.isActive)[0]);
+                const checklist = Object.assign({}, state.checklists.checklists.find(c => c.isActive));
                 const updatedItem = await checklistApi.updateItem(checklist._id, item);
 
                 dispatch(updateItemSuccess(updatedItem));
@@ -299,7 +299,7 @@ export function selectChecklist(checklist) {
             if (state.user.isAuthenticated) {
                 dispatch(requestUpdateChecklist(checklist));
 
-                let activeChecklist = Object.assign({}, state.checklists.checklists.filter(c => c.isActive)[0]);
+                let activeChecklist = Object.assign({}, state.checklists.checklists.find(c => c.isActive));
                 let checklistToSelect = Object.assign({}, checklist);
 
                 if (activeChecklist && Object.entries(activeChecklist).length !== 0) {
@@ -331,7 +331,7 @@ export function deleteItem(item) {
             if (state.user.isAuthenticated) {
                 dispatch(requestDeleteItem(item));
 
-                const checklist = Object.assign({}, state.checklists.checklists.filter(c => c.isActive)[0]);
+                const checklist = Object.assign({}, state.checklists.checklists.find(c => c.isActive));
                 const deletedItem = await checklistApi.deleteItem(checklist._id, item);
 
                 dispatch(deleteItemSuccess(deletedItem));

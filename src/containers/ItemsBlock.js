@@ -93,7 +93,7 @@ function mapStateToProps(state, ownProps) {
         translations: [],
         isChecked: false
     };
-    const activeChecklist = state.checklists.checklists.filter(c => c.isActive)[0];
+    const activeChecklist = state.checklists.checklists.find(c => c.isActive);
     const items = activeChecklist ? activeChecklist.items : [];
 
     return {
