@@ -5,22 +5,22 @@ export default function checklistReducer(state = initialState.checklists, action
     switch (action.type) {
         case types.REQUEST_ADD_CHECKLIST:
             return Object.assign({}, state, {
-                isFetching: action.isFetching
+                isApiChecklist: action.isApiChecklist
             });
         case types.ADD_CHECKLIST_SUCCESS: 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiChecklist: action.isApiChecklist,
                 checklists: [...state.checklists, Object.assign({}, action.checklist)],
             });
         case types.ADD_CHECKLIST_FAILURE: 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiChecklist: action.isApiChecklist,
                 errorMessage: action.message
             });        
 
         case types.REQUEST_UPDATE_CHECKLIST:
             return Object.assign({}, state, {
-                isFetching: action.isFetching
+                isApiChecklist: action.isApiChecklist
             });
         case types.UPDATE_CHECKLIST_SUCCESS: {
             const checklists = state.checklists.map(c => {
@@ -32,35 +32,35 @@ export default function checklistReducer(state = initialState.checklists, action
             }); 
 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiChecklist: action.isApiChecklist,
                 checklists,
             });
         }
         case types.UPDATE_CHECKLIST_FAILURE: 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiChecklist: action.isApiChecklist,
                 errorMessage: action.message
             });      
               
         case types.REQUEST_DELETE_CHECKLIST:
             return Object.assign({}, state, {
-                isFetching: action.isFetching
+                isApiChecklist: action.isApiChecklist
             });
         case types.DELETE_CHECKLIST_SUCCESS: { 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiChecklist: action.isApiChecklist,
                 checklists: [...state.checklists.filter(checklist => checklist._id !== action.checklist._id)]
             });
         }
         case types.DELETE_CHECKLIST_FAILURE: 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiChecklist: action.isApiChecklist,
                 errorMessage: action.message
             });        
         
         case types.REQUEST_ADD_ITEM:
             return Object.assign({}, state, {
-                isFetching: action.isFetching
+                isApiItem: action.isApiItem
             });
         case types.ADD_ITEM_SUCCESS: {
             const checklists = state.checklists.map(c => {
@@ -76,19 +76,19 @@ export default function checklistReducer(state = initialState.checklists, action
             }); 
 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiItem: action.isApiItem,
                 checklists,
             });
         }
         case types.ADD_ITEM_FAILURE: 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiItem: action.isApiItem,
                 errorMessage: action.message
             });   
 
         case types.REQUEST_UPDATE_ITEM:
             return Object.assign({}, state, {
-                isFetching: action.isFetching
+                isApiItem: action.isApiItem
             });
         case types.UPDATE_ITEM_SUCCESS: {
             const checklists = state.checklists.map(c => {
@@ -110,19 +110,19 @@ export default function checklistReducer(state = initialState.checklists, action
             }); 
 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiItem: action.isApiItem,
                 checklists,
             });
         }
         case types.UPDATE_ITEM_FAILURE: 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiItem: action.isApiItem,
                 errorMessage: action.message
             });     
 
         case types.REQUEST_DELETE_ITEM:
             return Object.assign({}, state, {
-                isFetching: action.isFetching
+                isApiItem: action.isApiItem
             });
         case types.DELETE_ITEM_SUCCESS: {
             const checklists = state.checklists.map(c => {
@@ -140,13 +140,13 @@ export default function checklistReducer(state = initialState.checklists, action
             }); 
 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiItem: action.isApiItem,
                 checklists,
             });
         }
         case types.DELETE_ITEM_FAILURE: 
             return Object.assign({}, state, {
-                isFetching: action.isFetching,
+                isApiItem: action.isApiItem,
                 errorMessage: action.message
             });   
 

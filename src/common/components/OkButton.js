@@ -1,6 +1,7 @@
 import React from 'react';
 import IconButton from '@material-ui/core/IconButton';
 import Done from '@material-ui/icons/Done';
+import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -20,6 +21,11 @@ const OkButton = ({classes, handleClick}) => {
             <Done />
         </IconButton>
     </div>);
+};
+
+OkButton.propTypes = {
+    classes: PropTypes.object.isRequired,
+    handleClick: PropTypes.func.isRequired
 };
 
 export default withStyles(styles)(OkButton);

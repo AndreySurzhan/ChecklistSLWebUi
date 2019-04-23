@@ -35,8 +35,7 @@ class LanguageDialog extends React.Component {
         this.props.onClose(this.state.languages);
     };
 
-    handleCheckboxChange = languageName => event =>
-    {
+    handleCheckboxChange = languageName => event => {
         const languages = [...this.state.languages];
 
         for (let i = 0; i < languages.length; i++) {
@@ -54,16 +53,16 @@ class LanguageDialog extends React.Component {
         });
     };
 
-    render()
-    {
+    render() {
         const { classes } = this.props;
 
         return (
-            <Dialog 
-            disableBackdropClick={this.props.isInitLoad} 
-            disableEscapeKeyDown={this.props.isInitLoad} 
-            aria-labelledby="language-dialog-title"
-             open={this.props.open}>
+            <Dialog
+                disableBackdropClick={this.props.isInitLoad}
+                disableEscapeKeyDown={this.props.isInitLoad}
+                aria-labelledby="language-dialog-title"
+                open={this.props.open}
+            >
                 <DialogTitle id="clsl-language-dialog-title">Supported Languages</DialogTitle>
                 <DialogContent className={classes.dialogContent}>
                     <FormLabel>Select language</FormLabel>

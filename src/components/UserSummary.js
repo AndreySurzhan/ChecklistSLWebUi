@@ -1,9 +1,6 @@
 import React from "react";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
-import LogoutButton from "./LogoutButton";
-import IconButton from '@material-ui/core/IconButton';
-import Language from '@material-ui/icons/Language';
 import { withStyles } from "@material-ui/core/styles";
 import { PropTypes } from 'prop-types';
 
@@ -25,23 +22,12 @@ const styles = theme => ({
         color: "#FFFFFF",
         alignSelf: "center",
         marginLeft: theme.spacing.unit * 2
-    },
-    languageIcon: {
-        float: "right",
-        padding: 0
-    },
+    }
 });
 
-const UserSummary = ({ classes, user, handleLogoutClick, handleLanguagesButtonClick }) => {
+const UserSummary = ({ classes, user }) => {
     return (
         <div className={classes.root}>
-            <IconButton 
-                className={classes.languageIcon} 
-                aria-label="Change Languages"
-                id="clsl-change-language-button"
-                onClick={handleLanguagesButtonClick}>
-                <Language fontSize="large"/>
-            </IconButton>
             <div className={classes.gridRow}>
                 <Avatar
                     src={user.avatar || null}
@@ -56,16 +42,13 @@ const UserSummary = ({ classes, user, handleLogoutClick, handleLanguagesButtonCl
                     {user.username}
                 </Typography>
             </div>
-            <LogoutButton handleClick={handleLogoutClick}/>
         </div>
     );
 };
 
 UserSummary.propTypes = {
     classes: PropTypes.object.isRequired,
-    user: PropTypes.object.isRequired,
-    handleLogoutClick: PropTypes.func.isRequired,
-    handleLanguagesButtonClick: PropTypes.func.isRequired
+    user: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(UserSummary);

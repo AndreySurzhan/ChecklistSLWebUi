@@ -9,7 +9,7 @@ export function requestAddChecklist(checklist) {
         type: types.REQUEST_ADD_CHECKLIST,
         checklist,
         requiresAuth: true,
-        isFetching: true
+        isApiChecklist: true
     };
 }
 
@@ -17,14 +17,14 @@ export function addChecklistSuccess(checklist) {
     return {
         type: types.ADD_CHECKLIST_SUCCESS,
         checklist,
-        isFetching: false
+        isApiChecklist: false
     };
 }
 
 export function addChecklistError(message) {
     return {
         type: types.ADD_CHECKLIST_FAILURE,
-        isFetching: false,
+        isApiChecklist: false,
         message
     };
 }
@@ -34,7 +34,7 @@ export function requestUpdateChecklist(checklist) {
         type: types.REQUEST_UPDATE_CHECKLIST,
         checklist,
         requiresAuth: true,
-        isFetching: true
+        isApiChecklist: true
     };
 }
 
@@ -42,14 +42,14 @@ export function updateChecklistSuccess(checklist) {
     return {
         type: types.UPDATE_CHECKLIST_SUCCESS,
         checklist,
-        isFetching: false
+        isApiChecklist: false
     };
 }
 
 export function updateChecklistError(message) {
     return {
         type: types.UPDATE_CHECKLIST_FAILURE,
-        isFetching: false,
+        isApiChecklist: false,
         message
     };
 }
@@ -59,7 +59,7 @@ export function requestDeleteChecklist(checklist) {
         type: types.REQUEST_DELETE_CHECKLIST,
         checklist,
         requiresAuth: true,
-        isFetching: true
+        isApiChecklist: true
     };
 }
 
@@ -67,14 +67,14 @@ export function deleteChecklistSuccess(checklist) {
     return {
         type: types.DELETE_CHECKLIST_SUCCESS,
         checklist,
-        isFetching: false
+        isApiChecklist: false
     };
 }
 
 export function deleteChecklistError(message) {
     return {
         type: types.DELETE_CHECKLIST_FAILURE,
-        isFetching: false,
+        isApiChecklist: false,
         message
     };
 }
@@ -83,6 +83,7 @@ export function requestLoadChecklists() {
     return {
         type: types.REQUEST_LOAD_CHECKLISTS,
         requiresAuth: true,
+        isApiChecklist: true,
         isFetching: true
     };
 }
@@ -91,6 +92,7 @@ export function loadChecklistsSuccess(checklists) {
     return {
         type: types.LOAD_CHECKLISTS_SUCCESS,
         checklists,
+        isApiChecklist: false,
         isFetching: false
     };
 }
@@ -98,6 +100,7 @@ export function loadChecklistsSuccess(checklists) {
 export function loadChecklistsError(message) {
     return {
         type: types.LOAD_CHECKLISTS_FAILURE,
+        isApiChecklist: false,
         isFetching: false,
         message
     };
@@ -108,7 +111,7 @@ export function requestAddItem(item) {
         type: types.REQUEST_ADD_ITEM,
         item,
         requiresAuth: true,
-        isFetching: true
+        isApiItem: true
     };
 }
 
@@ -116,7 +119,7 @@ export function addItemSuccess(item) {
     return {
         type: types.ADD_ITEM_SUCCESS,
         item,
-        isFetching: false
+        isApiItem: false
     };
 }
 
@@ -124,7 +127,7 @@ export function addItemError(message) {
     return {
         type: types.ADD_ITEM_FAILURE,
         isFetching: false,
-        message
+        isApiItem: false
     };
 }
 
@@ -133,7 +136,7 @@ export function requestUpdateItem(item) {
         type: types.REQUEST_UPDATE_ITEM,
         item,
         requiresAuth: true,
-        isFetching: true
+        isApiItem: true
     };
 }
 
@@ -141,14 +144,14 @@ export function updateItemSuccess(item) {
     return {
         type: types.UPDATE_ITEM_SUCCESS,
         item,
-        isFetching: false
+        isApiItem: false
     };
 }
 
 export function updateItemError(message) {
     return {
         type: types.UPDATE_ITEM_FAILURE,
-        isFetching: false,
+        isApiItem: false,
         message
     };
 }
@@ -158,7 +161,7 @@ export function requestDeleteItem(item) {
         type: types.REQUEST_DELETE_ITEM,
         item,
         requiresAuth: true,
-        isFetching: true
+        isApiItem: true
     };
 }
 
@@ -166,14 +169,14 @@ export function deleteItemSuccess(item) {
     return {
         type: types.DELETE_ITEM_SUCCESS,
         item,
-        isFetching: false
+        isApiItem: false
     };
 }
 
 export function deleteItemError(message) {
     return {
         type: types.DELETE_ITEM_FAILURE,
-        isFetching: false,
+        isApiItem: false,
         message
     };
 }

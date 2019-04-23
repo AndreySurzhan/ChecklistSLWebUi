@@ -1,9 +1,11 @@
 import React from 'react';
 import ItemsBlock from '../containers/ItemsBlock';
 import Grid from '@material-ui/core/Grid';
-import UserSummary from '../components/UserSummary';
+import NavBar from '../components/NavBar';
 import ChecklistsBlock from '../containers/ChecklistsBlock';
 import LanguageDialog from '../containers/LanguageDialog';
+import Language from '@material-ui/icons/Language';
+import ExitToApp from '@material-ui/icons/ExitToApp';
 import { SupportedLanguages } from '../utils/enums';
 import * as checklistActions from '../actions/checklistActions';
 import * as userActions from '../actions/userActions';
@@ -27,48 +29,53 @@ class ChecklistPage extends React.Component {
 
         this.state = {
             user: Object.assign({}, this.props.user.user),
-            openLanguageDialog: this.props.user.user.languages.length === 0,            
-            languages: this.getSupportedLanguage()
+            openLanguageDialog: this.props.user.user.languages.length === 0,
+            languages: this.getSupportedLanguage(),
+            drawerIsOpened: false
         };
 
         this.handleLogoutClick = this.handleLogoutClick.bind(this);
         this.handleLanguagesButtonClick = this.handleLanguagesButtonClick.bind(this);
+        this.toggleDrawer = this.toggleDrawer.bind(this);
     }
 
     getSupportedLanguage = () => {
-        return new SupportedLanguages().languages.map(l => {
-            return {
-                name: l.name,
-                code: l.code,
-                checked: this.props.user.user.languages.includes(l.code)
-            };
-        })
-        // Sort Alphabetically 
-        .sort((a, b) => {
-            var nameA = a.name.toUpperCase();
-            var nameB = b.name.toUpperCase();
-            if (nameA < nameB) {
-              return -1;
-            }
+        return (
+            new SupportedLanguages().languages
+                .map(l => {
+                    return {
+                        name: l.name,
+                        code: l.code,
+                        checked: this.props.user.user.languages.includes(l.code)
+                    };
+                })
+                // Sort Alphabetically
+                .sort((a, b) => {
+                    var nameA = a.name.toUpperCase();
+                    var nameB = b.name.toUpperCase();
+                    if (nameA < nameB) {
+                        return -1;
+                    }
 
-            if (nameA > nameB) {
-              return 1;
-            }
-          
-            return 0;
-        })
-        // Checked at the top of the list
-        .sort((a, b) => {
-            if (a.checked && !b.checked) {
-                return -1;
-            }
-            if (!a.checked && b.checked){
-                return 1
-            }
+                    if (nameA > nameB) {
+                        return 1;
+                    }
 
-            return 0;
-        });
-    }
+                    return 0;
+                })
+                // Checked at the top of the list
+                .sort((a, b) => {
+                    if (a.checked && !b.checked) {
+                        return -1;
+                    }
+                    if (!a.checked && b.checked) {
+                        return 1;
+                    }
+
+                    return 0;
+                })
+        );
+    };
 
     componentWillMount() {
         this.props.checklistActions.loadChecklists();
@@ -83,7 +90,7 @@ class ChecklistPage extends React.Component {
         const user = Object.assign({}, this.state.user);
         const langCodes = languages.filter(l => l.checked).map(l => l.code);
 
-        if (langCodes.length !== user.languages.length || !langCodes.every((l) => user.languages.includes(l))) {
+        if (langCodes.length !== user.languages.length || !langCodes.every(l => user.languages.includes(l))) {
             user.languages = langCodes;
 
             this.props.userActions.updateUser(user);
@@ -96,40 +103,59 @@ class ChecklistPage extends React.Component {
         } else {
             this.setState({
                 openLanguageDialog: false
-            }); 
+            });
         }
-    }
+    };
 
     handleLanguagesButtonClick = event => {
         this.setState({
             openLanguageDialog: true
-        }); 
-    }
+        });
+    };
+
+    toggleDrawer = event => {
+        this.setState({
+            drawerIsOpened: this.state.drawerIsOpened ? false : true
+        });
+    };
 
     render() {
         const { classes } = this.props;
+        const drawerOptions = [
+            {
+                text: 'Languages',
+                handleClick: this.handleLanguagesButtonClick,
+                icon: <Language />
+            },
+            {
+                text: 'Logout',
+                handleClick: this.handleLogoutClick,
+                icon: <ExitToApp />
+            }
+        ];
 
         return (
             <React.Fragment>
+                <NavBar
+                    openDrawer={this.state.drawerIsOpened}
+                    toggleDrawer={this.toggleDrawer}
+                    drawerOptions={drawerOptions}
+                    user={this.props.user.user}
+                />
                 <Grid id="clsl-checklist-page-container" container direction="row" spacing={0} className={classes.root}>
                     <Grid id="clsl-nav-container" item xs={3} className={classes.nav}>
-                        <UserSummary
-                            id="clsl-user-summary-container"
-                            user={this.props.user.user}
-                            handleLogoutClick={this.handleLogoutClick}
-                            handleLanguagesButtonClick={this.handleLanguagesButtonClick}
-                        />
                         <ChecklistsBlock id="clsl-checklists-block-container" />
                     </Grid>
                     <Grid id="clsl-items-container" item xs={9}>
                         <ItemsBlock id="clsl-items-block-container" items={this.items} />
                     </Grid>
                 </Grid>
-                <LanguageDialog 
-                    languages={this.state.languages} 
-                    open={this.state.openLanguageDialog} 
+                <LanguageDialog
+                    languages={this.state.languages}
+                    open={this.state.openLanguageDialog}
                     onClose={this.handleLanguageDialogClose}
-                    isInitLoad={this.state.user.languages.length === 0} />
+                    isInitLoad={this.state.user.languages.length === 0}
+                />
             </React.Fragment>
         );
     }
