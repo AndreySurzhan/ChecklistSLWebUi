@@ -6,9 +6,11 @@ import { ListItem } from "@material-ui/core";
 import { PropTypes } from 'prop-types';
 
 const styles = theme => ({
+    root: {
+        width: '100%'
+    },
     listItem: {
         padding: 0,
-        width: "100%",
         marginTop: theme.spacing.unit / 2,
         marginBottom: theme.spacing.unit
     }
@@ -16,7 +18,7 @@ const styles = theme => ({
 
 const ItemsList = ({ classes, items }) => {
     return (
-        <List>
+        <List className={classes.root}>
             {items.map((item, i) => (
                 <ListItem key={i} className={classes.listItem}>
                     <Item item={item} />

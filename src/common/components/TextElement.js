@@ -1,5 +1,4 @@
 import React from "react";
-import Card from "@material-ui/core/Card";
 import Typography from "@material-ui/core/Typography";
 import InputBase  from '@material-ui/core/InputBase';
 import PropTypes from 'prop-types';
@@ -33,12 +32,12 @@ const renderTestField = (handleChange, textOnChange, className) => {
     />)
 }
 
-const TextElement = ({ className, classes, textOnChange, text, children, handleChange, editMode}) => {
+const TextElement = ({classes, textOnChange, text, children, handleChange, editMode}) => {
     return (
-        <Card className={[classes.root, className].join(' ')}>
+        <div className={classes.root}>
             {editMode ? renderTestField(handleChange, textOnChange, classes.input): <Typography variant="h6">{text}</Typography>}
             {children}
-        </Card>
+        </div>
     );
 };
 

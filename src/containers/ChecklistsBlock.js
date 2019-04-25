@@ -1,6 +1,5 @@
 import React from 'react';
-import AddNewElement from '../common/components/AddNewElement';
-import ChecklistsList from '../components/ChecklistsList';
+import ChecklistItem from '../containers/ChecklistItem';
 import * as checklistActions from '../actions/checklistActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -39,24 +38,26 @@ class ChecklistsBlock extends React.Component {
             }
         });
     };
-    
-    render() {
-        const addNewChecklistElementProps = {
-            id: 'clsl-add-new-checklist-form',
-            textInputId: 'clsl-add-new-checklist-text-input',
-            buttonId: 'clsl-add-new-checklist-button',
-            name: 'newChecklistInput',
-            placeholder: 'Type in New Checklist Name',
-            label: 'Add New Checklist',
-            onClickAddElement: this.onClickAddElement,
-            onTextInputChange: this.onTextInputChange,
-            value: this.textInputValue
-        };
 
+    render() {
+        // const addNewChecklistElementProps = {
+        //     id: 'clsl-add-new-checklist-form',
+        //     textInputId: 'clsl-add-new-checklist-text-input',
+        //     buttonId: 'clsl-add-new-checklist-button',
+        //     name: 'newChecklistInput',
+        //     placeholder: 'Type in New Checklist Name',
+        //     label: 'Add New Checklist',
+        //     onClickAddElement: this.onClickAddElement,
+        //     onTextInputChange: this.onTextInputChange,
+        //     value: this.textInputValue
+        // };
         return (
             <div id="cl-checklists-container">
-                <AddNewElement element={addNewChecklistElementProps} />
-                <ChecklistsList checklists={this.props.checklists} />
+                {this.props.checklists.map(checklist => (
+                    <ChecklistItem key={checklist._id} checklist={checklist}/>
+                ))}
+                {/* <AddNewElement element={addNewChecklistElementProps} />
+                <ChecklistsList checklists={this.props.checklists} /> */}
             </div>
         );
     }

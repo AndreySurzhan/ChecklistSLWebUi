@@ -2,6 +2,7 @@ import React from "react";
 import Checkbox from "../common/components/Checkbox";
 import Divider from "@material-ui/core/Divider";
 import List from "@material-ui/core/List";
+import Grid from '@material-ui/core/Grid';
 import MoreButtonBlock from "../common/containers/MoreButtonBlock";
 import OkButton from '../common/components/OkButton';
 import Translation from "../components/Translation";
@@ -89,22 +90,22 @@ class Item extends React.Component {
         ];
 
         return (
-            <React.Fragment>
-                <Checkbox checked={item.isChecked} handleChange={this.handleCheckboxChange} />
-                <TextElement 
-                        handleChange={this.onTextInputChange}
-                        editMode={this.state.editMode}
-                        text={item.text}
-                        textOnChange={this.state.item.text}>
-                    <Divider light />
-                    <List className={classes.translations}>
-                        {item.translations.map((translation, i) => (
-                            <Translation key={i} translation={translation} />
-                        ))}
-                    </List>
-                </TextElement>
-                {this.state.editMode ? <OkButton handleClick={this.handleOkClick(this.state.item)}/> : <MoreButtonBlock options={options} />}
-            </React.Fragment>
+                <React.Fragment>
+                    <Checkbox checked={item.isChecked} handleChange={this.handleCheckboxChange}/>
+                    <TextElement 
+                            handleChange={this.onTextInputChange}
+                            editMode={this.state.editMode}
+                            text={item.text}
+                            textOnChange={this.state.item.text}>
+                        <Divider light />
+                        <List className={classes.translations}>
+                            {item.translations.map((translation, i) => (
+                                <Translation key={i} translation={translation} />
+                            ))}
+                        </List>
+                    </TextElement>
+                    {this.state.editMode ? <OkButton handleClick={this.handleOkClick(this.state.item)}/> : <MoreButtonBlock options={options} />}
+                </React.Fragment>
         );
     }
 }

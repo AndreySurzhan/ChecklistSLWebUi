@@ -1,5 +1,4 @@
 import React from 'react';
-import ItemsBlock from '../containers/ItemsBlock';
 import Grid from '@material-ui/core/Grid';
 import NavBar from '../components/NavBar';
 import ChecklistsBlock from '../containers/ChecklistsBlock';
@@ -143,11 +142,8 @@ class ChecklistPage extends React.Component {
                     user={this.props.user.user}
                 />
                 <Grid id="clsl-checklist-page-container" container direction="row" spacing={0} className={classes.root}>
-                    <Grid id="clsl-nav-container" item xs={3} className={classes.nav}>
+                    <Grid id="clsl-nav-container" item xs={12} className={classes.nav}>
                         <ChecklistsBlock id="clsl-checklists-block-container" />
-                    </Grid>
-                    <Grid id="clsl-items-container" item xs={9}>
-                        <ItemsBlock id="clsl-items-block-container" items={this.items} />
                     </Grid>
                 </Grid>
                 <LanguageDialog

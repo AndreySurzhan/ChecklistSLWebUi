@@ -209,15 +209,7 @@ export function addChecklist(checklist) {
             if (state.user.isAuthenticated) {
                 dispatch(requestAddChecklist(checklist));
 
-                const checklistToUpdate = Object.assign({}, state.checklists.checklists.find(c => c.isActive));
                 const createdChecklist = await checklistApi.creatChecklist(checklist);
-
-                if (checklistToUpdate && Object.entries(checklistToUpdate).length !== 0) {
-                    checklistToUpdate.isActive = false;
-                    const updatedChecklist = await checklistApi.updateChecklist(checklistToUpdate);
-
-                    dispatch(updateChecklistSuccess(updatedChecklist));
-                }
 
                 dispatch(addChecklistSuccess(createdChecklist));
             } else {
@@ -294,38 +286,6 @@ export function updateChecklist(checklist) {
     };
 }
 
-export function selectChecklist(checklist) {
-    return async (dispatch, getState) => {
-        try {
-            const state = getState();
-
-            if (state.user.isAuthenticated) {
-                dispatch(requestUpdateChecklist(checklist));
-
-                let activeChecklist = Object.assign({}, state.checklists.checklists.find(c => c.isActive));
-                let checklistToSelect = Object.assign({}, checklist);
-
-                if (activeChecklist && Object.entries(activeChecklist).length !== 0) {
-                    activeChecklist.isActive = false;
-                    activeChecklist = await checklistApi.updateChecklist(activeChecklist);
-
-                    dispatch(updateChecklistSuccess(activeChecklist));
-                }
-
-                dispatch(requestUpdateChecklist(checklistToSelect));
-
-                checklistToSelect.isActive = true;
-                checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
-                dispatch(updateChecklistSuccess(checklistToSelect));
-            } else {
-                dispatch(logout());
-            }
-        } catch (e) {
-            dispatch(updateChecklistError(e.message));
-        }
-    };
-}
-
 export function deleteItem(item) {
     return async (dispatch, getState) => {
         try {
@@ -355,25 +315,12 @@ export function deleteChecklist(checklist) {
             if (state.user.isAuthenticated) {
                 dispatch(requestDeleteChecklist(checklist));
 
-                const isActiveChecklist = checklist.isActive;
                 const deletedChecklist = await checklistApi.deleteChecklist(checklist);
 
                 if (deletedChecklist) {
-                    if (isActiveChecklist) {
-                        const state = getState();
-                        let checklistToSelect = Object.assign({}, state.checklists.checklists[0]);
-
-                        if (checklistToSelect && Object.entries(checklistToSelect).length !== 0) {
-                            dispatch(requestUpdateChecklist(checklistToSelect));
-
-                            checklistToSelect.isActive = true;
-                            checklistToSelect = await checklistApi.updateChecklist(checklistToSelect);
-
-                            dispatch(updateChecklistSuccess(checklistToSelect));
-                        }
-                    }
-
                     dispatch(deleteChecklistSuccess(deletedChecklist));
+                } else {
+                    throw new Error('Failed to delete checklist');
                 }
             } else {
                 dispatch(logout());
