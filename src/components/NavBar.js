@@ -11,7 +11,8 @@ import MenuIcon from '@material-ui/icons/Menu';
 const styles = theme => ({
     root: {
         width: '100%',
-        backgroundColor: "#455A64"
+        backgroundColor: "#455A64",
+        paddingLeft: theme.spacing.unit * 1.5
     },
     menuButton: {
         marginLeft: -12,
@@ -24,11 +25,11 @@ const NavBar = ({classes, user, toggleDrawer, openDrawer, drawerOptions}) => {
         return (
             <div>
                 <AppBar position="static" className={classes.root}>
-                    <Toolbar>
-                        <IconButton className={classes.menuButton} color="inherit" aria-label="Open drawer">
+                    <Toolbar disableGutters variant="dense">
+                        <IconButton className={classes.menuButton} aria-label="Open drawer">
                             <MenuIcon onClick={toggleDrawer} />
                         </IconButton>
-                        <Typography className={classes.title} variant="h6" color="inherit" noWrap>
+                        <Typography className={classes.title} variant="h6">
                             ChecklistSL
                         </Typography>
                     </Toolbar>

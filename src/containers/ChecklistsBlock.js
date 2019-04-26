@@ -1,18 +1,36 @@
 import React from 'react';
 import ChecklistItem from '../containers/ChecklistItem';
+import ElementDialog from '../common/components/ElementDialog';
+import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import * as checklistActions from '../actions/checklistActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 
-const styles = theme => ({});
+const styles = theme => ({
+    addChecklistButton: {
+        position: 'absolute',
+        top: 24,
+        right: 100,
+        zIndex: 10
+    },
+    buttonLink: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        marginBottom: theme.spacing.unit,
+        marginRight: theme.spacing.unit
+    }
+});
 
 class ChecklistsBlock extends React.Component {
     constructor(props, context) {
         super(props, context);
-        this.textInputValue = '';
         this.state = {
+            openElementDialog: false,
             checklist: {
                 name: '',
                 isActive: true,
@@ -21,43 +39,70 @@ class ChecklistsBlock extends React.Component {
             }
         };
 
-        this.onClickAddElement = this.onClickAddElement.bind(this);
         this.onTextInputChange = this.onTextInputChange.bind(this);
     }
 
-    onClickAddElement = event => {
+    handleOkClick = event => {
         this.props.actions.addChecklist(this.state.checklist);
-        this.textInputValue = '';
-    };
-
-    onTextInputChange = event => {
-        this.textInputValue = event.target.value;
         this.setState({
+            openElementDialog: false,
             checklist: {
-                name: this.textInputValue
+                name: ''
             }
         });
     };
 
+    onTextInputChange = event => {
+        this.setState({
+            checklist: {
+                name: event.target.value
+            }
+        });
+    };
+
+    handleCloseElementDialog = event => {
+        this.setState({
+            openElementDialog: false,
+            checklist: {
+                name: ''
+            }
+        });
+    };
+
+    handAddNewChecklistButtonClick = event => {
+        this.setState({
+            openElementDialog: true
+        });
+    };
+
     render() {
-        // const addNewChecklistElementProps = {
-        //     id: 'clsl-add-new-checklist-form',
-        //     textInputId: 'clsl-add-new-checklist-text-input',
-        //     buttonId: 'clsl-add-new-checklist-button',
-        //     name: 'newChecklistInput',
-        //     placeholder: 'Type in New Checklist Name',
-        //     label: 'Add New Checklist',
-        //     onClickAddElement: this.onClickAddElement,
-        //     onTextInputChange: this.onTextInputChange,
-        //     value: this.textInputValue
-        // };
+        const { classes } = this.props;
         return (
             <div id="cl-checklists-container">
+                <Fab
+                    color="primary"
+                    aria-label="Add checklist"
+                    size="medium"
+                    className={classes.addChecklistButton}
+                    onClick={this.handAddNewChecklistButtonClick}
+                >
+                    <AddIcon />
+                </Fab>
                 {this.props.checklists.map(checklist => (
-                    <ChecklistItem key={checklist._id} checklist={checklist}/>
+                    <ChecklistItem key={checklist._id} checklist={checklist} />
                 ))}
-                {/* <AddNewElement element={addNewChecklistElementProps} />
-                <ChecklistsList checklists={this.props.checklists} /> */}
+                <Button href="http://translate.yandex.com/" className={classes.buttonLink}>
+                    Powered by Yandex.Translate
+                </Button>
+                <ElementDialog
+                    name="checklist"
+                    handleClose={this.handleCloseElementDialog}
+                    open={this.state.openElementDialog}
+                    handleOkButtonClick={this.handleOkClick}
+                    text={this.state.checklist.name}
+                    handleChange={this.onTextInputChange}
+                    isNew={true}
+                />
             </div>
         );
     }

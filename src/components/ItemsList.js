@@ -1,18 +1,21 @@
-import React from "react";
-import List from "@material-ui/core/List";
-import Item from "../containers/Item";
-import { withStyles } from "@material-ui/core/styles";
-import { ListItem } from "@material-ui/core";
+import React from 'react';
+import List from '@material-ui/core/List';
+import Item from '../containers/Item';
+import { withStyles } from '@material-ui/core/styles';
+import { ListItem } from '@material-ui/core';
 import { PropTypes } from 'prop-types';
 
 const styles = theme => ({
     root: {
-        width: '100%'
+        width: '100%',
+        padding: 0
     },
     listItem: {
         padding: 0,
-        marginTop: theme.spacing.unit / 2,
-        marginBottom: theme.spacing.unit
+        borderBottom: '1px solid rgba(0,0,0,.125)',
+        '&:last-child': {
+            borderBottom: 'none'
+        }
     }
 });
 

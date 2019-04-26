@@ -1,19 +1,22 @@
-import React from "react";
-import Checkbox from "../common/components/Checkbox";
-import Divider from "@material-ui/core/Divider";
-import List from "@material-ui/core/List";
-import Grid from '@material-ui/core/Grid';
-import MoreButtonBlock from "../common/containers/MoreButtonBlock";
-import OkButton from '../common/components/OkButton';
-import Translation from "../components/Translation";
-import TextElement from "../common/components/TextElement";
+import React from 'react';
+import Checkbox from '../common/components/Checkbox';
+import Divider from '@material-ui/core/Divider';
+import List from '@material-ui/core/List';
+import MoreButtonBlock from '../common/containers/MoreButtonBlock';
+import Translation from '../components/Translation';
+import ElementDialog from '../common/components/ElementDialog';
+import Typography from '@material-ui/core/Typography';
 import * as checklistActions from '../actions/checklistActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PropTypes } from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
+    itemText: {
+        width: '100%',
+        fontWeight: 600
+    },
     translations: {
         padding: 0,
         paddingTop: theme.spacing.unit / 3,
@@ -21,91 +24,103 @@ const styles = theme => ({
     }
 });
 
-class Item extends React.Component {    
+class Item extends React.Component {
     constructor(props, context) {
         super(props, context);
 
         this.state = {
             item: Object.assign({}, this.props.item),
-            editMode: false
+            openElementDialog: false
         };
 
-        this.handleCheckboxChange = this.handleCheckboxChange.bind(this)
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
     }
-    
 
     handleDelete = item => event => {
+        event.stopPropagation();
         this.props.actions.deleteItem(item);
     };
 
-    handleEdit = event => {        
+    handleEdit = event => {
+        event.stopPropagation();
         this.setState({
-            editMode: true
+            openElementDialog: true
         });
     };
 
     handleCheckboxChange = event => {
         const item = Object.assign({}, this.props.item);
         item.isChecked = event.target.checked;
-        
+
         this.props.actions.updateItem(item);
 
         this.setState({
             item: item
         });
-    }
+    };
 
     handleOkClick = item => event => {
         this.props.actions.updateItem(item);
         this.setState({
-            editMode: false
+            openElementDialog: false
         });
-
-    }
+    };
 
     onTextInputChange = event => {
-        const item = Object.assign({}, this.state.item)
+        const item = Object.assign({}, this.state.item);
 
         item.text = event.target.value;
 
         this.setState({
             item: item
         });
-    }
+    };
+
+    handleCloseElementDialog = event => {
+        this.setState({
+            openElementDialog: false,
+            item: this.props.item
+        });
+    };
 
     render() {
         const { classes } = this.props;
         const item = this.props.item;
         const options = [
             {
-                text: "Delete",
+                text: 'Delete',
                 handleClick: this.handleDelete(item)
             },
             {
-                text: "Edit",
+                text: 'Edit',
                 handleClick: this.handleEdit
             }
         ];
 
         return (
-                <React.Fragment>
-                    <Checkbox checked={item.isChecked} handleChange={this.handleCheckboxChange}/>
-                    <TextElement 
-                            handleChange={this.onTextInputChange}
-                            editMode={this.state.editMode}
-                            text={item.text}
-                            textOnChange={this.state.item.text}>
-                        <Divider light />
-                        <List className={classes.translations}>
-                            {item.translations.map((translation, i) => (
-                                <Translation key={i} translation={translation} />
-                            ))}
-                        </List>
-                    </TextElement>
-                    {this.state.editMode ? <OkButton handleClick={this.handleOkClick(this.state.item)}/> : <MoreButtonBlock options={options} />}
-                </React.Fragment>
+            <React.Fragment>
+                <Checkbox checked={item.isChecked} handleChange={this.handleCheckboxChange} />
+                <Typography className={classes.itemText} variant="subtitle1">{item.text}
+                    <Divider light />
+                    <List className={classes.translations}>
+                        {item.translations.map((translation, i) => (
+                            <Translation key={i} translation={translation} />
+                        ))}
+                    </List>
+                </Typography>
+                <MoreButtonBlock options={options} />
+                <ElementDialog
+                    name="item"
+                    handleClose={this.handleCloseElementDialog}
+                    open={this.state.openElementDialog}
+                    handleOkButtonClick={this.handleOkClick(this.state.item)}
+                    text={this.state.item.text}
+                    handleChange={this.onTextInputChange}
+                    isNew={false}
+                />
+            </React.Fragment>
         );
     }
 }

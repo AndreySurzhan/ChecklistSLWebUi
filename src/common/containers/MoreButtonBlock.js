@@ -21,10 +21,12 @@ class MoreButtonBlock extends React.Component {
     };
 
     handleClick = event => {
+        event.stopPropagation(); //prevent clicking parent
         this.setState({ anchorEl: event.currentTarget });
     };
 
-    handleClose = () => {
+    handleClose = event => {
+        event.stopPropagation(); //prevent clicking parent
         this.setState({ anchorEl: null });
     };
 

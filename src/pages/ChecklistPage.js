@@ -134,14 +134,14 @@ class ChecklistPage extends React.Component {
         ];
 
         return (
-            <React.Fragment>
+            <div className={classes.root}>
                 <NavBar
                     openDrawer={this.state.drawerIsOpened}
                     toggleDrawer={this.toggleDrawer}
                     drawerOptions={drawerOptions}
                     user={this.props.user.user}
                 />
-                <Grid id="clsl-checklist-page-container" container direction="row" spacing={0} className={classes.root}>
+                <Grid id="clsl-checklist-page-container" container direction="row" spacing={0}>
                     <Grid id="clsl-nav-container" item xs={12} className={classes.nav}>
                         <ChecklistsBlock id="clsl-checklists-block-container" />
                     </Grid>
@@ -152,7 +152,7 @@ class ChecklistPage extends React.Component {
                     onClose={this.handleLanguageDialogClose}
                     isInitLoad={this.state.user.languages.length === 0}
                 />
-            </React.Fragment>
+            </div>
         );
     }
 }

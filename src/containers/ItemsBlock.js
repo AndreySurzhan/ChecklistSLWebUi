@@ -79,9 +79,7 @@ class ItemsBlock extends React.Component {
             <div id="cl-items-container" className={classes.root}>
                 <AddNewElement element={addNewItemElementProps} />
                 <ItemsList items={this.props.items} />
-                <Button href="http://translate.yandex.com/" className={classes.buttonLink}>
-                    Powered by Yandex.Translate
-                </Button>
+
             </div>
         );
     }
