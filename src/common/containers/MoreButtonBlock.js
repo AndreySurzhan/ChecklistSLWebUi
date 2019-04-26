@@ -32,7 +32,7 @@ class MoreButtonBlock extends React.Component {
 
     handleOptionClick = action => event => {
         action(event);
-        this.handleClose();
+        this.handleClose(event);
     };
 
     render() {
