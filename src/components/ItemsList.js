@@ -5,6 +5,7 @@ import { withStyles } from '@material-ui/core/styles';
 import { ListItem } from '@material-ui/core';
 import { PropTypes } from 'prop-types';
 
+const borderStyle = '1px solid rgba(0,0,0,.125)';
 const styles = theme => ({
     root: {
         width: '100%',
@@ -12,9 +13,12 @@ const styles = theme => ({
     },
     listItem: {
         padding: 0,
-        borderBottom: '1px solid rgba(0,0,0,.125)',
+        borderBottom: borderStyle,
         '&:last-child': {
             borderBottom: 'none'
+        },        
+        '&:first-child': {
+            borderTop: borderStyle
         }
     }
 });

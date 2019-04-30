@@ -6,6 +6,9 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreButtonBlock from '../common/containers/MoreButtonBlock';
 import ItemsList from '../components/ItemsList';
 import Typography from '@material-ui/core/Typography';
+import InputBase  from '@material-ui/core/InputBase';
+import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
+import IconButton from '@material-ui/core/IconButton';
 import ElementDialog from '../common/components/ElementDialog';
 import { withStyles } from '@material-ui/core/styles';
 import * as checklistActions from '../actions/checklistActions';
@@ -16,6 +19,15 @@ import { PropTypes } from 'prop-types';
 const styles = theme => ({
     checklistName: {
         width: '100%'
+    },
+    newItemForm: {
+        display: 'flex',
+        flexDirection: 'row'
+    },
+    itemInput: {
+        width: '100%',
+        marginLeft: theme.spacing.unit * 2,
+        marginTop: theme.spacing.unit
     }
 });
 
@@ -57,7 +69,9 @@ ExpansionPanelSummary.muiName = 'ExpansionPanelSummary';
 
 const ExpansionPanelDetails = withStyles(theme => ({
     root: {
-        padding: 0
+        padding: 0,
+        display: 'flex',
+        flexDirection: 'column'
     }
 }))(MuiExpansionPanelDetails);
 
@@ -67,6 +81,7 @@ class ChecklistItem extends React.Component {
 
         this.state = {
             checklist: Object.assign({}, this.props.checklist),
+            item: Object.assign({}, this.props.item),
             openElementDialog: false
         };
 
@@ -74,12 +89,13 @@ class ChecklistItem extends React.Component {
         this.handleShare = this.handleShare.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleOkClick = this.handleOkClick.bind(this);
-        this.onTextInputChange = this.onTextInputChange.bind(this);
+        this.onChecklistInputChange = this.onChecklistInputChange.bind(this);
+        this.onItemInputChange = this.onItemInputChange.bind(this);
     }
 
     handleDelete = checklist => event => {
         event.stopPropagation();
-        this.props.actions.deleteChecklist(checklist);
+        this.props.checklistActions.deleteChecklist(checklist);
     };
 
     handleEdit = event => {
@@ -95,13 +111,13 @@ class ChecklistItem extends React.Component {
     };
 
     handleOkClick = checklist => event => {
-        this.props.actions.updateChecklist(checklist);
+        this.props.checklistActions.updateChecklist(checklist);
         this.setState({
             openElementDialog: false
         });
     };
 
-    onTextInputChange = event => {
+    onChecklistInputChange = event => {
         const checklist = Object.assign({}, this.state.checklist);
 
         checklist.name = event.target.value;
@@ -111,10 +127,37 @@ class ChecklistItem extends React.Component {
         });
     };
 
+    onItemInputChange = event => {
+        this.setState({
+            item: {
+                text: event.target.value
+            }
+        });
+    };
+
     handleCloseElementDialog = event => {
         this.setState({
             openElementDialog: false,
             checklist: this.props.checklist
+        });
+    };
+
+    handleClickAddItem = event => {
+        const item = Object.assign({}, this.state.item);
+
+        item.translations = [];
+        item.isChecked = false;
+
+        this.setState({
+            item: item
+        });
+
+        this.props.itemActions.addItem(item);
+
+        this.setState({
+            item: {
+                text: ''
+            }
         });
     };
 
@@ -145,14 +188,22 @@ class ChecklistItem extends React.Component {
                         </Typography>
                         <MoreButtonBlock options={options} />
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        {checklist.items.length > 0 ? (
-                            <ItemsList items={checklist.items} />
-                        ) : (
-                            <Typography align="center" variant="subheading">
-                                Checklist is empty.
-                            </Typography>
-                        )}
+                    <ExpansionPanelDetails >
+                        <form className={classes.newItemForm}>
+                            <IconButton aria-label="Add New Item Button" onClick={this.handleClickAddItem}>
+                                <PlaylistAddIcon />
+                            </IconButton>
+                            <InputBase
+                                autoFocus
+                                label="Add New Item"
+                                className={classes.itemInput}
+                                type="text"
+                                value={this.state.item.text}
+                                onChange={this.onItemInputChange}
+                                placeholder='Add New Item'
+                                />
+                        </form>
+                        <ItemsList items={checklist.items} />
                     </ExpansionPanelDetails>
                 </ExpansionPanel>
                 <ElementDialog
@@ -161,7 +212,7 @@ class ChecklistItem extends React.Component {
                     open={this.state.openElementDialog}
                     handleOkButtonClick={this.handleOkClick(this.state.checklist)}
                     text={this.state.checklist.name}
-                    handleChange={this.onTextInputChange}
+                    handleChange={this.onChecklistInputChange}
                     isNew={false}
                 />
             </React.Fragment>
@@ -170,19 +221,29 @@ class ChecklistItem extends React.Component {
 }
 
 function mapStateToProps(state, ownProps) {
-    return {};
+    const item = {
+        text: '',
+        translations: [],
+        isChecked: false
+    };
+
+    return {
+        item
+    };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
-        actions: bindActionCreators(checklistActions, dispatch)
+        checklistActions: bindActionCreators(checklistActions, dispatch),
+        itemActions: bindActionCreators(checklistActions, dispatch)
     };
 }
 
 ChecklistItem.propTypes = {
     checklist: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
-    actions: PropTypes.object.isRequired
+    checklistActions: PropTypes.object.isRequired,
+    itemActions: PropTypes.object.isRequired
 };
 
 export default connect(
