@@ -55,11 +55,15 @@ const ExpansionPanelSummary = withStyles({
         minHeight: 56,
         '&$expanded': {
             minHeight: 56
-        }
+        },
+        paddingRight: 0
     },
     content: {
         '&$expanded': {
             margin: '12px 0'
+        },
+        '&>:last-child': {
+            paddingRight: 0
         }
     },
     expanded: {}
@@ -183,7 +187,7 @@ class ChecklistItem extends React.Component {
         return (
             <React.Fragment>
                 <ExpansionPanel>
-                    <ExpansionPanelSummary expandIcon={<ExpandMoreIcon />}>
+                    <ExpansionPanelSummary>
                         <Typography className={classes.checklistName} variant="h6">
                             {checklist.name}
                         </Typography>

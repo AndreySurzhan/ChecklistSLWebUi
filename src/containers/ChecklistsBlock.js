@@ -14,7 +14,7 @@ const styles = theme => ({
     addChecklistButton: {
         position: 'absolute',
         top: 24,
-        right: 100,
+        right: 24,
         zIndex: 10
     },
     buttonLink: {
