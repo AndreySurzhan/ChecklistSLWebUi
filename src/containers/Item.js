@@ -15,7 +15,14 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
     itemText: {
         width: '100%',
-        fontWeight: 600
+        fontWeight: 600,
+        height: 40,
+        lineHeight: 2.5
+    },
+    item: {
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%'
     },
     translations: {
         padding: 0,
@@ -102,14 +109,17 @@ class Item extends React.Component {
         return (
             <React.Fragment>
                 <Checkbox checked={item.isChecked} handleChange={this.handleCheckboxChange} />
-                <Typography className={classes.itemText} variant="subtitle1">{item.text}
+                <div className={classes.item}>
+                    <Typography className={classes.itemText} variant="subtitle1">
+                        {item.text}
+                    </Typography>
                     <Divider light />
                     <List className={classes.translations}>
                         {item.translations.map((translation, i) => (
                             <Translation key={i} translation={translation} />
                         ))}
                     </List>
-                </Typography>
+                </div>
                 <MoreButtonBlock options={options} />
                 <ElementDialog
                     name="item"
