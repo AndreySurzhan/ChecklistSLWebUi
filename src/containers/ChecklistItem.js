@@ -2,7 +2,6 @@ import React from 'react';
 import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
 import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import MoreButtonBlock from '../common/containers/MoreButtonBlock';
 import ItemsList from '../components/ItemsList';
 import Typography from '@material-ui/core/Typography';
