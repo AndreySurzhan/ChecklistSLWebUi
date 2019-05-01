@@ -142,11 +142,12 @@ class ChecklistItem extends React.Component {
         });
     };
 
-    handleClickAddItem = event => {
+    handleClickAddItem =  checklist => event => {
         const item = Object.assign({}, this.state.item);
 
         item.translations = [];
         item.isChecked = false;
+        item.checklist = checklist._id;
 
         this.setState({
             item: item
@@ -190,7 +191,7 @@ class ChecklistItem extends React.Component {
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails >
                         <form className={classes.newItemForm}>
-                            <IconButton aria-label="Add New Item Button" onClick={this.handleClickAddItem}>
+                            <IconButton aria-label="Add New Item Button" onClick={this.handleClickAddItem(checklist)}>
                                 <PlaylistAddIcon />
                             </IconButton>
                             <InputBase

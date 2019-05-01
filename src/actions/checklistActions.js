@@ -229,13 +229,9 @@ export function addItem(item) {
             if (state.user.isAuthenticated) {
                 dispatch(requestAddItem(item));
 
-                const checklist = Object.assign({}, state.checklists.checklists.find(c => c.isActive));
+                const addedItem = await checklistApi.addItem(item.checklist, item);
 
-                if (checklist) {
-                    const addedItem = await checklistApi.addItem(checklist._id, item);
-
-                    dispatch(addItemSuccess(addedItem));
-                }
+                dispatch(addItemSuccess(addedItem));
             } else {
                 dispatch(logout());
             }
@@ -253,8 +249,7 @@ export function updateItem(item) {
             if (state.user.isAuthenticated) {
                 dispatch(requestUpdateItem(item));
 
-                const checklist = Object.assign({}, state.checklists.checklists.find(c => c.isActive));
-                const updatedItem = await checklistApi.updateItem(checklist._id, item);
+                const updatedItem = await checklistApi.updateItem(item.checklist, item);
 
                 dispatch(updateItemSuccess(updatedItem));
             } else {
@@ -294,8 +289,7 @@ export function deleteItem(item) {
             if (state.user.isAuthenticated) {
                 dispatch(requestDeleteItem(item));
 
-                const checklist = Object.assign({}, state.checklists.checklists.find(c => c.isActive));
-                const deletedItem = await checklistApi.deleteItem(checklist._id, item);
+                const deletedItem = await checklistApi.deleteItem(item.checklist, item);
 
                 dispatch(deleteItemSuccess(deletedItem));
             } else {
