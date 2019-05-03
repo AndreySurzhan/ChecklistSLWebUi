@@ -19,4 +19,26 @@ export default class Api {
             throw new Error('Token doesn\'t exist');
         }
     }
+
+    async request(data, method, url, isAuthRequired) {
+        try {
+            if (isAuthRequired) {
+                this.setAuthHeader();
+            }
+
+            const response = await fetch(url, {
+                headers: this.headers,
+                method,
+                body: data !== null ? JSON.stringify(data) : undefined
+            });
+            if (!response.ok) {
+                const message = `[API error] "${method}" request to "${url}" returne "${response.status}"`;
+
+                throw new Error(message);
+            }
+            return response.json();
+        } catch (e) {
+            throw e;
+        }
+    }
 }

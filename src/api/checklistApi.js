@@ -8,127 +8,31 @@ class ChecklistApi extends Api {
     }
 
     async creatChecklist(checklist) {
-        try {
-            this.setAuthHeader();
-
-            const response = await fetch(this.basicUrl, {
-                headers: this.headers,
-                method: 'POST',
-                body: JSON.stringify(checklist)
-            });
-            if (!response.ok) {
-                throw new Error('API error');
-            }
-            return response.json();
-        } catch (e) {
-            throw e;
-        }
+        return await this.request(checklist, 'POST', this.basicUrl, true);
     }
 
-    async updateChecklist(checklist) {
-        try {
-            this.setAuthHeader();
-
-            const response = await fetch(`${this.basicUrl}/${checklist._id}`, {
-                headers: this.headers,
-                method: 'PATCH',
-                body: JSON.stringify(checklist)
-            });
-            if (!response.ok) {
-                throw new Error('API error');
-            }
-            return response.json();
-        } catch (e) {
-            throw e;
-        }
+    async updateChecklist(checklist){
+        return await this.request(checklist, 'PATCH',`${this.basicUrl}/${checklist._id}`, true);
     }
-
+    
     async getAllChecklists() {
-        try {
-            this.setAuthHeader();
-
-            const response = await fetch(this.basicUrl, {
-                headers: this.headers,
-                method: 'GET'
-            });
-            if (!response.ok) {
-                throw new Error('API error');
-            }
-            return response.json();
-        } catch (e) {
-            throw e;
-        }
+        return await this.request(null, 'GET', this.basicUrl, true)
     }
 
     async deleteChecklist(checklist) {
-        try {
-            this.setAuthHeader();
-            
-            const response = await fetch(`${this.basicUrl}/${checklist._id}`, {
-                headers: this.headers,
-                method: 'DELETE'
-            });
-            if (!response.ok) {
-                throw new Error('API error');
-            }
-            return response.json();
-        } catch (e) {
-            throw e;
-        }
+        return await this.request(null, 'DELETE', `${this.basicUrl}/${checklist._id}`, true)
     }
 
-    async addItem(checklistId, item) {
-        try {
-            this.setAuthHeader();
-
-            const response = await fetch(`${this.basicUrl}/${checklistId}/item`, {
-                headers: this.headers,
-                method: 'PUT',
-                body: JSON.stringify(item)
-            });
-            if (!response.ok) {
-                throw new Error('API error');
-            }
-            return response.json();
-        } catch (e) {
-            throw e;
-        }
+    async addItem(checklistId, item){
+        return await this.request(item, 'PUT',`${this.basicUrl}/${checklistId}/item`, true);
     }
 
-    async updateItem(checklistId, item) {
-        try {
-            this.setAuthHeader();
-            
-            const response = await fetch(`${this.basicUrl}/${checklistId}/item/${item._id}`, {
-                headers: this.headers,
-                method: 'PATCH',
-                body: JSON.stringify(item)
-            });
-            if (!response.ok) {
-                throw new Error('API error');
-            }
-            return response.json();
-        } catch (e) {
-            throw e;
-        }
+    async updateItem(checklistId, item){
+        return await this.request(item, 'PATCH',`${this.basicUrl}/${checklistId}/item/${item._id}`, true);
     }
 
     async deleteItem(checklistId, item) {
-        try {
-            this.setAuthHeader();
-            
-            const response = await fetch(`${this.basicUrl}/${checklistId}/item/${item._id}`, {
-                headers: this.headers,
-                method: 'DELETE',
-                body: JSON.stringify(item)
-            });
-            if (!response.ok) {
-                throw new Error('API error');
-            }
-            return response.json();
-        } catch (e) {
-            throw e;
-        }
+        return await this.request(null, 'DELETE', `${this.basicUrl}/${checklistId}/item/${item._id}`, true)
     }
 }
 

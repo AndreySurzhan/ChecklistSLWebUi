@@ -5,7 +5,6 @@ import ChecklistsBlock from '../containers/ChecklistsBlock';
 import LanguageDialog from '../containers/LanguageDialog';
 import Language from '@material-ui/icons/Language';
 import ExitToApp from '@material-ui/icons/ExitToApp';
-import { SupportedLanguages } from '../utils/enums';
 import * as checklistActions from '../actions/checklistActions';
 import * as userActions from '../actions/userActions';
 import { bindActionCreators } from 'redux';
@@ -29,7 +28,6 @@ class ChecklistPage extends React.Component {
         this.state = {
             user: Object.assign({}, this.props.user.user),
             openLanguageDialog: this.props.user.user.languages.length === 0,
-            languages: this.getSupportedLanguage(),
             drawerIsOpened: false
         };
 
@@ -37,44 +35,6 @@ class ChecklistPage extends React.Component {
         this.handleLanguagesButtonClick = this.handleLanguagesButtonClick.bind(this);
         this.toggleDrawer = this.toggleDrawer.bind(this);
     }
-
-    getSupportedLanguage = () => {
-        return (
-            new SupportedLanguages().languages
-                .map(l => {
-                    return {
-                        name: l.name,
-                        code: l.code,
-                        checked: this.props.user.user.languages.includes(l.code)
-                    };
-                })
-                // Sort Alphabetically
-                .sort((a, b) => {
-                    var nameA = a.name.toUpperCase();
-                    var nameB = b.name.toUpperCase();
-                    if (nameA < nameB) {
-                        return -1;
-                    }
-
-                    if (nameA > nameB) {
-                        return 1;
-                    }
-
-                    return 0;
-                })
-                // Checked at the top of the list
-                .sort((a, b) => {
-                    if (a.checked && !b.checked) {
-                        return -1;
-                    }
-                    if (!a.checked && b.checked) {
-                        return 1;
-                    }
-
-                    return 0;
-                })
-        );
-    };
 
     componentWillMount() {
         this.props.checklistActions.loadChecklists();
@@ -85,31 +45,14 @@ class ChecklistPage extends React.Component {
         this.props.history.push('/login');
     };
 
-    handleLanguageDialogClose = languages => {
-        const user = Object.assign({}, this.state.user);
-        const langCodes = languages.filter(l => l.checked).map(l => l.code);
-
-        if (langCodes.length !== user.languages.length || !langCodes.every(l => user.languages.includes(l))) {
-            user.languages = langCodes;
-
-            this.props.userActions.updateUser(user);
-
-            this.setState({
-                openLanguageDialog: false,
-                languages,
-                user
-            });
-        } else {
-            this.setState({
-                openLanguageDialog: false
-            });
-        }
-    };
-
     handleLanguagesButtonClick = event => {
         this.setState({
             openLanguageDialog: true
         });
+    };
+
+    handleLanguagesDialogClose = () => {
+        this.setState({ openLanguageDialog: false });
     };
 
     toggleDrawer = event => {
@@ -147,10 +90,9 @@ class ChecklistPage extends React.Component {
                     </Grid>
                 </Grid>
                 <LanguageDialog
-                    languages={this.state.languages}
                     open={this.state.openLanguageDialog}
-                    onClose={this.handleLanguageDialogClose}
-                    isInitLoad={this.state.user.languages.length === 0}
+                    onClose={this.handleLanguagesDialogClose}
+                    isInitLoad={this.props.user.user.languages.length === 0}
                 />
             </div>
         );

@@ -9,6 +9,10 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '../common/components/Checkbox';
+import { SupportedLanguages } from '../utils/enums';
+import { connect } from 'react-redux';
+import * as userActions from '../actions/userActions';
+import { bindActionCreators } from 'redux';
 import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
@@ -23,16 +27,52 @@ class LanguageDialog extends React.Component {
         super();
 
         this.state = {
-            languages: [...props.languages]
+            languages: this.filterLanguages(new SupportedLanguages().languages, props.user.user.languages),
+            user: Object.assign({}, props.user.user)
         };
     }
 
-    handleCancel = () => {
-        this.props.onClose(this.state.languages);
+    filterLanguages = (languages, userLanguages) => {
+        return (
+            languages
+                .map(l => {
+                    return {
+                        name: l.name,
+                        code: l.code,
+                        checked: userLanguages.includes(l.code)
+                    };
+                })
+                // Sort Alphabetically
+                .sort((a, b) => {
+                    const nameA = a.name.toUpperCase();
+                    const nameB = b.name.toUpperCase();
+
+                    if (nameA < nameB) {
+                        return -1;
+                    }
+
+                    if (nameA > nameB) {
+                        return 1;
+                    }
+
+                    return 0;
+                })
+                // Checked at the top of the list
+                .sort((a, b) => {
+                    if (a.checked && !b.checked) {
+                        return -1;
+                    }
+                    if (!a.checked && b.checked) {
+                        return 1;
+                    }
+
+                    return 0;
+                })
+        );
     };
 
-    handleOk = () => {
-        this.props.onClose(this.state.languages);
+    handleCancelClick = () => {
+        this.props.onClose();
     };
 
     handleCheckboxChange = languageName => event => {
@@ -53,6 +93,31 @@ class LanguageDialog extends React.Component {
         });
     };
 
+    handleOkClick = event => {
+        const user = Object.assign({}, this.state.user);
+        const languages = [...this.state.languages];
+        const langCodes = languages.filter(l => l.checked).map(l => l.code);
+
+        if (langCodes.length !== user.languages.length || !langCodes.every(l => user.languages.includes(l))) {
+            user.languages = langCodes;
+
+            this.props.actions.updateUser(user);
+
+            this.setState({
+                languages: this.filterLanguages(languages, user.languages),
+                user
+            });
+
+            this.props.onClose();
+        } else {
+            this.props.onClose();
+        }
+    };
+
+    handleClose = () => {
+        this.props.onClose();
+    };
+
     render() {
         const { classes } = this.props;
 
@@ -61,13 +126,14 @@ class LanguageDialog extends React.Component {
                 disableBackdropClick={this.props.isInitLoad}
                 disableEscapeKeyDown={this.props.isInitLoad}
                 aria-labelledby="language-dialog-title"
+                onClose={this.handleClose}
                 open={this.props.open}
             >
-                <DialogTitle id="clsl-language-dialog-title">Supported Languages</DialogTitle>
+                <DialogTitle id="clsl-language-dialog-title">Translation languages</DialogTitle>
                 <DialogContent className={classes.dialogContent}>
                     <FormLabel>Select language</FormLabel>
                     <FormGroup id="clsl-language-dialog-checkboxes">
-                        {this.props.languages.map(language => (
+                        {this.state.languages.map(language => (
                             <FormControlLabel
                                 value={language.name}
                                 key={language.name}
@@ -83,10 +149,10 @@ class LanguageDialog extends React.Component {
                     </FormGroup>
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={this.handleCancel} color="primary">
+                    <Button onClick={this.handleCancelClick} color="primary">
                         Cancel
                     </Button>
-                    <Button onClick={this.handleOk} color="primary">
+                    <Button onClick={this.handleOkClick} color="primary">
                         Ok
                     </Button>
                 </DialogActions>
@@ -95,11 +161,25 @@ class LanguageDialog extends React.Component {
     }
 }
 
+function mapStateToProps(state, ownProps) {
+    return {
+        user: state.user
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        actions: bindActionCreators(userActions, dispatch)
+    };
+}
+
 LanguageDialog.propTypes = {
     open: PropTypes.bool.isRequired,
-    languages: PropTypes.array.isRequired,
     classes: PropTypes.object.isRequired,
     isInitLoad: PropTypes.bool.isRequired
 };
 
-export default withStyles(styles)(LanguageDialog);
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(withStyles(styles)(LanguageDialog));
