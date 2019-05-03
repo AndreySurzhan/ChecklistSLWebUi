@@ -12,7 +12,8 @@ const styles = theme => ({
     root: {
         width: '100%',
         backgroundColor: "#455A64",
-        paddingLeft: theme.spacing.unit * 1.5
+        paddingLeft: theme.spacing.unit * 1.5,
+        position: 'fixed'
     },
     menuButton: {
         marginLeft: -12,
@@ -26,10 +27,10 @@ const NavBar = ({classes, user, toggleDrawer, openDrawer, drawerOptions}) => {
             <div>
                 <AppBar position="static" className={classes.root}>
                     <Toolbar disableGutters variant="dense">
-                        <IconButton className={classes.menuButton} aria-label="Open drawer">
+                        <IconButton color="inherit" className={classes.menuButton} aria-label="Open drawer">
                             <MenuIcon onClick={toggleDrawer} />
                         </IconButton>
-                        <Typography className={classes.title} variant="h6">
+                        <Typography color="inherit" className={classes.title} variant="h6">
                             ChecklistSL
                         </Typography>
                     </Toolbar>

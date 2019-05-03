@@ -1,7 +1,6 @@
 import React from 'react';
 import ChecklistItem from '../containers/ChecklistItem';
 import ElementDialog from '../common/components/ElementDialog';
-import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import * as checklistActions from '../actions/checklistActions';
@@ -12,17 +11,10 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     addChecklistButton: {
-        position: 'absolute',
+        position: 'fixed',
         top: 24,
         right: 24,
-        zIndex: 10
-    },
-    buttonLink: {
-        position: 'absolute',
-        bottom: 0,
-        right: 0,
-        marginBottom: theme.spacing.unit,
-        marginRight: theme.spacing.unit
+        zIndex: 1100
     }
 });
 
@@ -91,9 +83,6 @@ class ChecklistsBlock extends React.Component {
                 {this.props.checklists.map(checklist => (
                     <ChecklistItem key={checklist._id} checklist={checklist} />
                 ))}
-                <Button href="http://translate.yandex.com/" className={classes.buttonLink}>
-                    Powered by Yandex.Translate
-                </Button>
                 <ElementDialog
                     name="checklist"
                     handleClose={this.handleCloseElementDialog}

@@ -5,6 +5,7 @@ import ChecklistsBlock from '../containers/ChecklistsBlock';
 import LanguageDialog from '../containers/LanguageDialog';
 import Language from '@material-ui/icons/Language';
 import ExitToApp from '@material-ui/icons/ExitToApp';
+import Button from '@material-ui/core/Button';
 import * as checklistActions from '../actions/checklistActions';
 import * as userActions from '../actions/userActions';
 import { bindActionCreators } from 'redux';
@@ -14,10 +15,20 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
-        minHeight: '100vh'
+        minHeight: '100vh',
+        display: 'flex',
+        flexDirection: 'column'
     },
-    nav: {
-        backgroundColor: '#607D8B'
+    checklist: {
+        flexGrow: 1,
+        marginTop: 48
+    },
+    buttonLink: {
+        flexShrink: 0,
+        padding: 0,
+        fontSize: 12,
+        minHeight: 0,
+        padding: theme.spacing.unit /2
     }
 });
 
@@ -84,11 +95,14 @@ class ChecklistPage extends React.Component {
                     drawerOptions={drawerOptions}
                     user={this.props.user.user}
                 />
-                <Grid id="clsl-checklist-page-container" container direction="row" spacing={0}>
-                    <Grid id="clsl-nav-container" item xs={12} className={classes.nav}>
+                <Grid id="clsl-checklist-page-container" container direction="row" spacing={0} className={classes.checklist}>
+                    <Grid id="clsl-nav-container" item xs={12}>
                         <ChecklistsBlock id="clsl-checklists-block-container" />
                     </Grid>
                 </Grid>
+                <Button href="http://translate.yandex.com/" className={classes.buttonLink}>
+                    Powered by Yandex.Translate
+                </Button>
                 <LanguageDialog
                     open={this.state.openLanguageDialog}
                     onClose={this.handleLanguagesDialogClose}
