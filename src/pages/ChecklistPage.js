@@ -25,7 +25,6 @@ const styles = theme => ({
     },
     buttonLink: {
         flexShrink: 0,
-        padding: 0,
         fontSize: 12,
         minHeight: 0,
         padding: theme.spacing.unit /2
@@ -100,7 +99,7 @@ class ChecklistPage extends React.Component {
                         <ChecklistsBlock id="clsl-checklists-block-container" />
                     </Grid>
                 </Grid>
-                <Button href="http://translate.yandex.com/" className={classes.buttonLink}>
+                <Button target="_blank" href="http://translate.yandex.com/" className={classes.buttonLink}>
                     Powered by Yandex.Translate
                 </Button>
                 <LanguageDialog
