@@ -1,11 +1,15 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import NavBar from '../components/NavBar';
-import ChecklistsBlock from '../containers/ChecklistsBlock';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import LanguageDialog from '../containers/LanguageDialog';
 import Language from '@material-ui/icons/Language';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Button from '@material-ui/core/Button';
+import ElementDialog from '../common/components/ElementDialog';
+import ChecklistItem from '../containers/ChecklistItem';
+import Spinner from '../common/components/Spinner';
 import * as checklistActions from '../actions/checklistActions';
 import * as userActions from '../actions/userActions';
 import { bindActionCreators } from 'redux';
@@ -27,7 +31,13 @@ const styles = theme => ({
         flexShrink: 0,
         fontSize: 12,
         minHeight: 0,
-        padding: theme.spacing.unit /2
+        padding: theme.spacing.unit / 2
+    },
+    addChecklistButton: {
+        position: 'fixed',
+        top: 24,
+        right: 24,
+        zIndex: 1100
     }
 });
 
@@ -38,12 +48,21 @@ class ChecklistPage extends React.Component {
         this.state = {
             user: Object.assign({}, this.props.user.user),
             openLanguageDialog: this.props.user.user.languages.length === 0,
-            drawerIsOpened: false
+            drawerIsOpened: false,
+            openElementDialog: false,
+            checklist: {
+                name: '',
+                isActive: true,
+                items: [],
+                users: []
+            }
         };
 
         this.handleLogoutClick = this.handleLogoutClick.bind(this);
         this.handleLanguagesButtonClick = this.handleLanguagesButtonClick.bind(this);
         this.toggleDrawer = this.toggleDrawer.bind(this);
+        this.onTextInputChange = this.onTextInputChange.bind(this);
+        this.handAddNewChecklistButtonClick = this.handAddNewChecklistButtonClick.bind(this);
     }
 
     componentWillMount() {
@@ -71,6 +90,39 @@ class ChecklistPage extends React.Component {
         });
     };
 
+    handleOkClick = event => {
+        this.props.checklistActions.addChecklist(this.state.checklist);
+        this.setState({
+            openElementDialog: false,
+            checklist: {
+                name: ''
+            }
+        });
+    };
+
+    onTextInputChange = event => {
+        this.setState({
+            checklist: {
+                name: event.target.value
+            }
+        });
+    };
+
+    handleCloseElementDialog = event => {
+        this.setState({
+            openElementDialog: false,
+            checklist: {
+                name: ''
+            }
+        });
+    };
+
+    handAddNewChecklistButtonClick = event => {
+        this.setState({
+            openElementDialog: true
+        });
+    };
+
     render() {
         const { classes } = this.props;
         const drawerOptions = [
@@ -94,9 +146,32 @@ class ChecklistPage extends React.Component {
                     drawerOptions={drawerOptions}
                     user={this.props.user.user}
                 />
-                <Grid id="clsl-checklist-page-container" container direction="row" spacing={0} className={classes.checklist}>
+                <Fab
+                    color="primary"
+                    aria-label="Add checklist"
+                    size="medium"
+                    className={classes.addChecklistButton}
+                    onClick={this.handAddNewChecklistButtonClick}
+                >
+                    <AddIcon />
+                </Fab>
+                <Grid
+                    id="clsl-checklist-page-container"
+                    justify="center"
+                    alignItems={this.props.isFetching ? 'center' : 'flex-start'}
+                    container
+                    direction="row"
+                    spacing={0}
+                    className={classes.checklist}
+                >
                     <Grid id="clsl-nav-container" item xs={12}>
-                        <ChecklistsBlock id="clsl-checklists-block-container" />
+                        {this.props.isFetching ? (
+                            <Spinner size={100} thickness={2} />
+                        ) : (
+                            this.props.checklists.map(checklist => (
+                                <ChecklistItem key={checklist._id} checklist={checklist} />
+                            ))
+                        )}
                     </Grid>
                 </Grid>
                 <Button target="_blank" href="http://translate.yandex.com/" className={classes.buttonLink}>
@@ -107,6 +182,15 @@ class ChecklistPage extends React.Component {
                     onClose={this.handleLanguagesDialogClose}
                     isInitLoad={this.props.user.user.languages.length === 0}
                 />
+                <ElementDialog
+                    name="checklist"
+                    handleClose={this.handleCloseElementDialog}
+                    open={this.state.openElementDialog}
+                    handleOkButtonClick={this.handleOkClick}
+                    text={this.state.checklist.name}
+                    handleChange={this.onTextInputChange}
+                    isNew={true}
+                />
             </div>
         );
     }
@@ -115,7 +199,9 @@ class ChecklistPage extends React.Component {
 function mapStateToProps(state, ownProps) {
     return {
         isAuthenticated: state.user.isAuthenticated,
-        user: state.user
+        user: state.user,
+        checklists: state.checklists.checklists,
+        isFetching: state.checklists.isFetching
     };
 }
 

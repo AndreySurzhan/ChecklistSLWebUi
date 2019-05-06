@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "description": "Web api for CheckListSL application",
   "dependencies": {
-    "@material-ui/core": "^3.8.1",
+    "@material-ui/core": "^3.9.3",
     "@material-ui/icons": "^3.0.1",
     "@material-ui/styles": "^3.0.0-alpha.8",
     "dotenv": "^7.0.0",

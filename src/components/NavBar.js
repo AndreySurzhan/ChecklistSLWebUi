@@ -11,7 +11,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 const styles = theme => ({
     root: {
         width: '100%',
-        backgroundColor: "#455A64",
+        backgroundColor: '#455A64',
         paddingLeft: theme.spacing.unit * 1.5,
         position: 'fixed'
     },
@@ -22,23 +22,28 @@ const styles = theme => ({
     title: {}
 });
 
-const NavBar = ({classes, user, toggleDrawer, openDrawer, drawerOptions}) => {
-        return (
-            <div>
-                <AppBar position="static" className={classes.root}>
-                    <Toolbar disableGutters variant="dense">
-                        <IconButton color="inherit" className={classes.menuButton} aria-label="Open drawer">
-                            <MenuIcon onClick={toggleDrawer} />
-                        </IconButton>
-                        <Typography color="inherit" className={classes.title} variant="h6">
-                            ChecklistSL
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
-                <Drawer open={openDrawer} buttons={drawerOptions} user={user} toggleDrawer={toggleDrawer}/>
-            </div>
-        );
-}
+const NavBar = ({ classes, user, toggleDrawer, openDrawer, drawerOptions }) => {
+    return (
+        <div>
+            <AppBar position="static" className={classes.root}>
+                <Toolbar disableGutters variant="dense">
+                    <IconButton
+                        onClick={toggleDrawer}
+                        color="inherit"
+                        className={classes.menuButton}
+                        aria-label="Open drawer"
+                    >
+                        <MenuIcon />
+                    </IconButton>
+                    <Typography color="inherit" className={classes.title} variant="h6">
+                        ChecklistSL
+                    </Typography>
+                </Toolbar>
+            </AppBar>
+            <Drawer open={openDrawer} buttons={drawerOptions} user={user} toggleDrawer={toggleDrawer} />
+        </div>
+    );
+};
 
 NavBar.propTypes = {
     classes: PropTypes.object.isRequired,
