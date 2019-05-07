@@ -125,6 +125,7 @@ class ChecklistPage extends React.Component {
 
     render() {
         const { classes } = this.props;
+        const isFetching = this.props.isFetching;
         const drawerOptions = [
             {
                 text: 'Languages',
@@ -151,7 +152,7 @@ class ChecklistPage extends React.Component {
                     aria-label="Add checklist"
                     size="medium"
                     className={classes.addChecklistButton}
-                    onClick={this.handAddNewChecklistButtonClick}
+                    onClick={!isFetching && this.handAddNewChecklistButtonClick}
                 >
                     <AddIcon />
                 </Fab>
@@ -165,7 +166,7 @@ class ChecklistPage extends React.Component {
                     className={classes.checklist}
                 >
                     <Grid id="clsl-nav-container" item xs={12}>
-                        {this.props.isFetching ? (
+                        {isFetching ? (
                             <Spinner size={100} thickness={2} />
                         ) : (
                             this.props.checklists.map(checklist => (
@@ -201,7 +202,8 @@ function mapStateToProps(state, ownProps) {
         isAuthenticated: state.user.isAuthenticated,
         user: state.user,
         checklists: state.checklists.checklists,
-        isFetching: state.checklists.isFetching
+        isFetching: state.checklists.isFetching,
+        isApiChecklist: state.checklists.isApiChecklist
     };
 }
 

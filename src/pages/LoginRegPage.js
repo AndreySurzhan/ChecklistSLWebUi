@@ -111,6 +111,7 @@ class LoginRegPage extends Component {
 
     render() {
         const { classes } = this.props;
+        const isFetching = this.props.isFetching;
         const loginFormProps = {
             title: 'Login to ChecklistSL',
             input: {
@@ -168,10 +169,10 @@ class LoginRegPage extends Component {
             <div id="clsl-login-container" className={[classes.root, classes.flexContainerColumns].join(' ')}>
                 <Paper className={[classes.paper, classes.flexContainerColumns].join(' ')}>
                     <React.Fragment>
-                        <LoginRegForm formProps={this.state.isLoginForm ? loginFormProps : regFormProps} />
+                        <LoginRegForm isFetching={isFetching} formProps={this.state.isLoginForm ? loginFormProps : regFormProps} />
                         <Typography>
                             {this.state.isLoginForm ? "Don't have an account yet?" : 'Already have account?'}
-                            <Button onClick={this.handleChangeForm}>
+                            <Button disabled={isFetching} onClick={this.handleChangeForm}>
                                 {this.state.isLoginForm ? 'Register' : 'Login'}
                             </Button>
                         </Typography>
@@ -184,7 +185,8 @@ class LoginRegPage extends Component {
 
 function mapStateToProps(state, ownProps) {
     return {
-        isAuthenticated: state.user.isAuthenticated
+        isAuthenticated: state.user.isAuthenticated,
+        isFetching: state.user.isFetching
     };
 }
 

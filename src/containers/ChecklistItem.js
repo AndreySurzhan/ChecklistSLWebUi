@@ -5,7 +5,7 @@ import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import MoreButtonBlock from '../common/containers/MoreButtonBlock';
 import ItemsList from '../components/ItemsList';
 import Typography from '@material-ui/core/Typography';
-import InputBase  from '@material-ui/core/InputBase';
+import InputBase from '@material-ui/core/InputBase';
 import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
 import IconButton from '@material-ui/core/IconButton';
 import ElementDialog from '../common/components/ElementDialog';
@@ -115,6 +115,7 @@ class ChecklistItem extends React.Component {
 
     handleOkClick = checklist => event => {
         this.props.checklistActions.updateChecklist(checklist);
+
         this.setState({
             openElementDialog: false
         });
@@ -145,7 +146,7 @@ class ChecklistItem extends React.Component {
         });
     };
 
-    handleClickAddItem =  checklist => event => {
+    handleClickAddItem = checklist => event => {
         const item = Object.assign({}, this.state.item);
 
         item.translations = [];
@@ -192,7 +193,7 @@ class ChecklistItem extends React.Component {
                         </Typography>
                         <MoreButtonBlock options={options} />
                     </ExpansionPanelSummary>
-                    <ExpansionPanelDetails >
+                    <ExpansionPanelDetails>
                         <form className={classes.newItemForm}>
                             <IconButton aria-label="Add New Item Button" onClick={this.handleClickAddItem(checklist)}>
                                 <PlaylistAddIcon />
@@ -204,8 +205,8 @@ class ChecklistItem extends React.Component {
                                 type="text"
                                 value={this.state.item.text}
                                 onChange={this.onItemInputChange}
-                                placeholder='Add New Item'
-                                />
+                                placeholder="Add New Item"
+                            />
                         </form>
                         <ItemsList items={checklist.items} />
                     </ExpansionPanelDetails>
@@ -232,7 +233,8 @@ function mapStateToProps(state, ownProps) {
     };
 
     return {
-        item
+        item,
+        isApiChecklist: state.checklists.isApiChecklist
     };
 }
 

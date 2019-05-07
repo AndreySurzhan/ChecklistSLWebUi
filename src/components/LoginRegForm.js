@@ -5,6 +5,7 @@ import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from '@material-ui/core/styles';
 import { PropTypes } from 'prop-types';
+import CircularProgress  from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
     typography: {
@@ -17,10 +18,17 @@ const styles = theme => ({
     button: {
         marginTop: theme.spacing.unit * 3,
         marginBottom: theme.spacing.unit * 2
+    },
+    buttonProgress: {
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      marginTop: -12,
+      marginLeft: -12,
     }
 });
 
-const LoginRegForm = ({ classes, formProps, children }) => {
+const LoginRegForm = ({ classes, formProps, children, isFetching }) => {
     const usernameInput = formProps.input.username;
     const passwordInput = formProps.input.password;
     const submitButton = formProps.submitButton;
@@ -56,6 +64,7 @@ const LoginRegForm = ({ classes, formProps, children }) => {
                 {children}
             </FormControl>
             <Button
+                disabled={isFetching}
                 className={classes.button}
                 onClick={submitButton.handleClick}
                 label={submitButton.label}
@@ -63,6 +72,7 @@ const LoginRegForm = ({ classes, formProps, children }) => {
                 color="primary"
             >
                 {submitButton.title}
+                {isFetching && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Button>
         </React.Fragment>
     );
