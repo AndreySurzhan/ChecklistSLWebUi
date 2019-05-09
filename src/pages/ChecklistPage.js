@@ -175,7 +175,7 @@ class ChecklistPage extends React.Component {
                         )}
                     </Grid>
                 </Grid>
-                <Button target="_blank" href="http://translate.yandex.com/" className={classes.buttonLink}>
+                <Button target="_blank" rel="noopener" href="http://translate.yandex.com/" className={classes.buttonLink}>
                     Powered by Yandex.Translate
                 </Button>
                 <LanguageDialog
