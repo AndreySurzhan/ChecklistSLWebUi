@@ -152,7 +152,7 @@ class ChecklistPage extends React.Component {
                     aria-label="Add checklist"
                     size="medium"
                     className={classes.addChecklistButton}
-                    onClick={!isFetching && this.handAddNewChecklistButtonClick}
+                    onClick={isFetching ? undefined : this.handAddNewChecklistButtonClick}
                 >
                     <AddIcon />
                 </Fab>
