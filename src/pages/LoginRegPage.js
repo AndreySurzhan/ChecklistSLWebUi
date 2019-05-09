@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import { bindActionCreators } from 'redux';
@@ -12,35 +11,12 @@ import LoginRegForm from '../components/LoginRegForm';
 
 const styles = theme => ({
     root: {
-        height: '100vh'
-    },
-    paper: {
-        padding: theme.spacing.unit * 2,
-        width: 400,
-        alignSelf: 'center'
-    },
-    flexContainerColumns: {
+        height: '100vh',
+        backgroundColor: '#fff',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center'
-    },
-    flexContainerRows: {
-        display: 'flex',
-        flexDirection: 'row',
-        justifyContent: 'center',
-        alignItems: 'center'
-    },
-    typography: {
-        alignSelf: 'center',
-        marginBottom: theme.spacing.unit * 2
-    },
-    textField: {
-        alignSelf: 'center'
-    },
-    button: {
-        marginTop: theme.spacing.unit * 3,
-        marginBottom: theme.spacing.unit * 2
     }
 });
 
@@ -145,7 +121,6 @@ class LoginRegPage extends Component {
                     id: 'clsl-password-reg-input',
                     label: 'Username',
                     name: 'username',
-                    type: 'email',
                     value: this.state.username,
                     handleInputChange: this.handleChange('username')
                 },
@@ -153,7 +128,6 @@ class LoginRegPage extends Component {
                     id: 'clsl-username-reg-input',
                     label: 'Password',
                     name: 'password',
-                    type: 'password',
                     value: this.state.password,
                     handleInputChange: this.handleChange('password')
                 }
@@ -166,18 +140,14 @@ class LoginRegPage extends Component {
         };
 
         return (
-            <div id="clsl-login-container" className={[classes.root, classes.flexContainerColumns].join(' ')}>
-                <Paper className={[classes.paper, classes.flexContainerColumns].join(' ')}>
-                    <React.Fragment>
-                        <LoginRegForm isFetching={isFetching} formProps={this.state.isLoginForm ? loginFormProps : regFormProps} />
-                        <Typography>
-                            {this.state.isLoginForm ? "Don't have an account yet?" : 'Already have account?'}
-                            <Button disabled={isFetching} onClick={this.handleChangeForm}>
-                                {this.state.isLoginForm ? 'Register' : 'Login'}
-                            </Button>
-                        </Typography>
-                    </React.Fragment>
-                </Paper>
+            <div id="clsl-login-container" className={classes.root}>                        
+                <LoginRegForm isFetching={isFetching} formProps={this.state.isLoginForm ? loginFormProps : regFormProps} />
+                <Typography>
+                    {this.state.isLoginForm ? "Don't have an account yet?" : 'Already have account?'}
+                    <Button disabled={isFetching} onClick={this.handleChangeForm}>
+                        {this.state.isLoginForm ? 'Register' : 'Login'}
+                    </Button>
+                </Typography>
             </div>
         );
     }

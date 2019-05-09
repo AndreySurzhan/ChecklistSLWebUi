@@ -44,7 +44,7 @@ const LoginRegForm = ({ classes, formProps, children, isFetching }) => {
                     id={usernameInput.id}
                     label={usernameInput.label}
                     name={usernameInput.name}
-                    type={usernameInput.type}
+                    type='email'
                     value={usernameInput.value}
                     onChange={usernameInput.handleInputChange}
                     margin="normal"
@@ -55,7 +55,7 @@ const LoginRegForm = ({ classes, formProps, children, isFetching }) => {
                     id={passwordInput.id}
                     label={passwordInput.label}
                     name={passwordInput.name}
-                    type={passwordInput.type}
+                    type='password'
                     value={passwordInput.value}
                     autoComplete="current-password"
                     onChange={passwordInput.handleInputChange}
