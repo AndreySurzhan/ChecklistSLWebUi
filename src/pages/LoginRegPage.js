@@ -28,10 +28,12 @@ class LoginRegPage extends Component {
             username: '',
             password: '',
             languages: [],
-            isLoginForm: this.isLoginForm()
+            isLoginForm: this.isLoginForm(),
+            errors: {}
         };
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleChangeForm = this.handleChangeForm.bind(this);
         this.handleLoginClick = this.handleLoginClick.bind(this);
         this.handleRegistrationClick = this.handleRegistrationClick.bind(this);
     }
@@ -40,13 +42,19 @@ class LoginRegPage extends Component {
         return this.props.location.pathname === '/login';
     }
 
-    handleChange = name => event => {
-        this.setState({
-            [name]: event.target.value
-        });
-    };
+    handleChange(name) {
+        return event => {
+            this.setState({
+                [name]: event.target.value
+            });
+        };
+    }
 
-    handleLoginClick = event => {
+    handleLoginClick(event) {
+        if (!this.formIsValid()) {
+            return;
+        }
+
         const user = Object.assign(
             {},
             {
@@ -54,11 +62,15 @@ class LoginRegPage extends Component {
                 password: this.state.password
             }
         );
-        console.log(process.env.REACT_APP_API_URL)
-        this.props.actions.login(user);
-    };
 
-    handleRegistrationClick = event => {
+        this.props.actions.login(user);
+    }
+
+    handleRegistrationClick(event) {
+        if (!this.formIsValid()) {
+            return;
+        }
+
         const user = Object.assign(
             {},
             {
@@ -69,9 +81,9 @@ class LoginRegPage extends Component {
         );
 
         this.props.actions.register(user);
-    };
+    }
 
-    handleChangeForm = event => {
+    handleChangeForm(event) {
         if (this.isLoginForm()) {
             this.props.history.push('/register');
             this.setState({
@@ -83,7 +95,26 @@ class LoginRegPage extends Component {
                 isLoginForm: true
             });
         }
-    };
+    }
+
+    formIsValid() {
+        let isValid = true;
+        let errors = {};
+
+        if (!(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(this.state.username))) {
+            errors.username = 'Email is not valid';
+            isValid = false;
+        }
+
+        if (!(this.state.password.length > 0)) {
+            errors.password = 'Password should not be empty';
+            isValid = false;
+        }
+
+        this.setState({ errors: errors });
+
+        return isValid;
+    }
 
     render() {
         const { classes } = this.props;
@@ -93,8 +124,8 @@ class LoginRegPage extends Component {
             input: {
                 username: {
                     id: 'clsl-username-login-input',
-                    label: 'Username',
-                    name: 'username',
+                    label: 'Email',
+                    name: 'email',
                     type: 'email',
                     value: this.state.username,
                     handleInputChange: this.handleChange('username')
@@ -140,8 +171,12 @@ class LoginRegPage extends Component {
         };
 
         return (
-            <div id="clsl-login-container" className={classes.root}>                        
-                <LoginRegForm isFetching={isFetching} formProps={this.state.isLoginForm ? loginFormProps : regFormProps} />
+            <div id="clsl-login-container" className={classes.root}>
+                <LoginRegForm
+                    isFetching={isFetching}
+                    formProps={this.state.isLoginForm ? loginFormProps : regFormProps}
+                    errors={this.state.errors}
+                />
                 <Typography>
                     {this.state.isLoginForm ? "Don't have an account yet?" : 'Already have account?'}
                     <Button disabled={isFetching} onClick={this.handleChangeForm}>

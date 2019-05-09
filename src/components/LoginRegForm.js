@@ -28,7 +28,7 @@ const styles = theme => ({
     }
 });
 
-const LoginRegForm = ({ classes, formProps, children, isFetching }) => {
+const LoginRegForm = ({ classes, formProps, children, isFetching, errors }) => {
     const usernameInput = formProps.input.username;
     const passwordInput = formProps.input.password;
     const submitButton = formProps.submitButton;
@@ -49,6 +49,8 @@ const LoginRegForm = ({ classes, formProps, children, isFetching }) => {
                     onChange={usernameInput.handleInputChange}
                     margin="normal"
                     autoFocus={true}
+                    error={errors.username} 
+                    helperText = {errors.username} 
                 />
                 <TextField
                     className={classes.textField}
@@ -60,6 +62,8 @@ const LoginRegForm = ({ classes, formProps, children, isFetching }) => {
                     autoComplete="current-password"
                     onChange={passwordInput.handleInputChange}
                     margin="normal"
+                    error={errors.password}
+                    helperText = {errors.password} 
                 />
                 {children}
             </FormControl>
