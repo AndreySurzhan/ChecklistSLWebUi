@@ -11,6 +11,7 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PropTypes } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import * as validate from '../utils/validate';
 
 const styles = theme => ({
     itemText: {
@@ -37,27 +38,33 @@ class Item extends React.Component {
 
         this.state = {
             item: Object.assign({}, this.props.item),
-            openElementDialog: false
+            openElementDialog: false,
+            errors: {}
         };
 
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.handleDelete = this.handleDelete.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.handleOkClick = this.handleOkClick.bind(this);
+        this.onTextInputChange = this.onTextInputChange.bind(this);
+        this.handleCloseElementDialog = this.handleCloseElementDialog.bind(this);
+        this.formIsValid = this.formIsValid.bind(this);
     }
 
-    handleDelete = item => event => {
+    handleDelete(event) {
         event.stopPropagation();
-        this.props.actions.deleteItem(item);
+        this.props.actions.deleteItem(this.state.item);
     };
 
-    handleEdit = event => {
+    handleEdit(event) {
         event.stopPropagation();
         this.setState({
             openElementDialog: true
         });
     };
 
-    handleCheckboxChange = event => {
+    handleCheckboxChange(event) {
         const item = Object.assign({}, this.props.item);
         item.isChecked = event.target.checked;
 
@@ -68,29 +75,50 @@ class Item extends React.Component {
         });
     };
 
-    handleOkClick = item => event => {
-        this.props.actions.updateItem(item);
+    handleOkClick(event) {        
+        if (!this.formIsValid()) {
+            return;
+        }
+
+        this.props.actions.updateItem(this.state.item);
         this.setState({
             openElementDialog: false
         });
     };
 
-    onTextInputChange = event => {
+    onTextInputChange(event) {
         const item = Object.assign({}, this.state.item);
 
         item.text = event.target.value;
 
         this.setState({
-            item: item
+            item: item,
+            errors: {
+                modalInput: ''
+            }
         });
     };
 
-    handleCloseElementDialog = event => {
+    handleCloseElementDialog(event) {
         this.setState({
             openElementDialog: false,
             item: this.props.item
         });
     };
+
+    formIsValid() {
+        let errors = {};
+        let isValid = true;
+
+        if (!validate.isNotEmpty(this.state.item.text)) {
+            errors.modalInput = 'Item text should not be empty';
+            isValid = false;
+        }
+
+        this.setState({ errors });
+
+        return isValid;
+    }
 
     render() {
         const { classes } = this.props;
@@ -98,7 +126,7 @@ class Item extends React.Component {
         const options = [
             {
                 text: 'Delete',
-                handleClick: this.handleDelete(item)
+                handleClick: this.handleDelete
             },
             {
                 text: 'Edit',
@@ -125,10 +153,11 @@ class Item extends React.Component {
                     name="item"
                     handleClose={this.handleCloseElementDialog}
                     open={this.state.openElementDialog}
-                    handleOkButtonClick={this.handleOkClick(this.state.item)}
+                    handleOkButtonClick={this.handleOkClick}
                     text={this.state.item.text}
                     handleChange={this.onTextInputChange}
                     isNew={false}
+                    errors={this.state.errors}
                 />
             </React.Fragment>
         );

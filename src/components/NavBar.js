@@ -47,6 +47,7 @@ const NavBar = ({ classes, user, toggleDrawer, openDrawer, drawerOptions }) => {
 
 NavBar.propTypes = {
     classes: PropTypes.object.isRequired,
+    user: PropTypes.object.isRequired,
     toggleDrawer: PropTypes.func.isRequired,
     openDrawer: PropTypes.bool.isRequired,
     drawerOptions: PropTypes.array.isRequired

@@ -10,7 +10,7 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({});
 
-const ElementDialog = ({ name, classes, open, handleOkButtonClick, handleClose, isNew, text, handleChange }) => {
+const ElementDialog = ({ name, classes, open, handleOkButtonClick, handleClose, isNew, text, handleChange, errors }) => {
     return (
         <Dialog
             onBackdropClick={handleClose}
@@ -31,6 +31,8 @@ const ElementDialog = ({ name, classes, open, handleOkButtonClick, handleClose, 
                     fullWidth
                     value={text}
                     onChange={handleChange}
+                    error={!!errors.modalInput}
+                    helperText = {errors.modalInput} 
                 />
             </DialogContent>
             <DialogActions>

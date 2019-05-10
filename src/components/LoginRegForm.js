@@ -49,7 +49,7 @@ const LoginRegForm = ({ classes, formProps, children, isFetching, errors }) => {
                     onChange={usernameInput.handleInputChange}
                     margin="normal"
                     autoFocus={true}
-                    error={errors.username} 
+                    error={!!errors.username} 
                     helperText = {errors.username} 
                 />
                 <TextField
@@ -62,7 +62,7 @@ const LoginRegForm = ({ classes, formProps, children, isFetching, errors }) => {
                     autoComplete="current-password"
                     onChange={passwordInput.handleInputChange}
                     margin="normal"
-                    error={errors.password}
+                    error={!!errors.password}
                     helperText = {errors.password} 
                 />
                 {children}

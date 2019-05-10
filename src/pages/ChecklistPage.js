@@ -16,6 +16,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import * as validate from '../utils/validate';
 
 const styles = theme => ({
     root: {
@@ -55,42 +56,51 @@ class ChecklistPage extends React.Component {
                 isActive: true,
                 items: [],
                 users: []
-            }
+            },
+            errors: {}
         };
 
         this.handleLogoutClick = this.handleLogoutClick.bind(this);
         this.handleLanguagesButtonClick = this.handleLanguagesButtonClick.bind(this);
+        this.handleLanguagesDialogClose = this.handleLanguagesDialogClose.bind(this);
         this.toggleDrawer = this.toggleDrawer.bind(this);
+        this.handleOkClick = this.handleOkClick.bind(this);
         this.onTextInputChange = this.onTextInputChange.bind(this);
+        this.handleCloseElementDialog = this.handleCloseElementDialog.bind(this);
         this.handAddNewChecklistButtonClick = this.handAddNewChecklistButtonClick.bind(this);
+        this.formIsValid = this.formIsValid.bind(this);
     }
 
     componentWillMount() {
         this.props.checklistActions.loadChecklists();
     }
 
-    handleLogoutClick = event => {
+    handleLogoutClick(event) {
         this.props.userActions.logout();
         this.props.history.push('/login');
     };
 
-    handleLanguagesButtonClick = event => {
+    handleLanguagesButtonClick(event) {
         this.setState({
             openLanguageDialog: true
         });
     };
 
-    handleLanguagesDialogClose = () => {
+    handleLanguagesDialogClose() {
         this.setState({ openLanguageDialog: false });
     };
 
-    toggleDrawer = event => {
+    toggleDrawer(event) {
         this.setState({
             drawerIsOpened: this.state.drawerIsOpened ? false : true
         });
     };
 
-    handleOkClick = event => {
+    handleOkClick(event) {        
+        if (!this.formIsValid()) {
+            return;
+        }
+
         this.props.checklistActions.addChecklist(this.state.checklist);
         this.setState({
             openElementDialog: false,
@@ -100,28 +110,48 @@ class ChecklistPage extends React.Component {
         });
     };
 
-    onTextInputChange = event => {
+    onTextInputChange(event) {
         this.setState({
             checklist: {
                 name: event.target.value
+            },
+            errors: {
+                modalInput: ''
             }
         });
     };
 
-    handleCloseElementDialog = event => {
+    handleCloseElementDialog(event) {
         this.setState({
             openElementDialog: false,
             checklist: {
                 name: ''
+            },
+            errors: {
+                modalInput: ''
             }
         });
     };
 
-    handAddNewChecklistButtonClick = event => {
+    handAddNewChecklistButtonClick(event) {
         this.setState({
             openElementDialog: true
         });
     };
+
+    formIsValid() {
+        let errors = {};
+        let isValid = true;
+
+        if (!validate.isNotEmpty(this.state.checklist.name)) {
+            errors.modalInput = 'Checklist name should not be empty';
+            isValid = false;
+        }
+        
+        this.setState({ errors });
+
+        return isValid;
+    }
 
     render() {
         const { classes } = this.props;
@@ -191,6 +221,7 @@ class ChecklistPage extends React.Component {
                     text={this.state.checklist.name}
                     handleChange={this.onTextInputChange}
                     isNew={true}
+                    errors={this.state.errors}
                 />
             </div>
         );
@@ -215,7 +246,11 @@ function mapDispatchToProps(dispatch) {
 }
 
 ChecklistPage.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired,        
+    isAuthenticated: PropTypes.bool.isRequired,
+    user: PropTypes.object.isRequired,
+    checklists: PropTypes.array.isRequired
 };
 
 export default connect(

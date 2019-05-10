@@ -3,6 +3,7 @@ import IconButton from "@material-ui/core/IconButton";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import PropTypes from 'prop-types';
 import { withStyles } from "@material-ui/core/styles";
 
 const styles = theme => ({
@@ -67,5 +68,11 @@ class MoreButtonBlock extends React.Component {
         );
     }
 }
+
+
+MoreButtonBlock.propTypes = {
+    classes: PropTypes.object.isRequired,
+    options: PropTypes.array.isRequired
+};
 
 export default withStyles(styles)(MoreButtonBlock);

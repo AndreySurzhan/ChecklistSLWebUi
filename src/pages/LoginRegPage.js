@@ -8,6 +8,7 @@ import * as userActions from '../actions/userActions';
 import { withStyles } from '@material-ui/core/styles';
 import { withRouter } from 'react-router';
 import LoginRegForm from '../components/LoginRegForm';
+import * as validate from '../utils/validate';
 
 const styles = theme => ({
     root: {
@@ -101,17 +102,17 @@ class LoginRegPage extends Component {
         let isValid = true;
         let errors = {};
 
-        if (!(/^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/.test(this.state.username))) {
+        if (!validate.isEmailValid(this.state.username)) {
             errors.username = 'Email is not valid';
             isValid = false;
         }
 
-        if (!(this.state.password.length > 0)) {
+        if (!validate.isNotEmpty(this.state.password)) {
             errors.password = 'Password should not be empty';
             isValid = false;
         }
 
-        this.setState({ errors: errors });
+        this.setState({ errors });
 
         return isValid;
     }
@@ -202,7 +203,9 @@ function mapDispatchToProps(dispatch) {
 }
 
 LoginRegPage.propTypes = {
-    classes: PropTypes.object.isRequired
+    classes: PropTypes.object.isRequired,
+    isFetching: PropTypes.bool.isRequired,        
+    isAuthenticated: PropTypes.bool.isRequired
 };
 
 export default withRouter(

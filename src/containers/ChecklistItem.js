@@ -14,6 +14,7 @@ import * as checklistActions from '../actions/checklistActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { PropTypes } from 'prop-types';
+import * as validate from '../utils/validate';
 
 const styles = theme => ({
     checklistName: {
@@ -78,6 +79,12 @@ const ExpansionPanelDetails = withStyles(theme => ({
     }
 }))(MuiExpansionPanelDetails);
 
+const ItemInput = withStyles(theme => ({
+    error: {
+        color: 'red'
+    }
+}))(InputBase);
+
 class ChecklistItem extends React.Component {
     constructor(props, context) {
         super(props, context);
@@ -85,7 +92,8 @@ class ChecklistItem extends React.Component {
         this.state = {
             checklist: Object.assign({}, this.props.checklist),
             item: Object.assign({}, this.props.item),
-            openElementDialog: false
+            openElementDialog: false,
+            errors: {}
         };
 
         this.handleEdit = this.handleEdit.bind(this);
@@ -94,64 +102,85 @@ class ChecklistItem extends React.Component {
         this.handleOkClick = this.handleOkClick.bind(this);
         this.onChecklistInputChange = this.onChecklistInputChange.bind(this);
         this.onItemInputChange = this.onItemInputChange.bind(this);
+        this.handleCloseElementDialog = this.handleCloseElementDialog.bind(this);
+        this.handleClickAddItem = this.handleClickAddItem.bind(this);
+        this.isChecklistModalFormValid = this.isChecklistModalFormValid.bind(this);
+        this.IsNewItemFormValid = this.IsNewItemFormValid.bind(this);
     }
 
-    handleDelete = checklist => event => {
+    handleDelete(event) {
         event.stopPropagation();
-        this.props.checklistActions.deleteChecklist(checklist);
+        this.props.checklistActions.deleteChecklist(this.props.checklist);
     };
 
-    handleEdit = event => {
+    handleEdit(event) {
         event.stopPropagation();
         this.setState({
             openElementDialog: true
         });
     };
 
-    handleShare = checklist => event => {
+    handleShare(event) {
         event.stopPropagation();
-        console.log('Share Checklist', checklist);
+        console.log('Share Checklist', this.props.checklist);
     };
 
-    handleOkClick = checklist => event => {
-        this.props.checklistActions.updateChecklist(checklist);
+    handleOkClick(event) {        
+        if (!this.isChecklistModalFormValid()) {
+            return;
+        }
+
+        this.props.checklistActions.updateChecklist(this.state.checklist);
 
         this.setState({
             openElementDialog: false
         });
     };
 
-    onChecklistInputChange = event => {
+    onChecklistInputChange(event) {
         const checklist = Object.assign({}, this.state.checklist);
 
         checklist.name = event.target.value;
 
         this.setState({
-            checklist: checklist
-        });
-    };
-
-    onItemInputChange = event => {
-        this.setState({
-            item: {
-                text: event.target.value
+            checklist: checklist,
+            errors: {
+                modalInput: ''
             }
         });
     };
 
-    handleCloseElementDialog = event => {
+    onItemInputChange(event) {
         this.setState({
-            openElementDialog: false,
-            checklist: this.props.checklist
+            item: {
+                text: event.target.value
+            },
+            errors: {
+                newItemForm: ''
+            }
         });
     };
 
-    handleClickAddItem = checklist => event => {
+    handleCloseElementDialog(event) {
+        this.setState({
+            openElementDialog: false,
+            checklist: this.props.checklist,
+            errors: {
+                modalInput: ''
+            }
+        });
+    };
+
+    handleClickAddItem(event) {
+        if(!this.IsNewItemFormValid()){
+            return;
+        }
+
         const item = Object.assign({}, this.state.item);
 
         item.translations = [];
         item.isChecked = false;
-        item.checklist = checklist._id;
+        item.checklist = this.props.checklist._id;
 
         this.setState({
             item: item
@@ -166,13 +195,46 @@ class ChecklistItem extends React.Component {
         });
     };
 
+    isChecklistModalFormValid() {
+        let errors = Object.assign({}, this.state.errors);
+        let isValid = true;
+        
+        errors.modalInput = '';
+
+        if (!validate.isNotEmpty(this.state.checklist.name)) {
+            errors.modalInput = 'Checklist name should not be empty';
+            isValid = false;
+        }
+
+        this.setState({ errors });
+
+        return isValid;
+    }
+
+    
+    IsNewItemFormValid() {
+        let errors = Object.assign({}, this.state.errors);
+        let isValid = true;
+
+        errors.newItemForm = '';
+
+        if (!validate.isNotEmpty(this.state.item.text)) {
+            errors.newItemForm = 'Item text should not be empty';
+            isValid = false;
+        }
+
+        this.setState({ errors });
+
+        return isValid;
+    }
+
     render() {
         const { classes } = this.props;
         const checklist = this.props.checklist;
         const options = [
             {
                 text: 'Delete',
-                handleClick: this.handleDelete(checklist)
+                handleClick: this.handleDelete
             },
             {
                 text: 'Edit',
@@ -180,7 +242,7 @@ class ChecklistItem extends React.Component {
             },
             {
                 text: 'Share',
-                handleClick: this.handleShare(checklist)
+                handleClick: this.handleShare
             }
         ];
 
@@ -195,17 +257,18 @@ class ChecklistItem extends React.Component {
                     </ExpansionPanelSummary>
                     <ExpansionPanelDetails>
                         <form className={classes.newItemForm}>
-                            <IconButton aria-label="Add New Item Button" onClick={this.handleClickAddItem(checklist)}>
+                            <IconButton aria-label="Add New Item Button" onClick={this.handleClickAddItem}>
                                 <PlaylistAddIcon />
                             </IconButton>
-                            <InputBase
+                            <ItemInput
                                 autoFocus
                                 label="Add New Item"
                                 className={classes.itemInput}
                                 type="text"
                                 value={this.state.item.text}
                                 onChange={this.onItemInputChange}
-                                placeholder="Add New Item"
+                                placeholder={!!this.state.errors.newItemForm ? "Item text should not be empty" : "Add New Item"}
+                                error={!!this.state.errors.newItemForm}
                             />
                         </form>
                         <ItemsList items={checklist.items} />
@@ -215,10 +278,11 @@ class ChecklistItem extends React.Component {
                     name="checklist"
                     handleClose={this.handleCloseElementDialog}
                     open={this.state.openElementDialog}
-                    handleOkButtonClick={this.handleOkClick(this.state.checklist)}
+                    handleOkButtonClick={this.handleOkClick}
                     text={this.state.checklist.name}
                     handleChange={this.onChecklistInputChange}
                     isNew={false}
+                    errors={this.state.errors}
                 />
             </React.Fragment>
         );
