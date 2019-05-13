@@ -60,7 +60,7 @@ export default function checklistReducer(state = initialState.checklists, action
         
         case types.REQUEST_ADD_ITEM:
             return Object.assign({}, state, {
-                isApiItem: action.isApiItem
+                isApiAddItem: action.isApiAddItem
             });
         case types.ADD_ITEM_SUCCESS: {
             const checklists = state.checklists.map(c => {
@@ -76,19 +76,19 @@ export default function checklistReducer(state = initialState.checklists, action
             }); 
 
             return Object.assign({}, state, {
-                isApiItem: action.isApiItem,
+                isApiAddItem: action.isApiAddItem,
                 checklists,
             });
         }
         case types.ADD_ITEM_FAILURE: 
             return Object.assign({}, state, {
-                isApiItem: action.isApiItem,
+                isApiAddItem: action.isApiAddItem,
                 errorMessage: action.message
             });   
 
         case types.REQUEST_UPDATE_ITEM:
             return Object.assign({}, state, {
-                isApiItem: action.isApiItem
+                isApiEditItem: action.isApiItem
             });
         case types.UPDATE_ITEM_SUCCESS: {
             const checklists = state.checklists.map(c => {
@@ -110,13 +110,13 @@ export default function checklistReducer(state = initialState.checklists, action
             }); 
 
             return Object.assign({}, state, {
-                isApiItem: action.isApiItem,
+                isApiEditItem: action.isApiEditItem,
                 checklists,
             });
         }
         case types.UPDATE_ITEM_FAILURE: 
             return Object.assign({}, state, {
-                isApiItem: action.isApiItem,
+                isApiEditItem: action.isApiEditItem,
                 errorMessage: action.message
             });     
 

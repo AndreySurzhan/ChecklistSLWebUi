@@ -178,7 +178,7 @@ class ChecklistItemBlock extends React.Component {
                     itemText={this.state.item.text}
                     onItemInputChange={this.onItemInputChange}
                     errors={this.state.errors}
-                    isItemApiInProgress={this.props.isApiItem}
+                    isAddItemApiInProgress={this.props.isApiAddItem}
                 />
                 <ElementDialog
                     name="checklist"
@@ -205,7 +205,7 @@ function mapStateToProps(state, ownProps) {
     return {
         item,
         isApiChecklist: state.checklists.isApiChecklist,
-        isApiItem: state.checklists.isApiItem
+        isApiAddItem: state.checklists.isApiAddItem
     };
 }
 

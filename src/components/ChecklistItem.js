@@ -50,7 +50,7 @@ const ChecklistItem = ({
     itemText,
     onItemInputChange,
     errors,
-    isItemApiInProgress
+    isAddItemApiInProgress
 }) => {
     return (
         <ExpansionPanel>
@@ -77,7 +77,7 @@ const ChecklistItem = ({
                     />
                 </form>
                 <ItemsList items={checklist.items} />
-                {isItemApiInProgress ? (
+                {isAddItemApiInProgress ? (
                     <div className={classes.itemPlaceholder}>
                         <Spinner size={24} />
                     </div>

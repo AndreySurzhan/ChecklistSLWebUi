@@ -111,7 +111,7 @@ export function requestAddItem(item) {
         type: types.REQUEST_ADD_ITEM,
         item,
         requiresAuth: true,
-        isApiItem: true
+        isApiAddItem: true
     };
 }
 
@@ -119,7 +119,7 @@ export function addItemSuccess(item) {
     return {
         type: types.ADD_ITEM_SUCCESS,
         item,
-        isApiItem: false
+        isApiAddItem: false
     };
 }
 
@@ -127,7 +127,7 @@ export function addItemError(message) {
     return {
         type: types.ADD_ITEM_FAILURE,
         isFetching: false,
-        isApiItem: false
+        isApiAddItem: false
     };
 }
 
@@ -136,7 +136,7 @@ export function requestUpdateItem(item) {
         type: types.REQUEST_UPDATE_ITEM,
         item,
         requiresAuth: true,
-        isApiItem: true
+        isApiEditItem: true
     };
 }
 
@@ -144,14 +144,14 @@ export function updateItemSuccess(item) {
     return {
         type: types.UPDATE_ITEM_SUCCESS,
         item,
-        isApiItem: false
+        isApiEditItem: false
     };
 }
 
 export function updateItemError(message) {
     return {
         type: types.UPDATE_ITEM_FAILURE,
-        isApiItem: false,
+        isApiEditItem: false,
         message
     };
 }
