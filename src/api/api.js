@@ -31,9 +31,9 @@ export default class Api {
                 method,
                 body: data !== null ? JSON.stringify(data) : undefined
             });
-            
+
             if (!response.ok) {
-                const message = `[API error] "${method}" request to "${url}" returne "${response.status}"`;
+                const message = `[API error] "${method}" request to "${url}" returns "${response.status}"`;
 
                 throw new Error(message);
             }

@@ -8,8 +8,10 @@ import Language from '@material-ui/icons/Language';
 import ExitToApp from '@material-ui/icons/ExitToApp';
 import Button from '@material-ui/core/Button';
 import ElementDialog from '../common/components/ElementDialog';
-import ChecklistItem from '../containers/ChecklistItem';
+import ChecklistItemBlock from '../containers/ChecklistItemBlock';
 import Spinner from '../common/components/Spinner';
+import ExpansionPanel from '../components/ExpansionPanel';
+import ExpansionPanelSummary from '../components/ExpansionPanelSummary';
 import * as checklistActions from '../actions/checklistActions';
 import * as userActions from '../actions/userActions';
 import { bindActionCreators } from 'redux';
@@ -78,25 +80,25 @@ class ChecklistPage extends React.Component {
     handleLogoutClick(event) {
         this.props.userActions.logout();
         this.props.history.push('/login');
-    };
+    }
 
     handleLanguagesButtonClick(event) {
         this.setState({
             openLanguageDialog: true
         });
-    };
+    }
 
     handleLanguagesDialogClose() {
         this.setState({ openLanguageDialog: false });
-    };
+    }
 
     toggleDrawer(event) {
         this.setState({
             drawerIsOpened: this.state.drawerIsOpened ? false : true
         });
-    };
+    }
 
-    handleOkClick(event) {        
+    handleOkClick(event) {
         if (!this.formIsValid()) {
             return;
         }
@@ -108,7 +110,7 @@ class ChecklistPage extends React.Component {
                 name: ''
             }
         });
-    };
+    }
 
     onTextInputChange(event) {
         this.setState({
@@ -119,7 +121,7 @@ class ChecklistPage extends React.Component {
                 modalInput: ''
             }
         });
-    };
+    }
 
     handleCloseElementDialog(event) {
         this.setState({
@@ -131,13 +133,13 @@ class ChecklistPage extends React.Component {
                 modalInput: ''
             }
         });
-    };
+    }
 
     handAddNewChecklistButtonClick(event) {
         this.setState({
             openElementDialog: true
         });
-    };
+    }
 
     formIsValid() {
         let errors = {};
@@ -147,7 +149,7 @@ class ChecklistPage extends React.Component {
             errors.modalInput = 'Checklist name should not be empty';
             isValid = false;
         }
-        
+
         this.setState({ errors });
 
         return isValid;
@@ -156,6 +158,7 @@ class ChecklistPage extends React.Component {
     render() {
         const { classes } = this.props;
         const isFetching = this.props.isFetching;
+        const isApiChecklist = this.props.isApiChecklist;
         const drawerOptions = [
             {
                 text: 'Languages',
@@ -200,12 +203,28 @@ class ChecklistPage extends React.Component {
                             <Spinner size={100} thickness={2} />
                         ) : (
                             this.props.checklists.map(checklist => (
-                                <ChecklistItem key={checklist._id} checklist={checklist} />
+                                <ChecklistItemBlock key={checklist._id} checklist={checklist} />
                             ))
+                        )}
+                        {isApiChecklist ? (
+                            <React.Fragment>
+                                <ExpansionPanel>
+                                    <ExpansionPanelSummary>
+                                        <Spinner size={24} />
+                                    </ExpansionPanelSummary>
+                                </ExpansionPanel>
+                            </React.Fragment>
+                        ) : (
+                            undefined
                         )}
                     </Grid>
                 </Grid>
-                <Button target="_blank" rel="noopener" href="http://translate.yandex.com/" className={classes.buttonLink}>
+                <Button
+                    target="_blank"
+                    rel="noopener"
+                    href="http://translate.yandex.com/"
+                    className={classes.buttonLink}
+                >
                     Powered by Yandex.Translate
                 </Button>
                 <LanguageDialog
@@ -247,7 +266,7 @@ function mapDispatchToProps(dispatch) {
 
 ChecklistPage.propTypes = {
     classes: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired,        
+    isFetching: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
     checklists: PropTypes.array.isRequired

@@ -1,14 +1,6 @@
 import React from 'react';
-import MuiExpansionPanel from '@material-ui/core/ExpansionPanel';
-import MuiExpansionPanelSummary from '@material-ui/core/ExpansionPanelSummary';
-import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
-import MoreButtonBlock from '../common/containers/MoreButtonBlock';
-import ItemsList from '../components/ItemsList';
-import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import PlaylistAddIcon from '@material-ui/icons/PlaylistAdd';
-import IconButton from '@material-ui/core/IconButton';
 import ElementDialog from '../common/components/ElementDialog';
+import ChecklistItem from '../components/ChecklistItem';
 import { withStyles } from '@material-ui/core/styles';
 import * as checklistActions from '../actions/checklistActions';
 import { connect } from 'react-redux';
@@ -16,76 +8,9 @@ import { bindActionCreators } from 'redux';
 import { PropTypes } from 'prop-types';
 import * as validate from '../utils/validate';
 
-const styles = theme => ({
-    checklistName: {
-        width: '100%'
-    },
-    newItemForm: {
-        display: 'flex',
-        flexDirection: 'row'
-    },
-    itemInput: {
-        width: '100%',
-        marginLeft: theme.spacing.unit * 2,
-        marginTop: theme.spacing.unit
-    }
-});
+const styles = theme => ({});
 
-const ExpansionPanel = withStyles({
-    root: {
-        border: '1px solid rgba(0,0,0,.125)',
-        boxShadow: 'none',
-        '&:not(:last-child)': {
-            borderBottom: 0
-        },
-        '&:before': {
-            display: 'none'
-        }
-    },
-    expanded: {
-        margin: 'auto'
-    }
-})(MuiExpansionPanel);
-
-const ExpansionPanelSummary = withStyles({
-    root: {
-        backgroundColor: 'rgba(0,0,0,.03)',
-        borderBottom: '1px solid rgba(0,0,0,.125)',
-        marginBottom: -1,
-        minHeight: 56,
-        '&$expanded': {
-            minHeight: 56
-        },
-        paddingRight: 0
-    },
-    content: {
-        '&$expanded': {
-            margin: '12px 0'
-        },
-        '&>:last-child': {
-            paddingRight: 0
-        }
-    },
-    expanded: {}
-})(props => <MuiExpansionPanelSummary {...props} />);
-
-ExpansionPanelSummary.muiName = 'ExpansionPanelSummary';
-
-const ExpansionPanelDetails = withStyles(theme => ({
-    root: {
-        padding: 0,
-        display: 'flex',
-        flexDirection: 'column'
-    }
-}))(MuiExpansionPanelDetails);
-
-const ItemInput = withStyles(theme => ({
-    error: {
-        color: 'red'
-    }
-}))(InputBase);
-
-class ChecklistItem extends React.Component {
+class ChecklistItemBlock extends React.Component {
     constructor(props, context) {
         super(props, context);
 
@@ -111,21 +36,21 @@ class ChecklistItem extends React.Component {
     handleDelete(event) {
         event.stopPropagation();
         this.props.checklistActions.deleteChecklist(this.props.checklist);
-    };
+    }
 
     handleEdit(event) {
         event.stopPropagation();
         this.setState({
             openElementDialog: true
         });
-    };
+    }
 
     handleShare(event) {
         event.stopPropagation();
         console.log('Share Checklist', this.props.checklist);
-    };
+    }
 
-    handleOkClick(event) {        
+    handleOkClick(event) {
         if (!this.isChecklistModalFormValid()) {
             return;
         }
@@ -135,7 +60,7 @@ class ChecklistItem extends React.Component {
         this.setState({
             openElementDialog: false
         });
-    };
+    }
 
     onChecklistInputChange(event) {
         const checklist = Object.assign({}, this.state.checklist);
@@ -148,7 +73,7 @@ class ChecklistItem extends React.Component {
                 modalInput: ''
             }
         });
-    };
+    }
 
     onItemInputChange(event) {
         this.setState({
@@ -159,7 +84,7 @@ class ChecklistItem extends React.Component {
                 newItemForm: ''
             }
         });
-    };
+    }
 
     handleCloseElementDialog(event) {
         this.setState({
@@ -169,10 +94,10 @@ class ChecklistItem extends React.Component {
                 modalInput: ''
             }
         });
-    };
+    }
 
     handleClickAddItem(event) {
-        if(!this.IsNewItemFormValid()){
+        if (!this.IsNewItemFormValid()) {
             return;
         }
 
@@ -193,12 +118,12 @@ class ChecklistItem extends React.Component {
                 text: ''
             }
         });
-    };
+    }
 
     isChecklistModalFormValid() {
         let errors = Object.assign({}, this.state.errors);
         let isValid = true;
-        
+
         errors.modalInput = '';
 
         if (!validate.isNotEmpty(this.state.checklist.name)) {
@@ -211,7 +136,6 @@ class ChecklistItem extends React.Component {
         return isValid;
     }
 
-    
     IsNewItemFormValid() {
         let errors = Object.assign({}, this.state.errors);
         let isValid = true;
@@ -229,7 +153,6 @@ class ChecklistItem extends React.Component {
     }
 
     render() {
-        const { classes } = this.props;
         const checklist = this.props.checklist;
         const options = [
             {
@@ -248,32 +171,15 @@ class ChecklistItem extends React.Component {
 
         return (
             <React.Fragment>
-                <ExpansionPanel>
-                    <ExpansionPanelSummary>
-                        <Typography className={classes.checklistName} variant="h6">
-                            {checklist.name}
-                        </Typography>
-                        <MoreButtonBlock options={options} />
-                    </ExpansionPanelSummary>
-                    <ExpansionPanelDetails>
-                        <form className={classes.newItemForm}>
-                            <IconButton aria-label="Add New Item Button" onClick={this.handleClickAddItem}>
-                                <PlaylistAddIcon />
-                            </IconButton>
-                            <ItemInput
-                                autoFocus
-                                label="Add New Item"
-                                className={classes.itemInput}
-                                type="text"
-                                value={this.state.item.text}
-                                onChange={this.onItemInputChange}
-                                placeholder={!!this.state.errors.newItemForm ? "Item text should not be empty" : "Add New Item"}
-                                error={!!this.state.errors.newItemForm}
-                            />
-                        </form>
-                        <ItemsList items={checklist.items} />
-                    </ExpansionPanelDetails>
-                </ExpansionPanel>
+                <ChecklistItem
+                    checklist={checklist}
+                    moreButtonOptions={options}
+                    handleClickAddItem={this.handleClickAddItem}
+                    itemText={this.state.item.text}
+                    onItemInputChange={this.onItemInputChange}
+                    errors={this.state.errors}
+                    isItemApiInProgress={this.props.isApiItem}
+                />
                 <ElementDialog
                     name="checklist"
                     handleClose={this.handleCloseElementDialog}
@@ -298,7 +204,8 @@ function mapStateToProps(state, ownProps) {
 
     return {
         item,
-        isApiChecklist: state.checklists.isApiChecklist
+        isApiChecklist: state.checklists.isApiChecklist,
+        isApiItem: state.checklists.isApiItem
     };
 }
 
@@ -309,7 +216,7 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-ChecklistItem.propTypes = {
+ChecklistItemBlock.propTypes = {
     checklist: PropTypes.object.isRequired,
     classes: PropTypes.object.isRequired,
     checklistActions: PropTypes.object.isRequired,
@@ -319,4 +226,4 @@ ChecklistItem.propTypes = {
 export default connect(
     mapStateToProps,
     mapDispatchToProps
-)(withStyles(styles)(ChecklistItem));
+)(withStyles(styles)(ChecklistItemBlock));
