@@ -1,9 +1,9 @@
-import React from "react";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
+import React from 'react';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
 import Typography from '@material-ui/core/Typography';
-import { SupportedLanguages } from '../utils/enums'
-import { withStyles } from "@material-ui/core/styles";
+import { SupportedLanguages } from '../utils/enums';
+import { withStyles } from '@material-ui/core/styles';
 import { PropTypes } from 'prop-types';
 
 const styles = theme => ({
@@ -14,17 +14,21 @@ const styles = theme => ({
     },
     listItemText: {
         paddingLeft: 0
+    },
+    checked: {
+        color: '#adafad'
     }
 });
 
-const Translation = ({ classes, translation }) => {
+const Translation = ({ classes, translation, checked }) => {
     return (
         <ListItem className={classes.root}>
-            <Typography>
+            <Typography className={`${checked ? classes.checked : ''}`}>
                 {SupportedLanguages.getNameByCode(translation.language)}:&nbsp;
             </Typography>
             <ListItemText
                 className={classes.listItemText}
+                classes={{secondary : checked ? classes.checked : ''}}
                 secondary={translation.translation}
             />
         </ListItem>

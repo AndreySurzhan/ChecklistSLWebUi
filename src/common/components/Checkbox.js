@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const CheckboxBlock = ({checked, handleChange}) => {
     return (
-        <Checkbox color="primary" onChange={handleChange} checked={checked} />
+        <Checkbox color='default' onChange={handleChange} checked={checked} />
     );
 }
 

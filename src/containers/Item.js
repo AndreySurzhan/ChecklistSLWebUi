@@ -20,6 +20,10 @@ const styles = theme => ({
         height: 40,
         lineHeight: 2.5
     },
+    checked: {
+        color: '#adafad',
+        textDecoration: 'line-through'
+    },
     item: {
         display: 'flex',
         flexDirection: 'column',
@@ -138,13 +142,13 @@ class Item extends React.Component {
             <React.Fragment>
                 <Checkbox checked={item.isChecked} handleChange={this.handleCheckboxChange} />
                 <div className={classes.item}>
-                    <Typography className={classes.itemText} variant="subtitle1">
+                    <Typography className={`${classes.itemText} ${item.isChecked ? classes.checked : ''}`} variant="subtitle1">
                         {item.text}
                     </Typography>
                     <Divider light />
                     <List className={classes.translations}>
                         {item.translations.map((translation, i) => (
-                            <Translation key={i} translation={translation} />
+                            <Translation checked={item.isChecked} key={i} translation={translation} />
                         ))}
                     </List>
                 </div>
