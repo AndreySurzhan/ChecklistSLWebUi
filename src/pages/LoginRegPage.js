@@ -120,62 +120,18 @@ class LoginRegPage extends Component {
     render() {
         const { classes } = this.props;
         const isFetching = this.props.isFetching;
-        const loginFormProps = {
-            title: 'Login to ChecklistSL',
-            input: {
-                username: {
-                    id: 'clsl-username-login-input',
-                    label: 'Email',
-                    name: 'email',
-                    type: 'email',
-                    value: this.state.username,
-                    handleInputChange: this.handleChange('username')
-                },
-                password: {
-                    id: 'clsl-password-login-input',
-                    label: 'Password',
-                    name: 'password',
-                    type: 'password',
-                    value: this.state.password,
-                    handleInputChange: this.handleChange('password')
-                }
-            },
-            submitButton: {
-                label: 'Submit Login form',
-                handleClick: this.handleLoginClick,
-                title: 'Login'
-            }
-        };
-        const regFormProps = {
-            title: 'Register to ChecklistSL',
-            input: {
-                username: {
-                    id: 'clsl-password-reg-input',
-                    label: 'Username',
-                    name: 'username',
-                    value: this.state.username,
-                    handleInputChange: this.handleChange('username')
-                },
-                password: {
-                    id: 'clsl-username-reg-input',
-                    label: 'Password',
-                    name: 'password',
-                    value: this.state.password,
-                    handleInputChange: this.handleChange('password')
-                }
-            },
-            submitButton: {
-                label: 'Submit Registration form',
-                handleClick: this.handleRegistrationClick,
-                title: 'Register'
-            }
-        };
+        const isLoginForm = this.state.isLoginForm;
 
         return (
             <div id="clsl-login-container" className={classes.root}>
                 <LoginRegForm
                     isFetching={isFetching}
-                    formProps={this.state.isLoginForm ? loginFormProps : regFormProps}
+                    password={this.state.password}
+                    email={this.state.username}
+                    title={isLoginForm ? 'Login' : 'Register'}
+                    onPasswordChange={this.handleChange('password')}
+                    onEmailChange={this.handleChange('username')}
+                    onSubmitButton={isLoginForm ? this.handleLoginClick : this.handleRegistrationClick}
                     errors={this.state.errors}
                 />
                 <Typography>
@@ -204,7 +160,7 @@ function mapDispatchToProps(dispatch) {
 
 LoginRegPage.propTypes = {
     classes: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired,        
+    isFetching: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool.isRequired
 };
 

@@ -1,11 +1,11 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
-import Typography from "@material-ui/core/Typography";
+import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
 import { withStyles } from '@material-ui/core/styles';
 import { PropTypes } from 'prop-types';
-import CircularProgress  from '@material-ui/core/CircularProgress';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const styles = theme => ({
     typography: {
@@ -20,62 +20,73 @@ const styles = theme => ({
         marginBottom: theme.spacing.unit * 2
     },
     buttonProgress: {
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      marginTop: -12,
-      marginLeft: -12,
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        marginTop: -12,
+        marginLeft: -12
     }
 });
 
-const LoginRegForm = ({ classes, formProps, children, isFetching, errors }) => {
-    const usernameInput = formProps.input.username;
-    const passwordInput = formProps.input.password;
-    const submitButton = formProps.submitButton;
-
+const LoginRegForm = ({
+    classes,
+    title,
+    email,
+    password,
+    onPasswordChange,
+    onEmailChange,
+    onSubmitButton,
+    children,
+    isFetching,
+    errors
+}) => {
     return (
         <React.Fragment>
-            <Typography className={classes.typography} variant="h4">
-                {formProps.title}
+            <Typography className={classes.typography} variant="h5">
+                {`${title} to ChecklistSL`}
             </Typography>
-            <FormControl id={formProps.id} autoComplete="off" className={classes.flexContainerColumns}>
+            <FormControl
+                id={`clsl-${title.toLowerCase()}-form`}
+                autoComplete="off"
+                className={classes.flexContainerColumns}
+            >
                 <TextField
                     className={classes.textField}
-                    id={usernameInput.id}
-                    label={usernameInput.label}
-                    name={usernameInput.name}
-                    type='email'
-                    value={usernameInput.value}
-                    onChange={usernameInput.handleInputChange}
+                    id={'clsl-email-input'}
+                    label={'Email'}
+                    name={'email'}
+                    type="email"
+                    value={email}
+                    onChange={onEmailChange}
                     margin="normal"
                     autoFocus={true}
-                    error={!!errors.username} 
-                    helperText = {errors.username} 
+                    error={!!errors.username}
+                    helperText={errors.username}
                 />
                 <TextField
                     className={classes.textField}
-                    id={passwordInput.id}
-                    label={passwordInput.label}
-                    name={passwordInput.name}
-                    type='password'
-                    value={passwordInput.value}
+                    id={'clsl-password-input'}
+                    label={'Password'}
+                    name={'password'}
+                    type="password"
+                    value={password}
                     autoComplete="current-password"
-                    onChange={passwordInput.handleInputChange}
+                    onChange={onPasswordChange}
                     margin="normal"
                     error={!!errors.password}
-                    helperText = {errors.password} 
+                    helperText={errors.password}
                 />
                 {children}
             </FormControl>
             <Button
                 disabled={isFetching}
                 className={classes.button}
-                onClick={submitButton.handleClick}
-                label={submitButton.label}
+                onClick={onSubmitButton}
+                label={'Submit form'}
                 variant="contained"
                 color="primary"
             >
-                {submitButton.title}
+                {title}
                 {isFetching && <CircularProgress size={24} className={classes.buttonProgress} />}
             </Button>
         </React.Fragment>
@@ -84,7 +95,13 @@ const LoginRegForm = ({ classes, formProps, children, isFetching, errors }) => {
 
 LoginRegForm.propTypes = {
     classes: PropTypes.object.isRequired,
-    formProps: PropTypes.object.isRequired
+    title: PropTypes.string.isRequired,
+    email: PropTypes.string.isRequired,
+    password: PropTypes.string.isRequired,
+    onSubmitButton: PropTypes.func.isRequired,
+    onPasswordChange: PropTypes.func.isRequired,
+    onEmailChange: PropTypes.func.isRequired,
+    errors: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(LoginRegForm);
