@@ -9,7 +9,7 @@ export function requestAddChecklist(checklist) {
         type: types.REQUEST_ADD_CHECKLIST,
         checklist,
         requiresAuth: true,
-        isApiChecklist: true
+        isApiAddChecklist: true
     };
 }
 
@@ -17,14 +17,14 @@ export function addChecklistSuccess(checklist) {
     return {
         type: types.ADD_CHECKLIST_SUCCESS,
         checklist,
-        isApiChecklist: false
+        isApiAddChecklist: false
     };
 }
 
 export function addChecklistError(message) {
     return {
         type: types.ADD_CHECKLIST_FAILURE,
-        isApiChecklist: false,
+        isApiAddChecklist: false,
         message
     };
 }
@@ -34,7 +34,7 @@ export function requestUpdateChecklist(checklist) {
         type: types.REQUEST_UPDATE_CHECKLIST,
         checklist,
         requiresAuth: true,
-        isApiChecklist: true
+        isApiUpdateChecklist: true
     };
 }
 
@@ -42,14 +42,14 @@ export function updateChecklistSuccess(checklist) {
     return {
         type: types.UPDATE_CHECKLIST_SUCCESS,
         checklist,
-        isApiChecklist: false
+        isApiUpdateChecklist: false
     };
 }
 
 export function updateChecklistError(message) {
     return {
         type: types.UPDATE_CHECKLIST_FAILURE,
-        isApiChecklist: false,
+        isApiUpdateChecklist: false,
         message
     };
 }

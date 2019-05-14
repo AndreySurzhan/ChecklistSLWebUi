@@ -63,12 +63,12 @@ class ChecklistItemBlock extends React.Component {
     }
 
     onChecklistInputChange(event) {
-        const checklist = Object.assign({}, this.state.checklist);
+        const checklist = Object.assign({}, this.props.checklist);
 
         checklist.name = event.target.value;
 
         this.setState({
-            checklist: checklist,
+            checklist,
             errors: {
                 modalInput: ''
             }
@@ -107,16 +107,12 @@ class ChecklistItemBlock extends React.Component {
         item.isChecked = false;
         item.checklist = this.props.checklist._id;
 
-        this.setState({
-            item: item
-        });
-
         this.props.itemActions.addItem(item);
 
+        item.text = '';
+
         this.setState({
-            item: {
-                text: ''
-            }
+            item
         });
     }
 
@@ -204,6 +200,7 @@ function mapStateToProps(state, ownProps) {
 
     return {
         item,
+        checklist: ownProps.checklist,
         isApiChecklist: state.checklists.isApiChecklist,
         isApiAddItem: state.checklists.isApiAddItem
     };

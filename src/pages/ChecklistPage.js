@@ -158,7 +158,7 @@ class ChecklistPage extends React.Component {
     render() {
         const { classes } = this.props;
         const isFetching = this.props.isFetching;
-        const isApiChecklist = this.props.isApiChecklist;
+        const isApiAddChecklist = this.props.isApiAddChecklist;
         const drawerOptions = [
             {
                 text: 'Languages',
@@ -206,7 +206,7 @@ class ChecklistPage extends React.Component {
                                 <ChecklistItemBlock key={checklist._id} checklist={checklist} />
                             ))
                         )}
-                        {isApiChecklist ? (
+                        {isApiAddChecklist ? (
                             <React.Fragment>
                                 <ExpansionPanel>
                                     <ExpansionPanelSummary>
@@ -253,7 +253,7 @@ function mapStateToProps(state, ownProps) {
         user: state.user,
         checklists: state.checklists.checklists,
         isFetching: state.checklists.isFetching,
-        isApiChecklist: state.checklists.isApiChecklist
+        isApiAddChecklist: state.checklists.isApiAddChecklist
     };
 }
 

@@ -5,22 +5,22 @@ export default function checklistReducer(state = initialState.checklists, action
     switch (action.type) {
         case types.REQUEST_ADD_CHECKLIST:
             return Object.assign({}, state, {
-                isApiChecklist: action.isApiChecklist
+                isApiAddChecklist: action.isApiAddChecklist
             });
         case types.ADD_CHECKLIST_SUCCESS: 
             return Object.assign({}, state, {
-                isApiChecklist: action.isApiChecklist,
+                isApiAddChecklist: action.isApiAddChecklist,
                 checklists: [...state.checklists, Object.assign({}, action.checklist)],
             });
         case types.ADD_CHECKLIST_FAILURE: 
             return Object.assign({}, state, {
-                isApiChecklist: action.isApiChecklist,
+                isApiAddChecklist: action.isApiAddChecklist,
                 errorMessage: action.message
             });        
 
         case types.REQUEST_UPDATE_CHECKLIST:
             return Object.assign({}, state, {
-                isApiChecklist: action.isApiChecklist
+                isApiUpdateChecklist: action.isApiUpdateChecklist
             });
         case types.UPDATE_CHECKLIST_SUCCESS: {
             const checklists = state.checklists.map(c => {
@@ -32,13 +32,13 @@ export default function checklistReducer(state = initialState.checklists, action
             }); 
 
             return Object.assign({}, state, {
-                isApiChecklist: action.isApiChecklist,
+                isApiUpdateChecklist: action.isApiUpdateChecklist,
                 checklists,
             });
         }
         case types.UPDATE_CHECKLIST_FAILURE: 
             return Object.assign({}, state, {
-                isApiChecklist: action.isApiChecklist,
+                isApiUpdateChecklist: action.isApiUpdateChecklist,
                 errorMessage: action.message
             });      
               
