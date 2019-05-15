@@ -56,7 +56,7 @@ const ElementDialog = ({
                 <Button onClick={handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button type="submit" color="primary">
+                <Button type="submit" onClick={handleOkButtonClick} color="primary">
                     Ok
                 </Button>
             </DialogActions>
