@@ -10,7 +10,7 @@ const styles = theme => ({});
 const Drawer = ({ classes, open, user, buttons, toggleDrawer}) => {
     return (
         <div>
-            <SwipeableDrawer open={open} onClose={toggleDrawer} onOpen={toggleDrawer} disableDiscovery={false}>
+            <SwipeableDrawer open={open} onClose={toggleDrawer} onOpen={toggleDrawer} disableDiscovery={true}>
                 <UserSummary id="clsl-user-summary-container" user={user} />
                 <DrawerList buttons={buttons}/>
             </SwipeableDrawer>
