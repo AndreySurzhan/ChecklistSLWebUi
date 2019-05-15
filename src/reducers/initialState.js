@@ -1,4 +1,3 @@
-
 import { isTokenValid } from '../utils/checkTokenExpirationMiddleware';
 
 export default {
@@ -11,4 +10,4 @@ export default {
         user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
         isAuthenticated: isTokenValid()
     }
-}
+};

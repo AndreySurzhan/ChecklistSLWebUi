@@ -7,12 +7,12 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({});
 
-const Drawer = ({ classes, open, user, buttons, toggleDrawer}) => {
+const Drawer = ({ classes, open, user, buttons, toggleDrawer }) => {
     return (
         <div>
             <SwipeableDrawer open={open} onClose={toggleDrawer} onOpen={toggleDrawer} disableDiscovery={true}>
                 <UserSummary id="clsl-user-summary-container" user={user} />
-                <DrawerList buttons={buttons}/>
+                <DrawerList buttons={buttons} />
             </SwipeableDrawer>
         </div>
     );

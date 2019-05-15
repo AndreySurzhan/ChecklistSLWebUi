@@ -75,11 +75,11 @@ class LanguageDialog extends React.Component {
                     return 0;
                 })
         );
-    };
+    }
 
     handleCancelClick() {
         this.props.onClose();
-    };
+    }
 
     handleCheckboxChange = languageName => event => {
         const languages = [...this.state.languages];
@@ -118,11 +118,11 @@ class LanguageDialog extends React.Component {
         } else {
             this.props.onClose();
         }
-    };
+    }
 
     handleClose() {
         this.props.onClose();
-    };
+    }
 
     render() {
         const { classes } = this.props;

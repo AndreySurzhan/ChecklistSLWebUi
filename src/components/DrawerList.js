@@ -12,16 +12,14 @@ const styles = theme => ({
     }
 });
 
-const DrawerList = ({ classes, buttons}) => {
+const DrawerList = ({ classes, buttons }) => {
     return (
         <div className={classes.root}>
             <List>
                 {buttons.map((buttonOption, index) => (
                     <ListItem button key={buttonOption.text} onClick={buttonOption.handleClick}>
                         <ListItemText primary={buttonOption.text} />
-                        <ListItemIcon>
-                            {buttonOption.icon}
-                        </ListItemIcon>
+                        <ListItemIcon>{buttonOption.icon}</ListItemIcon>
                     </ListItem>
                 ))}
             </List>

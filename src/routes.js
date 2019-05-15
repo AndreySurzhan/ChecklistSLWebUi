@@ -7,9 +7,9 @@ import { PrivateRoute } from './components/PrivateRoute';
 
 export default (
     <App>
-        {["/login", "/register"].map((path, index) => 
+        {['/login', '/register'].map((path, index) => (
             <Route path={path} component={LoginRegPage} key={index} />
-        )}
-        <PrivateRoute exact path="/" component={ChecklistPage}/>
+        ))}
+        <PrivateRoute exact path="/" component={ChecklistPage} />
     </App>
 );

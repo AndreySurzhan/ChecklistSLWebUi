@@ -28,7 +28,7 @@ const Translation = ({ classes, translation, checked }) => {
             </Typography>
             <ListItemText
                 className={classes.listItemText}
-                classes={{secondary : checked ? classes.checked : ''}}
+                classes={{ secondary: checked ? classes.checked : '' }}
                 secondary={translation.translation}
             />
         </ListItem>

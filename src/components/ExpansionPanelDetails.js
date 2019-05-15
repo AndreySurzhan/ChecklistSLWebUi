@@ -1,4 +1,3 @@
-
 import MuiExpansionPanelDetails from '@material-ui/core/ExpansionPanelDetails';
 import { withStyles } from '@material-ui/core/styles';
 

@@ -13,10 +13,10 @@ export default class Api {
     setAuthHeader() {
         const token = localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')).token : null;
 
-        if(token) {
+        if (token) {
             this.headers.Authorization = 'Bearer ' + token;
         } else {
-            throw new Error('Token doesn\'t exist');
+            throw new Error("Token doesn't exist");
         }
     }
 

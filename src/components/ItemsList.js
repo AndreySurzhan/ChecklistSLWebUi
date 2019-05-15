@@ -16,7 +16,7 @@ const styles = theme => ({
         borderBottom: borderStyle,
         '&:last-child': {
             borderBottom: 'none'
-        },        
+        },
         '&:first-child': {
             borderTop: borderStyle
         }

@@ -32,10 +32,12 @@ const ElementDialog = ({
         >
             <DialogTitle id={`clsl-form-title-${name}`}>{isNew ? `Add new ${name}` : `Change ${name}`}</DialogTitle>
             <DialogContent>
-                <form onSubmit={(e) => {
-                    e.preventDefault();
-                    handleOkButtonClick(e);
-                }}>
+                <form
+                    onSubmit={e => {
+                        e.preventDefault();
+                        handleOkButtonClick(e);
+                    }}
+                >
                     <TextField
                         autoFocus
                         margin="dense"

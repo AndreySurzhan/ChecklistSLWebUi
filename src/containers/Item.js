@@ -59,14 +59,14 @@ class Item extends React.Component {
     handleDelete(event) {
         event.stopPropagation();
         this.props.actions.deleteItem(this.state.item);
-    };
+    }
 
     handleEdit(event) {
         event.stopPropagation();
         this.setState({
             openElementDialog: true
         });
-    };
+    }
 
     handleCheckboxChange(event) {
         const item = Object.assign({}, this.props.item);
@@ -77,7 +77,7 @@ class Item extends React.Component {
         this.setState({
             item: item
         });
-    };
+    }
 
     handleOkClick(event) {
         if (!this.formIsValid()) {
@@ -88,7 +88,7 @@ class Item extends React.Component {
         this.setState({
             openElementDialog: false
         });
-    };
+    }
 
     onTextInputChange(event) {
         const item = Object.assign({}, this.state.item);
@@ -101,14 +101,14 @@ class Item extends React.Component {
                 modalInput: ''
             }
         });
-    };
+    }
 
     handleCloseElementDialog(event) {
         this.setState({
             openElementDialog: false,
             item: this.props.item
         });
-    };
+    }
 
     formIsValid() {
         let errors = {};
@@ -142,7 +142,10 @@ class Item extends React.Component {
             <React.Fragment>
                 <Checkbox checked={item.isChecked} handleChange={this.handleCheckboxChange} />
                 <div className={classes.item}>
-                    <Typography className={`${classes.itemText} ${item.isChecked ? classes.checked : ''}`} variant="subtitle1">
+                    <Typography
+                        className={`${classes.itemText} ${item.isChecked ? classes.checked : ''}`}
+                        variant="subtitle1"
+                    >
                         {item.text}
                     </Typography>
                     <Divider light />

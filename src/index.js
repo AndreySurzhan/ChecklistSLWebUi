@@ -8,11 +8,10 @@ import * as serviceWorker from './serviceWorker';
 import { history } from './utils/history';
 import dotenv from 'dotenv';
 
-
 //possible to import css as is here. Webpack with handle it
 
 //Loads environment variables from .env files
-dotenv.config()
+dotenv.config();
 
 const store = configureStore();
 

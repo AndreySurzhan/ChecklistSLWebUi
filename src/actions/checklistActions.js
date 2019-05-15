@@ -185,7 +185,7 @@ export function loadChecklists() {
     return async (dispatch, getState) => {
         try {
             const state = getState();
-            
+
             if (state.user.isAuthenticated) {
                 dispatch(requestLoadChecklists());
 

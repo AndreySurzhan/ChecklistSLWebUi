@@ -1,14 +1,14 @@
-import React from "react";
-import IconButton from "@material-ui/core/IconButton";
-import Menu from "@material-ui/core/Menu";
-import MenuItem from "@material-ui/core/MenuItem";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+import React from 'react';
+import IconButton from '@material-ui/core/IconButton';
+import Menu from '@material-ui/core/Menu';
+import MenuItem from '@material-ui/core/MenuItem';
+import MoreVertIcon from '@material-ui/icons/MoreVert';
 import PropTypes from 'prop-types';
-import { withStyles } from "@material-ui/core/styles";
+import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({
     root: {
-        alignSelf: "center"
+        alignSelf: 'center'
     },
     button: {
         margin: theme.spacing.unit / 2,
@@ -43,23 +43,12 @@ class MoreButtonBlock extends React.Component {
 
         return (
             <div className={classes.root}>
-                <IconButton
-                    className={classes.button}
-                    aria-label="More"
-                    onClick={this.handleClick}
-                >
+                <IconButton className={classes.button} aria-label="More" onClick={this.handleClick}>
                     <MoreVertIcon fontSize="small" />
                 </IconButton>
-                <Menu
-                    anchorEl={anchorEl}
-                    open={open}
-                    onClose={this.handleClose}
-                >
+                <Menu anchorEl={anchorEl} open={open} onClose={this.handleClose}>
                     {this.props.options.map((option, i) => (
-                        <MenuItem
-                            key={i}
-                            onClick={this.handleOptionClick(option.handleClick)}
-                        >
+                        <MenuItem key={i} onClick={this.handleOptionClick(option.handleClick)}>
                             {option.text}
                         </MenuItem>
                     ))}
@@ -68,7 +57,6 @@ class MoreButtonBlock extends React.Component {
         );
     }
 }
-
 
 MoreButtonBlock.propTypes = {
     classes: PropTypes.object.isRequired,

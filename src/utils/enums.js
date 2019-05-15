@@ -96,17 +96,17 @@ export class SupportedLanguages {
         { name: 'Malay', code: 'ms' }
     ];
 
-    static getNameByCode = (code) => {
+    static getNameByCode = code => {
         const languages = new SupportedLanguages();
 
         for (let i = 0; i < languages.languages.length; i++) {
             const lang = languages.languages[i];
-    
+
             if (lang.code === code) {
                 return lang.name;
             }
         }
-    
+
         return null;
-    }
+    };
 }

@@ -1,7 +1,6 @@
 import Api from './api';
 
 class UserApi extends Api {
-
     async login(user) {
         return await this.request(user, 'POST', `${this.basicUrl}/login`, false);
     }
