@@ -10,7 +10,17 @@ import { withStyles } from '@material-ui/core/styles';
 
 const styles = theme => ({});
 
-const ElementDialog = ({ name, classes, open, handleOkButtonClick, handleClose, isNew, text, handleChange, errors }) => {
+const ElementDialog = ({
+    name,
+    classes,
+    open,
+    handleOkButtonClick,
+    handleClose,
+    isNew,
+    text,
+    handleChange,
+    errors
+}) => {
     return (
         <Dialog
             onBackdropClick={handleClose}
@@ -22,24 +32,29 @@ const ElementDialog = ({ name, classes, open, handleOkButtonClick, handleClose, 
         >
             <DialogTitle id={`clsl-form-title-${name}`}>{isNew ? `Add new ${name}` : `Change ${name}`}</DialogTitle>
             <DialogContent>
-                <TextField
-                    autoFocus
-                    margin="dense"
-                    id={`clsl-form-input-${name}`}
-                    label={isNew ? `New ${name}` : `Change ${name}`}
-                    type="text"
-                    fullWidth
-                    value={text}
-                    onChange={handleChange}
-                    error={!!errors.modalInput}
-                    helperText = {errors.modalInput} 
-                />
+                <form onSubmit={(e) => {
+                    e.preventDefault();
+                    handleOkButtonClick(e);
+                }}>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        id={`clsl-form-input-${name}`}
+                        label={isNew ? `New ${name}` : `Change ${name}`}
+                        type="text"
+                        fullWidth
+                        value={text}
+                        onChange={handleChange}
+                        error={!!errors.modalInput}
+                        helperText={errors.modalInput}
+                    />
+                </form>
             </DialogContent>
             <DialogActions>
                 <Button onClick={handleClose} color="primary">
                     Cancel
                 </Button>
-                <Button onClick={handleOkButtonClick} color="primary">
+                <Button type="submit" color="primary">
                     Ok
                 </Button>
             </DialogActions>

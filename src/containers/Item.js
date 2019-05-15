@@ -79,7 +79,7 @@ class Item extends React.Component {
         });
     };
 
-    handleOkClick(event) {        
+    handleOkClick(event) {
         if (!this.formIsValid()) {
             return;
         }

@@ -61,8 +61,8 @@ const ChecklistItem = ({
                 <MoreButtonBlock options={moreButtonOptions} />
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
-                <form className={classes.newItemForm}>
-                    <IconButton aria-label="Add New Item Button" onClick={handleClickAddItem}>
+                <form onSubmit={handleClickAddItem} className={classes.newItemForm}>
+                    <IconButton type="submit" aria-label="Add New Item Button">
                         <PlaylistAddIcon />
                     </IconButton>
                     <ItemInput

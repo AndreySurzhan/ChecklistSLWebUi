@@ -30,9 +30,15 @@ class LanguageDialog extends React.Component {
             languages: this.filterLanguages(new SupportedLanguages().languages, props.user.user.languages),
             user: Object.assign({}, props.user.user)
         };
+
+        this.filterLanguages = this.filterLanguages.bind(this);
+        this.handleCancelClick = this.handleCancelClick.bind(this);
+        this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
+        this.handleOkClick = this.handleOkClick.bind(this);
+        this.handleClose = this.handleClose.bind(this);
     }
 
-    filterLanguages = (languages, userLanguages) => {
+    filterLanguages(languages, userLanguages) {
         return (
             languages
                 .map(l => {
@@ -71,7 +77,7 @@ class LanguageDialog extends React.Component {
         );
     };
 
-    handleCancelClick = () => {
+    handleCancelClick() {
         this.props.onClose();
     };
 
@@ -93,7 +99,7 @@ class LanguageDialog extends React.Component {
         });
     };
 
-    handleOkClick = event => {
+    handleOkClick(event) {
         const user = Object.assign({}, this.state.user);
         const languages = [...this.state.languages];
         const langCodes = languages.filter(l => l.checked).map(l => l.code);
@@ -114,7 +120,7 @@ class LanguageDialog extends React.Component {
         }
     };
 
-    handleClose = () => {
+    handleClose() {
         this.props.onClose();
     };
 

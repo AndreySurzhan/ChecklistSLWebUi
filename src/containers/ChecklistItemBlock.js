@@ -97,6 +97,8 @@ class ChecklistItemBlock extends React.Component {
     }
 
     handleClickAddItem(event) {
+        event.preventDefault();
+
         if (!this.IsNewItemFormValid()) {
             return;
         }
