@@ -18,30 +18,28 @@ export default function checklistReducer(state = initialState.checklists, action
                 errorMessage: action.message
             });
 
-        case types.REQUEST_UPDATE_CHECKLIST:
-            return Object.assign({}, state, {
-                isApiUpdateChecklist: action.isApiUpdateChecklist
-            });
-        case types.UPDATE_CHECKLIST_SUCCESS: {
-            const checklists = state.checklists.map(c => {
-                if (c._id === action.checklist._id) {
-                    return Object.assign({}, action.checklist);
-                }
-
-                return c;
-            });
+        case types.REQUEST_UPDATE_CHECKLIST: {
+            const checklists = updateChecklist(state.checklists, action.checklist);
 
             return Object.assign({}, state, {
-                isApiUpdateChecklist: action.isApiUpdateChecklist,
                 checklists
             });
         }
-        case types.UPDATE_CHECKLIST_FAILURE:
+        case types.UPDATE_CHECKLIST_SUCCESS: {
+            const checklists = updateChecklist(state.checklists, action.checklist);
+
             return Object.assign({}, state, {
-                isApiUpdateChecklist: action.isApiUpdateChecklist,
+                checklists
+            });
+        }
+        case types.UPDATE_CHECKLIST_FAILURE: {
+            const checklists = updateChecklist(state.checklists, action.checklist);
+
+            return Object.assign({}, state, {
+                checklists,
                 errorMessage: action.message
             });
-
+        }
         case types.REQUEST_DELETE_CHECKLIST:
             return Object.assign({}, state, {
                 isApiChecklist: action.isApiChecklist
@@ -86,40 +84,29 @@ export default function checklistReducer(state = initialState.checklists, action
                 errorMessage: action.message
             });
 
-        case types.REQUEST_UPDATE_ITEM:
+        case types.REQUEST_UPDATE_ITEM: {
+            const checklists = updateItemInChecklists(state.checklists, action.item);
+
             return Object.assign({}, state, {
-                isApiEditItem: action.isApiItem
+                checklists
             });
+        }
         case types.UPDATE_ITEM_SUCCESS: {
-            const checklists = state.checklists.map(c => {
-                if (c._id === action.item.checklist) {
-                    const checklist = Object.assign({}, c);
-
-                    checklist.items = checklist.items.map(item => {
-                        if (item._id === action.item._id) {
-                            return Object.assign({}, action.item);
-                        }
-
-                        return item;
-                    });
-
-                    return checklist;
-                }
-
-                return c;
-            });
+            const checklists = updateItemInChecklists(state.checklists, action.item);
 
             return Object.assign({}, state, {
                 isApiEditItem: action.isApiEditItem,
                 checklists
             });
         }
-        case types.UPDATE_ITEM_FAILURE:
-            return Object.assign({}, state, {
-                isApiEditItem: action.isApiEditItem,
-                errorMessage: action.message
-            });
+        case types.UPDATE_ITEM_FAILURE: {
+            const checklists = updateItemInChecklists(state.checklists, action.item);
 
+            return Object.assign({}, state, {
+                errorMessage: action.message,
+                checklists
+            });
+        }
         case types.REQUEST_DELETE_ITEM:
             return Object.assign({}, state, {
                 isApiItem: action.isApiItem
@@ -167,4 +154,34 @@ export default function checklistReducer(state = initialState.checklists, action
         default:
             return state;
     }
+}
+
+function updateItemInChecklists(checklists, item) {
+    return checklists.map(c => {
+        if (c._id === item.checklist) {
+            const checklist = Object.assign({}, c);
+
+            checklist.items = checklist.items.map(i => {
+                if (i._id === item._id) {
+                    return Object.assign({}, item);
+                }
+
+                return i;
+            });
+
+            return checklist;
+        }
+
+        return c;
+    });
+}
+
+function updateChecklist(checklists, checklist) {
+    return checklists.map(c => {
+        if (c._id === checklist._id) {
+            return Object.assign({}, checklist);
+        }
+
+        return c;
+    });
 }

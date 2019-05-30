@@ -6,6 +6,7 @@ import MoreButtonBlock from '../common/containers/MoreButtonBlock';
 import Translation from '../components/Translation';
 import ElementDialog from '../common/components/ElementDialog';
 import Typography from '@material-ui/core/Typography';
+import Spinner from '../common/components/Spinner';
 import * as checklistActions from '../actions/checklistActions';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
@@ -142,18 +143,24 @@ class Item extends React.Component {
             <React.Fragment>
                 <Checkbox checked={item.isChecked} handleChange={this.handleCheckboxChange} />
                 <div className={classes.item}>
-                    <Typography
-                        className={`${classes.itemText} ${item.isChecked ? classes.checked : ''}`}
-                        variant="subtitle1"
-                    >
-                        {item.text}
-                    </Typography>
-                    <Divider light />
-                    <List className={classes.translations}>
-                        {item.translations.map((translation, i) => (
-                            <Translation checked={item.isChecked} key={i} translation={translation} />
-                        ))}
-                    </List>
+                    {item.isApiUpdateItem ? (
+                        <Spinner size={24} />
+                    ) : (
+                        <React.Fragment>
+                            <Typography
+                                className={`${classes.itemText} ${item.isChecked ? classes.checked : ''}`}
+                                variant="subtitle1"
+                            >
+                                {item.text}
+                            </Typography>
+                            <Divider light />
+                            <List className={classes.translations}>
+                                {item.translations.map((translation, i) => (
+                                    <Translation checked={item.isChecked} key={i} translation={translation} />
+                                ))}
+                            </List>
+                        </React.Fragment>
+                    )}
                 </div>
                 <MoreButtonBlock options={options} />
                 <ElementDialog

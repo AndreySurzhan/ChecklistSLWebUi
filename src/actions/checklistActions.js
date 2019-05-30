@@ -30,27 +30,31 @@ export function addChecklistError(message) {
 }
 
 export function requestUpdateChecklist(checklist) {
+    checklist.isApiUpdateChecklist = true;
+
     return {
         type: types.REQUEST_UPDATE_CHECKLIST,
         checklist,
-        requiresAuth: true,
-        isApiUpdateChecklist: true
+        requiresAuth: true
     };
 }
 
 export function updateChecklistSuccess(checklist) {
+    checklist.isApiUpdateChecklist = false;
+
     return {
         type: types.UPDATE_CHECKLIST_SUCCESS,
-        checklist,
-        isApiUpdateChecklist: false
+        checklist
     };
 }
 
-export function updateChecklistError(message) {
+export function updateChecklistError(message, checklist) {
+    checklist.isApiUpdateChecklist = false;
+
     return {
         type: types.UPDATE_CHECKLIST_FAILURE,
-        isApiUpdateChecklist: false,
-        message
+        message,
+        checklist
     };
 }
 
@@ -132,26 +136,53 @@ export function addItemError(message) {
 }
 
 export function requestUpdateItem(item) {
+    item.isApiUpdateItem = true;
+
     return {
         type: types.REQUEST_UPDATE_ITEM,
         item,
-        requiresAuth: true,
-        isApiEditItem: true
+        requiresAuth: true
     };
 }
 
 export function updateItemSuccess(item) {
+    item.isApiUpdateItem = false;
+
     return {
         type: types.UPDATE_ITEM_SUCCESS,
-        item,
-        isApiEditItem: false
+        item
     };
 }
 
-export function updateItemError(message) {
+export function updateItemError(message, item) {
+    item.isApiUpdateItem = false;
+
     return {
         type: types.UPDATE_ITEM_FAILURE,
-        isApiEditItem: false,
+        item,
+        message
+    };
+}
+
+export function requestCheckItem(item) {
+    return {
+        type: types.REQUEST_UPDATE_ITEM,
+        item,
+        requiresAuth: true
+    };
+}
+
+export function checkItemSuccess(item) {
+    return {
+        type: types.UPDATE_ITEM_SUCCESS,
+        item
+    };
+}
+
+export function checkItemError(message, item) {
+    return {
+        type: types.UPDATE_ITEM_FAILURE,
+        item,
         message
     };
 }
@@ -242,21 +273,26 @@ export function addItem(item) {
 }
 
 export function updateItem(item) {
-    return async (dispatch, getState) => {
-        try {
-            const state = getState();
+    return async (dispatch, getState) => {            
+        const state = getState();
+        const itemFromState = state.checklists.checklists.find(c => c.items.find(i => i._id === item._id));
+        const isItemBeingChecked = itemFromState && itemFromState.isChecked !== item.isChecked;
+        const requestAction = item => isItemBeingChecked ? requestCheckItem(item) : requestUpdateItem(item);
+        const successAction = item => isItemBeingChecked ? checkItemSuccess(item) : updateItemSuccess(item);
+        const errorAction = (message, item) => isItemBeingChecked ? checkItemError(item) : updateItemError(message, item);
 
+        try {
             if (state.user.isAuthenticated) {
-                dispatch(requestUpdateItem(item));
+                dispatch(requestAction(item));
 
                 const updatedItem = await checklistApi.updateItem(item.checklist, item);
 
-                dispatch(updateItemSuccess(updatedItem));
+                dispatch(successAction(updatedItem));
             } else {
                 dispatch(logout());
             }
         } catch (e) {
-            dispatch(updateItemError(e.message));
+            dispatch(errorAction(e.message, item));
         }
     };
 }
@@ -276,7 +312,7 @@ export function updateChecklist(checklist) {
                 dispatch(logout());
             }
         } catch (e) {
-            dispatch(updateChecklistError(e.message));
+            dispatch(updateChecklistError(e.message, checklist));
         }
     };
 }

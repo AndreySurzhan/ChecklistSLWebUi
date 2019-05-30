@@ -55,10 +55,16 @@ const ChecklistItem = ({
     return (
         <ExpansionPanel>
             <ExpansionPanelSummary>
-                <Typography className={classes.checklistName} variant="h6">
-                    {checklist.name}
-                </Typography>
-                <MoreButtonBlock options={moreButtonOptions} />
+                {checklist.isApiUpdateChecklist ? (
+                    <Spinner size={24} />
+                ) : (
+                    <React.Fragment>
+                        <Typography className={classes.checklistName} variant="h6">
+                            {checklist.name}
+                        </Typography>
+                        <MoreButtonBlock options={moreButtonOptions} />
+                    </React.Fragment>
+                )}
             </ExpansionPanelSummary>
             <ExpansionPanelDetails>
                 <form onSubmit={handleClickAddItem} className={classes.newItemForm}>

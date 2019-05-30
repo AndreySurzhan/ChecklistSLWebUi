@@ -15,6 +15,7 @@ const styles = theme => ({
         paddingRight: 0
     },
     content: {
+        justifyContent: 'center',
         '&$expanded': {
             margin: '12px 0'
         },
@@ -25,4 +26,4 @@ const styles = theme => ({
     expanded: {}
 });
 
-export default withStyles(styles)(props => <MuiExpansionPanelSummary {...props} />);
+export default withStyles(styles)(props => <MuiExpansionPanelSummary classes={{content: {justifyContent: 'center'}}} {...props} />);
