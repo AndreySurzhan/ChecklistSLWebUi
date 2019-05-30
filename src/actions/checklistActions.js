@@ -275,7 +275,7 @@ export function addItem(item) {
 export function updateItem(item) {
     return async (dispatch, getState) => {            
         const state = getState();
-        const itemFromState = state.checklists.checklists.find(c => c.items.find(i => i._id === item._id));
+        const itemFromState = state.checklists.checklists.find(c => c._id === item.checklist).items.find(i => i._id === item._id);
         const isItemBeingChecked = itemFromState && itemFromState.isChecked !== item.isChecked;
         const requestAction = item => isItemBeingChecked ? requestCheckItem(item) : requestUpdateItem(item);
         const successAction = item => isItemBeingChecked ? checkItemSuccess(item) : updateItemSuccess(item);
