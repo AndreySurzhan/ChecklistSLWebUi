@@ -10,6 +10,8 @@ So we thought that would be good idea to combine translation functionality with 
 
 As for me it was a good opportunity to start learning [React](https://github.com/facebook/create-react-app), [Redux](https://redux.js.org/) and apply [progressive web app philosophy](https://developers.google.com/web/progressive-web-apps/).
 
+## Instalation
+Todo
 
 ## Stack of technologies
 
