@@ -17,9 +17,7 @@ import * as validate from '../utils/validate';
 const styles = theme => ({
     itemText: {
         width: '100%',
-        fontWeight: 600,
-        height: 40,
-        lineHeight: 2.5
+        fontWeight: 600
     },
     checked: {
         color: '#adafad',
