@@ -57,7 +57,9 @@ class Item extends React.Component {
 
     handleDelete(event) {
         event.stopPropagation();
-        this.props.actions.deleteItem(this.state.item);
+        const item = Object.assign({}, this.props.item);
+        
+        this.props.actions.deleteItem(item);
     }
 
     handleEdit(event) {
