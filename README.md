@@ -35,7 +35,7 @@ I am using non-sql database [MongoDB](https://www.mongodb.com/).
 
 [ChecklistSLApi Git Repository](https://github.com/AndreySurzhan/ChecklistSLApi)
 
-[ChecklistSLApi Swagger page](https://checklist-sl-api.herokuapp.com/api)
+[ChecklistSLApi Swagger page](https://checklistsl-api.herokuapp.com/api)
 
 I use [Exressjs](https://expressjs.com/) to handle routes, utilize middlewares.
 
