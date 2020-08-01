@@ -14,6 +14,7 @@ import ExpansionPanel from '../components/ExpansionPanel';
 import ExpansionPanelSummary from '../components/ExpansionPanelSummary';
 import * as checklistActions from '../actions/checklistActions';
 import * as userActions from '../actions/userActions';
+import * as languageActions from '../actions/languageActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
@@ -48,9 +49,11 @@ class ChecklistPage extends React.Component {
     constructor(props, context) {
         super(props, context);
 
+        const hasUserAnyLanguages = this.props.user.user.languages.length === 0;
+
         this.state = {
             user: Object.assign({}, this.props.user.user),
-            openLanguageDialog: this.props.user.user.languages.length === 0,
+            openLanguageDialog: hasUserAnyLanguages,
             drawerIsOpened: false,
             openElementDialog: false,
             checklist: {
@@ -75,6 +78,7 @@ class ChecklistPage extends React.Component {
 
     componentWillMount() {
         this.props.checklistActions.loadChecklists();
+        this.props.languageActions.getLanguages();
     }
 
     handleLogoutClick(event) {
@@ -252,6 +256,7 @@ function mapStateToProps(state, ownProps) {
         isAuthenticated: state.user.isAuthenticated,
         user: state.user,
         checklists: state.checklists.checklists,
+        languages: state.languages.languages,
         isFetching: state.checklists.isFetching,
         isApiAddChecklist: state.checklists.isApiAddChecklist
     };
@@ -260,7 +265,9 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         checklistActions: bindActionCreators(checklistActions, dispatch),
-        userActions: bindActionCreators(userActions, dispatch)
+        userActions: bindActionCreators(userActions, dispatch),
+        languageActions: bindActionCreators(languageActions, dispatch)
+
     };
 }
 

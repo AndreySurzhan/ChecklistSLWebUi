@@ -9,5 +9,9 @@ export default {
         isFetching: false,
         user: localStorage.getItem('user') ? JSON.parse(localStorage.getItem('user')) : null,
         isAuthenticated: isTokenValid()
+    },
+    languages: {
+        languages: [],
+        isFetching: false
     }
 };
