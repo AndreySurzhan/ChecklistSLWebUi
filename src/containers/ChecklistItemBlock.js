@@ -47,7 +47,6 @@ class ChecklistItemBlock extends React.Component {
 
     handleShare(event) {
         event.stopPropagation();
-        console.log('Share Checklist', this.props.checklist);
     }
 
     handleOkClick(event) {

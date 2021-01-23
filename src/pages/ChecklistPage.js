@@ -14,6 +14,7 @@ import ExpansionPanel from '../components/ExpansionPanel';
 import ExpansionPanelSummary from '../components/ExpansionPanelSummary';
 import * as checklistActions from '../actions/checklistActions';
 import * as userActions from '../actions/userActions';
+import * as languageActions from '../actions/languageActions';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { PropTypes } from 'prop-types';
@@ -48,9 +49,11 @@ class ChecklistPage extends React.Component {
     constructor(props, context) {
         super(props, context);
 
+        const hasUserAnyLanguages = this.props.user.user.languages.length === 0;
+
         this.state = {
             user: Object.assign({}, this.props.user.user),
-            openLanguageDialog: this.props.user.user.languages.length === 0,
+            openLanguageDialog: hasUserAnyLanguages,
             drawerIsOpened: false,
             openElementDialog: false,
             checklist: {
@@ -75,6 +78,7 @@ class ChecklistPage extends React.Component {
 
     componentWillMount() {
         this.props.checklistActions.loadChecklists();
+        this.props.languageActions.getLanguages();
     }
 
     handleLogoutClick(event) {
@@ -134,7 +138,7 @@ class ChecklistPage extends React.Component {
             }
         });
     }
-
+    
     handAddNewChecklistButtonClick(event) {
         this.setState({
             openElementDialog: true
@@ -157,7 +161,7 @@ class ChecklistPage extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const isFetching = this.props.isFetching;
+        const isChecklistsFetching = this.props.isChecklistsFetching;
         const isApiAddChecklist = this.props.isApiAddChecklist;
         const drawerOptions = [
             {
@@ -185,21 +189,21 @@ class ChecklistPage extends React.Component {
                     aria-label="Add checklist"
                     size="medium"
                     className={classes.addChecklistButton}
-                    onClick={isFetching ? undefined : this.handAddNewChecklistButtonClick}
+                    onClick={isChecklistsFetching ? undefined : this.handAddNewChecklistButtonClick}
                 >
                     <AddIcon />
                 </Fab>
                 <Grid
                     id="clsl-checklist-page-container"
                     justify="center"
-                    alignItems={this.props.isFetching ? 'center' : 'flex-start'}
+                    alignItems={isChecklistsFetching ? 'center' : 'flex-start'}
                     container
                     direction="row"
                     spacing={0}
                     className={classes.checklist}
                 >
                     <Grid id="clsl-nav-container" item xs={12}>
-                        {isFetching ? (
+                        {isChecklistsFetching ? (
                             <Spinner size={100} thickness={2} />
                         ) : (
                             this.props.checklists.map(checklist => (
@@ -252,7 +256,8 @@ function mapStateToProps(state, ownProps) {
         isAuthenticated: state.user.isAuthenticated,
         user: state.user,
         checklists: state.checklists.checklists,
-        isFetching: state.checklists.isFetching,
+        languages: state.languages.languages,
+        isChecklistsFetching: state.checklists.isFetching,
         isApiAddChecklist: state.checklists.isApiAddChecklist
     };
 }
@@ -260,16 +265,18 @@ function mapStateToProps(state, ownProps) {
 function mapDispatchToProps(dispatch) {
     return {
         checklistActions: bindActionCreators(checklistActions, dispatch),
-        userActions: bindActionCreators(userActions, dispatch)
+        userActions: bindActionCreators(userActions, dispatch),
+        languageActions: bindActionCreators(languageActions, dispatch)
     };
 }
 
 ChecklistPage.propTypes = {
     classes: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired,
+    isChecklistsFetching: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
-    checklists: PropTypes.array.isRequired
+    checklists: PropTypes.array.isRequired,
+    languages: PropTypes.array.isRequired
 };
 
 export default connect(

@@ -82,10 +82,9 @@ export function registeryError(message) {
     };
 }
 
-export function requestUpdateUser(creds) {
+export function requestUpdateUser() {
     return {
         type: types.REQUEST_UPDATE_USER,
-        creds,
         isFetching: true,
         requiresAuth: true
     };
@@ -95,8 +94,7 @@ export function updateUserSuccess(user) {
     return {
         type: types.UPDATE_USER_SUCCESS,
         user,
-        isFetching: false,
-        requiresAuth: true
+        isFetching: false
     };
 }
 
