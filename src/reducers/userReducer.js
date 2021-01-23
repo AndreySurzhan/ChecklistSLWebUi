@@ -59,6 +59,20 @@ export default function userReducer(state = initialState.auth, action) {
                 isAuthenticated: action.isAuthenticated,
                 user: {}
             });
+        case types.REQUEST_UPDATE_USER:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching
+            });
+        case types.UPDATE_USER_SUCCESS:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                user: action.user
+            });
+        case types.UPDATE_USER_FAILURE:
+            return Object.assign({}, state, {
+                isFetching: action.isFetching,
+                errorMessage: action.message
+            });
         default:
             return state;
     }

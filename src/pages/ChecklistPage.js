@@ -138,7 +138,7 @@ class ChecklistPage extends React.Component {
             }
         });
     }
-
+    
     handAddNewChecklistButtonClick(event) {
         this.setState({
             openElementDialog: true
@@ -161,7 +161,7 @@ class ChecklistPage extends React.Component {
 
     render() {
         const { classes } = this.props;
-        const isFetching = this.props.isFetching;
+        const isChecklistsFetching = this.props.isChecklistsFetching;
         const isApiAddChecklist = this.props.isApiAddChecklist;
         const drawerOptions = [
             {
@@ -189,21 +189,21 @@ class ChecklistPage extends React.Component {
                     aria-label="Add checklist"
                     size="medium"
                     className={classes.addChecklistButton}
-                    onClick={isFetching ? undefined : this.handAddNewChecklistButtonClick}
+                    onClick={isChecklistsFetching ? undefined : this.handAddNewChecklistButtonClick}
                 >
                     <AddIcon />
                 </Fab>
                 <Grid
                     id="clsl-checklist-page-container"
                     justify="center"
-                    alignItems={this.props.isFetching ? 'center' : 'flex-start'}
+                    alignItems={isChecklistsFetching ? 'center' : 'flex-start'}
                     container
                     direction="row"
                     spacing={0}
                     className={classes.checklist}
                 >
                     <Grid id="clsl-nav-container" item xs={12}>
-                        {isFetching ? (
+                        {isChecklistsFetching ? (
                             <Spinner size={100} thickness={2} />
                         ) : (
                             this.props.checklists.map(checklist => (
@@ -257,7 +257,7 @@ function mapStateToProps(state, ownProps) {
         user: state.user,
         checklists: state.checklists.checklists,
         languages: state.languages.languages,
-        isFetching: state.checklists.isFetching,
+        isChecklistsFetching: state.checklists.isFetching,
         isApiAddChecklist: state.checklists.isApiAddChecklist
     };
 }
@@ -267,16 +267,16 @@ function mapDispatchToProps(dispatch) {
         checklistActions: bindActionCreators(checklistActions, dispatch),
         userActions: bindActionCreators(userActions, dispatch),
         languageActions: bindActionCreators(languageActions, dispatch)
-
     };
 }
 
 ChecklistPage.propTypes = {
     classes: PropTypes.object.isRequired,
-    isFetching: PropTypes.bool.isRequired,
+    isChecklistsFetching: PropTypes.bool.isRequired,
     isAuthenticated: PropTypes.bool.isRequired,
     user: PropTypes.object.isRequired,
-    checklists: PropTypes.array.isRequired
+    checklists: PropTypes.array.isRequired,
+    languages: PropTypes.array.isRequired
 };
 
 export default connect(

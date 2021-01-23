@@ -9,6 +9,7 @@ import FormLabel from '@material-ui/core/FormLabel';
 import FormGroup from '@material-ui/core/FormGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '../common/components/Checkbox';
+import Spinner from '../common/components/Spinner';
 import { connect } from 'react-redux';
 import * as userActions from '../actions/userActions';
 import { bindActionCreators } from 'redux';
@@ -17,68 +18,24 @@ import { withStyles } from '@material-ui/core/styles';
 const styles = theme => ({
     dialogContent: {
         width: '400px',
-        height: '400px'
+        maxHeight: '400px'
     }
 });
 
 class LanguageDialog extends React.Component {
-    constructor(props) {
-        super();
-
-        const languageViewModels = this.getLanguageViewModels(props.languages, props.user.user.languages);
+    constructor(props, context) {
+        super(props, context);
 
         this.state = {
-            languageViewModels,
-            user: Object.assign({}, props.user.user)
+            user: Object.assign({}, this.props.user.user)
         };
+
+        this.originalLanguages = [...this.props.user.user.languages];
 
         this.handleCancelClick = this.handleCancelClick.bind(this);
         this.handleCheckboxChange = this.handleCheckboxChange.bind(this);
         this.handleOkClick = this.handleOkClick.bind(this);
         this.handleClose = this.handleClose.bind(this);
-    }
-
-    getLanguageViewModels = (languages, userLanguages) => {
-        return languages
-            .map(this.createLanguageViewModel(userLanguages))
-            .sort(this.sortLanguageViewModelsByName)
-            .sort(this.sortLanguageViewModelsByChecked);
-    }
-
-    createLanguageViewModel(userLanguages) {
-        return language => {
-            return {
-                name: language.name,
-                code: language.code,
-                checked: userLanguages.includes(language.code)
-            };
-        }
-    }
-
-    sortLanguageViewModelsByName(a, b) {
-        const nameA = a.name.toUpperCase();
-        const nameB = b.name.toUpperCase();
-
-        if (nameA < nameB) {
-            return -1;
-        }
-
-        if (nameA > nameB) {
-            return 1;
-        }
-
-        return 0;
-    }
-
-    sortLanguageViewModelsByChecked(a, b) {
-        if (a.checked && !b.checked) {
-            return -1;
-        }
-        if (!a.checked && b.checked) {
-            return 1;
-        }
-
-        return 0;
     }
 
     handleCancelClick() {
@@ -87,41 +44,28 @@ class LanguageDialog extends React.Component {
 
     handleCheckboxChange(selectedLanguage) {
         return event => {
-            const languageViewModels = [...this.state.languageViewModels];
+            const user = Object.assign({}, this.props.user.user);
 
-            for (let i = 0; i < languageViewModels.length; i++) {
-                const language = languageViewModels[i];
+            if(user.languages.includes(selectedLanguage.code)) {
+                const index = user.languages.indexOf(selectedLanguage.code);
 
-                if (language.code === selectedLanguage.code) {
-                    language.checked = event.target.checked;
-
-                    break;
-                }
+                user.languages.splice(index, 1);
+            } else {
+                user.languages.push(selectedLanguage.code);
             }
 
             this.setState({
-                languageViewModels
+                user
             });
         };
     }
 
     handleOkClick(event) {
-        const user = Object.assign({}, this.state.user);
-        const languageViewModels = [...this.state.languageViewModels];
-        const langCodes = languageViewModels.filter(l => l.checked).map(l => l.code);
-
-        if (langCodes.length !== user.languages.length || !langCodes.every(l => user.languages.includes(l))) {
-            user.languages = langCodes;
-
-            this.props.userActions.updateUser(user);
-
-            this.setState({
-                languageViewModels,
-                user
-            });
-
+        if (isArraysEqual(this.originalLanguages, this.state.user.languages)) {
             this.props.onClose();
         } else {
+            this.props.userActions.updateUser(this.state.user);
+            
             this.props.onClose();
         }
     }
@@ -145,19 +89,22 @@ class LanguageDialog extends React.Component {
                 <DialogContent className={classes.dialogContent}>
                     <FormLabel>Select language</FormLabel>
                     <FormGroup id="clsl-language-dialog-checkboxes">
-                        {this.state.languageViewModels.map(language => (
-                            <FormControlLabel
-                                value={language.name}
-                                key={language.name}
-                                label={language.name}
-                                control={
-                                    <Checkbox
-                                        handleChange={this.handleCheckboxChange(language)}
-                                        checked={language.checked}
-                                    />
-                                }
-                            />
-                        ))}
+                        {this.props.languages.isFetching
+                            ? (<Spinner size={100} thickness={2} />)
+                            : this.props.languages.languages.map(language => (
+                                <FormControlLabel
+                                    value={language.name}
+                                    key={language.name}
+                                    label={language.name}
+                                    control={
+                                        <Checkbox
+                                            handleChange={this.handleCheckboxChange(language)}
+                                            checked={this.state.user.languages.includes(language.code)}
+                                        />
+                                    }
+                                />
+                            ))
+                        }
                     </FormGroup>
                 </DialogContent>
                 <DialogActions>
@@ -176,7 +123,7 @@ class LanguageDialog extends React.Component {
 function mapStateToProps(state, ownProps) {
     return {
         user: state.user,
-        languages: state.languages.languages
+        languages: state.languages
     };
 }
 
@@ -184,6 +131,16 @@ function mapDispatchToProps(dispatch) {
     return {
         userActions: bindActionCreators(userActions, dispatch)
     };
+}
+
+function isArraysEqual(a, b) {
+    const arrayA = [...a];
+    const arrayB = [...b];
+
+    arrayA.sort();
+    arrayB.sort();
+
+    return arrayA.length === arrayB.length && arrayA.every((element, index) => element === arrayB[index]);
 }
 
 LanguageDialog.propTypes = {
