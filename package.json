@@ -12,7 +12,7 @@
     "react-dom": "^16.6.3",
     "react-flag-icon-css": "^1.0.25",
     "react-redux": "^6.0.0",
-    "react-router-dom": "^4.3.1",
+    "react-router-dom": "^7.5.2",
     "react-scripts": "2.1.1",
     "redux": "^4.0.1",
     "redux-immutable-state-invariant": "^2.1.0",
